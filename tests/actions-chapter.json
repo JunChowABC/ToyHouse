@@ -1,0 +1,55 @@
+{
+  "steps": [
+    { "buttons": ["left_mouse_button"], "frames": 2, "mouse_x": 203, "mouse_y": 589 },
+    { "buttons": [], "frames": 4 },
+    { "buttons": ["a"], "frames": 2 },
+    { "buttons": [], "frames": 52 },
+    { "buttons": ["enter"], "frames": 2 },
+    { "buttons": [], "frames": 4 },
+
+    { "buttons": ["a"], "frames": 2 },
+    { "buttons": [], "frames": 52 },
+    { "buttons": ["enter"], "frames": 2 },
+    { "buttons": [], "frames": 4 },
+
+    { "buttons": ["a"], "frames": 2 },
+    { "buttons": [], "frames": 52 },
+    { "buttons": ["enter"], "frames": 2 },
+    { "buttons": [], "frames": 4 },
+
+    { "buttons": ["a"], "frames": 2 },
+    { "buttons": [], "frames": 52 },
+    { "buttons": ["enter"], "frames": 2 },
+    { "buttons": [], "frames": 4 },
+
+    { "buttons": ["a"], "frames": 2 },
+    { "buttons": [], "frames": 52 },
+    { "buttons": ["enter"], "frames": 2 },
+    { "buttons": [], "frames": 4 },
+
+    { "buttons": ["a"], "frames": 2 },
+    { "buttons": [], "frames": 52 },
+    { "buttons": ["enter"], "frames": 2 },
+    { "buttons": [], "frames": 4 },
+
+    { "buttons": ["a"], "frames": 2 },
+    { "buttons": [], "frames": 52 },
+    { "buttons": ["enter"], "frames": 2 },
+    { "buttons": [], "frames": 4 },
+
+    { "buttons": ["a"], "frames": 2 },
+    { "buttons": [], "frames": 52 },
+    { "buttons": ["enter"], "frames": 2 },
+    { "buttons": [], "frames": 4 },
+
+    { "buttons": ["a"], "frames": 2 },
+    { "buttons": [], "frames": 52 },
+    { "buttons": ["enter"], "frames": 2 },
+    { "buttons": [], "frames": 4 },
+
+    { "buttons": ["a"], "frames": 2 },
+    { "buttons": [], "frames": 52 },
+    { "buttons": ["enter"], "frames": 2 },
+    { "buttons": [], "frames": 8 }
+  ]
+}

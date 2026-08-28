@@ -1,0 +1,49 @@
+:root {
+  color-scheme: light;
+  font-family: "Microsoft YaHei UI", "PingFang SC", system-ui, sans-serif;
+  background: #211d3d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 0%, #514879 0%, transparent 46%),
+    #211d3d;
+}
+
+body {
+  display: grid;
+  place-items: center;
+}
+
+.game-shell {
+  position: relative;
+  width: min(100vw, calc(100vh * 0.5625));
+  height: min(100vh, calc(100vw * 1.7777778));
+  filter: drop-shadow(0 22px 45px rgb(10 8 32 / 45%));
+}
+
+#game {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: clamp(0px, 2.4vw, 22px);
+  background: #fff7f0;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (max-aspect-ratio: 9 / 16) {
+  #game {
+    border-radius: 0;
+  }
+}
