@@ -283,20 +283,70 @@ function drawArtRug() {
   drawArt("ui_playmat_base_01", RUG_RECT);
 }
 
-function loadArt() {
-  artError = "";
-  return Promise.all([loadPauseArt(), loadCompleteArt(), loadHomeArt(), ...Object.entries(ART_MANIFEST.assets).map(async ([id, asset]) => {
+const systemAssets = {
+  play: { ready: false, promise: null },
+  settings: { ready: false, promise: null },
+  complete: { ready: false, promise: null },
+};
+let pendingLoad = null;
+const LOAD_UI = { retry: { x: 170, y: 520, w: 200, h: 52 }, cancel: { x: 170, y: 586, w: 200, h: 46 } };
+async function loadCoreAssets(ids) {
+  await Promise.all(ids.map(async id => {
+    const asset = ART_MANIFEST.assets[id];
     const image = await loadImage(`${ART_MANIFEST.directory}/${asset.file}`);
     artImages.set(id, image);
-  })]).then(() => {
+  }));
+}
+function ensureSystem(key) {
+  const group = systemAssets[key];
+  if (group.ready) return Promise.resolve(true);
+  if (group.promise) return group.promise;
+  const load = key === "play" ? () => loadCoreAssets(Object.keys(ART_MANIFEST.assets).filter(id => !CURRENCY_LAYERS.includes(id)))
+    : key === "settings" ? loadPauseArt : loadCompleteArt;
+  group.promise = load().then(() => { group.ready = true; return true; })
+    .catch(() => false).finally(() => { group.promise = null; });
+  return group.promise;
+}
+function requestSystems(keys, action) {
+  if (keys.every(key => systemAssets[key].ready)) { action(); return; }
+  const request = pendingLoad = { keys, action, error: false };
+  Promise.all(keys.map(ensureSystem)).then(results => {
+    if (pendingLoad !== request) return;
+    if (results.every(Boolean)) { pendingLoad = null; action(); }
+    else request.error = true;
+    render();
+  });
+}
+function loadArt() {
+  artError = "";
+  // First paint needs only the home artwork and the four shared currency images.
+  return Promise.all([loadHomeArt(), loadCoreAssets(CURRENCY_LAYERS)]).then(() => {
     artReady = true;
     render();
+    setTimeout(() => {
+      window.__toyhouse_background_ready = Promise.all([ensureSystem("play"), ensureSystem("settings"), ensureSystem("complete")]);
+    }, 0);
     return true;
-  }).catch((error) => {
+  }).catch(() => {
     artError = "部分图片暂时无法加载";
-    console.error("Toyhouse V3 asset load failed", error);
     render();
     return false;
+  });
+}
+function drawPendingLoad() {
+  ctx.fillStyle = "rgba(70,40,65,.55)";
+  ctx.fillRect(0, 0, W, H);
+  fillRoundRect(90, 385, 360, 260, 24, "#fff1eb");
+  artText(pendingLoad.error ? "图片加载未完成" : "正在准备，请稍候…", 270, 440, 22);
+  const progress = imageLoadStatus();
+  artText(`图片 ${progress.loaded} / ${progress.total}`, 270, 482, 16);
+  if (pendingLoad.error) paintControl("loading.retry", LOAD_UI.retry, () => {
+    fillRoundRect(170, 520, 200, 52, 20, "#f5b8cd");
+    artText("重试", 270, 546, 20);
+  });
+  paintControl("loading.cancel", LOAD_UI.cancel, () => {
+    fillRoundRect(170, 586, 200, 46, 20, "#eadcec");
+    artText("返回", 270, 609, 18);
   });
 }
 
@@ -872,6 +922,7 @@ function update(dt) {
   if (state.levelCompleteAt && state.time >= state.levelCompleteAt && state.mode === "play") {
     state.completionRewards = settleCompletionReward();
     state.mode = "level-complete";
+    requestSystems(["complete"], () => {});
     state.levelCompleteAt = 0;
     tone(523, 0.11, 0.03);
     setTimeoutSafe(() => tone(659, 0.11, 0.03), 120);
@@ -953,7 +1004,7 @@ function homeProgress() {
 function startFromHome() {
   if (!artReady || state.pauseOpen) return;
   const progress = homeProgress();
-  if (!progress.complete) startLevel(progress.index);
+  if (!progress.complete) requestSystems(["play", "settings"], () => startLevel(progress.index));
 }
 
 function drawHomeToy(x, y, typeIndex, scale) {
@@ -1275,6 +1326,7 @@ function drawEffects() {
 
 function drawComplete() {
   drawGame();
+  if (!systemAssets.complete.ready) return;
   const spec = LEVEL_SPECS[state.levelIndex];
   drawCompleteDialog(ctx, { levelNo: spec.levelNo, title: spec.title,
     rewards: state.completionRewards, isLastLevel: state.levelIndex === LEVEL_SPECS.length - 1 }, paintControl);
@@ -1343,6 +1395,7 @@ function render() {
   }
   else if (state.mode === "level-complete") drawComplete();
   else drawFinale();
+  if (pendingLoad) drawPendingLoad();
 }
 
 function canvasPoint(event) {
@@ -1382,6 +1435,7 @@ function paintControl(id, rect, paint) {
 }
 function activeControls() {
   if (!artReady || performance.now() < state.navigationUntil) return [];
+  if (pendingLoad) return [{ id: "loading.cancel", ...LOAD_UI.cancel }, ...(pendingLoad.error ? [{ id: "loading.retry", ...LOAD_UI.retry }] : [])];
   const group = (prefix, rects) => Object.entries(rects).map(([key, rect]) => ({ id: `${prefix}.${key}`, ...rect }));
   if (state.toolModal) return group("tool", TOOL_MODAL_UI).filter(b => b.id !== "tool.action" || !toolUnavailable(state.toolModal));
   if (state.mode === "home") return state.pauseOpen ? group("settings", HOME_SETTINGS_UI)
@@ -1433,6 +1487,15 @@ canvas.addEventListener("pointerup", (event) => {
   }
   if (performance.now() < state.navigationUntil) return;
   const point = canvasPoint(event);
+  if (pendingLoad) {
+    if (pendingLoad.error && pointInRect(point, LOAD_UI.retry)) requestSystems(pendingLoad.keys, pendingLoad.action);
+    else if (pointInRect(point, LOAD_UI.cancel)) {
+      pendingLoad = null;
+      if (state.mode === "level-complete") exitLevel();
+    }
+    render();
+    return;
+  }
   if (state.toolModal) {
     if (pointInRect(point, TOOL_MODAL_UI.close)) state.toolModal = null;
     else if (pointInRect(point, TOOL_MODAL_UI.action)) confirmTool();
@@ -1441,7 +1504,7 @@ canvas.addEventListener("pointerup", (event) => {
   }
   if (state.mode === "home") {
     if (state.pauseOpen) handleHomeSettings(point);
-    else if (pointInRect(point, HOME_UI.settings)) { state.pauseOpen = true; render(); }
+    else if (pointInRect(point, HOME_UI.settings)) { requestSystems(["settings"], () => { state.pauseOpen = true; render(); }); }
     else if (pointInRect(point, HOME_UI.start)) startFromHome();
     return;
   }
@@ -1494,6 +1557,11 @@ function advanceAfterComplete() {
 document.addEventListener("keydown", (event) => {
   const key = event.key.toLowerCase();
   if (!artReady) return;
+  if (pendingLoad) {
+    if (key === "escape") { pendingLoad = null; if (state.mode === "level-complete") exitLevel(); render(); }
+    event.preventDefault();
+    return;
+  }
   if (performance.now() < state.navigationUntil || (event.repeat && (key === "enter" || key === " "))) return;
   if (state.mode === "home" && state.pauseOpen) {
     if (key === "escape") closePause();
@@ -1524,7 +1592,7 @@ document.addEventListener("keydown", (event) => {
 
 function renderGameToText() {
   const economy = { coins: profile.coins, inventory: { ...profile.inventory }, price: TOOL_PRICE, perLevelLimit: TOOL_LIMIT };
-  const art = { version: ART_MANIFEST.version, ready: artReady, loaded: artImages.size, expected: Object.keys(ART_MANIFEST.assets).length, error: artError || null, rabbitPose: "head-follows-direction", rug: { ...RUG_RECT, scaling: "uniform" }, currencies: "coins", toolStock: "persistent-inventory" };
+  const art = { systems: Object.fromEntries(Object.entries(systemAssets).map(([key, value]) => [key, value.ready])), waiting: pendingLoad ? { systems: pendingLoad.keys, error: pendingLoad.error } : null, version: ART_MANIFEST.version, ready: artReady, loaded: artImages.size, expected: Object.keys(ART_MANIFEST.assets).length, error: artError || null, rabbitPose: "head-follows-direction", rug: { ...RUG_RECT, scaling: "uniform" }, currencies: "coins", toolStock: "persistent-inventory" };
   if (state.mode === "home") {
     const progress = homeProgress();
     return JSON.stringify({ mode: "home", art, homeArt: homeArtStatus(), economy, title: "晚安，玩具屋",
