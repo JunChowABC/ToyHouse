@@ -347,10 +347,10 @@ function loadArt() {
     };
     // A slow decoration or background must not indefinitely block the whole room.
     const progressCheck = setInterval(() => {
-      if (performance.now() - start >= 8000 && homeArtStatus().loaded >= 80) openHome();
+      if (performance.now() - start >= 8000 && homeArtStatus().loaded >= homeArtStatus().expected - 1) openHome();
     }, 250);
     Promise.allSettled([loadHomeArt(), loadCoreAssets(CURRENCY_LAYERS)]).then(results => {
-      if (results.every(result => result.status === "fulfilled") || homeArtStatus().loaded >= 80) openHome();
+      if (results.every(result => result.status === "fulfilled") || homeArtStatus().loaded >= homeArtStatus().expected - 1) openHome();
       else if (!opened) {
         clearInterval(progressCheck);
         artError = "部分图片暂时无法加载";

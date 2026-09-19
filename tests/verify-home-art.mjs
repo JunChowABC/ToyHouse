@@ -2,17 +2,17 @@ import assert from "node:assert/strict";
 import { readFile, mkdir, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { chromium } from "../scripts/playwright_system_chrome.mjs";
-import HOME_ART from "../src/home-art-manifest.js";
+import HOME_ART from "../src/home-runtime-manifest.js";
 import CORE_ART from "../src/art-manifest.js";
 import LEVELS from "../src/level-config.js";
 
 const out = new URL("../test-output/home-v2/", import.meta.url);
 await mkdir(out, { recursive: true });
-assert.equal(Object.keys(HOME_ART.assets).length, 89);
+assert.equal(Object.keys(HOME_ART.assets).length, HOME_ART.layers.length);
 for (const id of HOME_ART.excludedAssets) assert.ok(!HOME_ART.assets[id]);
 for (const spec of Object.values(HOME_ART.assets)) {
-  assert.deepEqual(await readFile(new URL(`../assets/home-v2/${spec.file}`, import.meta.url)),
-    await readFile(new URL(`../docs/assets/home-v2/${spec.file}`, import.meta.url)));
+  assert.deepEqual(await readFile(new URL(`../${HOME_ART.directory}/${spec.file}`, import.meta.url)),
+    await readFile(new URL(`../docs/${HOME_ART.directory}/${spec.file}`, import.meta.url)));
 }
 const browser = await chromium.launch({ headless: true });
 const errors = [], badRequests = [], reports = [];
@@ -56,17 +56,21 @@ try {
     let state = await read();
     assert.equal(state.mode, "home"); assert.equal(state.nextLevel, "L001");
     assert.equal(state.progressLabel, "第一夜 · 第1关");
-    assert.equal(state.homeArt.loaded, 89); assert.equal(state.economy.coins, 0);
+    assert.equal(state.homeArt.loaded, HOME_ART.layers.length); assert.equal(state.economy.coins, 0);
     const homeTrace = await trace();
-    const homeImages = homeTrace.images.filter(i => i.src.includes("/home-v2/"));
-    assert.equal(homeImages.length, 89);
+    const homeImages = homeTrace.images.filter(i => Object.values(HOME_ART.assets).some(a => a.file.split("/").pop() === i.file));
+    assert.equal(homeImages.length, HOME_ART.layers.length);
     for (const [id, asset] of Object.entries(HOME_ART.assets)) {
-      const drawn = homeImages.find(i => i.file === `${id}.png`);
+      const drawn = homeImages.find(i => i.file === asset.file.split("/").pop());
       assert.ok(drawn, id); assert.deepEqual(drawn.bounds, asset.bounds);
       assert.ok(Math.abs(drawn.transform[0] - drawn.transform[3]) < 1e-8);
     }
-    assert.ok(homeImages.some(i => i.file === "art_title.png"));
-    assert.ok(homeImages.some(i => i.file === "art_slogan.png"));
+    const runtimeReport = JSON.parse(await readFile(new URL("../assets/runtime-ui/report.json", import.meta.url), "utf8"));
+    for (const artwork of ["art_title", "art_slogan"]) {
+      const merged = runtimeReport.staticHomeLayers.find(layer => layer.sources.includes(artwork));
+      assert.ok(merged, artwork);
+      assert.ok(homeImages.some(i => i.file === merged.path.split("/").pop()));
+    }
     assert.ok(!homeTrace.texts.some(t => /每个玩具|晚安，玩具屋|第4天|^120$|^\+$/.test(t)));
     const currencyFiles = Object.entries(CORE_ART.assets).filter(([, v]) => v.group === "06_RESOURCES").map(([, v]) => v.file);
     const currencies = homeTrace.images.filter(i => currencyFiles.includes(i.file));
@@ -120,7 +124,7 @@ try {
     await click(state.uiHitAreas.home.settings); assert.equal((await read()).settingsOpen, true);
     await page.keyboard.press("Escape"); assert.equal((await read()).settingsOpen, false);
     assert.equal(await page.evaluate(() => document.documentElement.scrollHeight > innerHeight || document.documentElement.scrollWidth > innerWidth), false);
-    reports.push({ entry, width, height, dpr, homeAssets: 89, sharedCurrencyImageObjects: 4, settings: "pass", progressionAndSave: "pass" });
+    reports.push({ entry, width, height, dpr, homeAssets: HOME_ART.layers.length, sharedCurrencyImageObjects: 4, settings: "pass", progressionAndSave: "pass" });
     await page.close();
   }
   assert.deepEqual(errors, []); assert.deepEqual(badRequests, []);

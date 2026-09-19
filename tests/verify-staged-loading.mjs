@@ -1,3 +1,4 @@
+import HOME_ART from "../src/home-runtime-manifest.js";
 import assert from 'node:assert/strict';
 import { chromium } from '../scripts/playwright_system_chrome.mjs';
 import { mkdir } from 'node:fs/promises';
@@ -8,9 +9,9 @@ for (const entry of ['/', '/docs/']) {
  const page=await browser.newPage({viewport:{width:390,height:844}});
  const errors=[];page.on('pageerror',e=>errors.push(String(e)));
  const held=[];let hold=true;let premature=false;
- await page.route('**/assets/**/*.png*',async route=>{
+ await page.route('**/assets/runtime-ui/*.webp*',async route=>{
    const path=new URL(route.request().url()).pathname;
-   const essential=path.includes('/home-v2/') || /ui_resource_(bar_base|star_icon|coin_icon)_/.test(path);
+   const essential=/\/(home-|currency-)/.test(path);
    if(!essential){
      const ready=await page.evaluate(()=>JSON.parse(window.render_game_to_text()).art.ready);
      if(!ready) premature=true;
@@ -22,7 +23,7 @@ for (const entry of ['/', '/docs/']) {
  await page.waitForFunction(async()=>await window.__toyhouse_art_ready===true);
  const read=()=>page.evaluate(()=>JSON.parse(window.render_game_to_text()));
  let state=await read();
- assert.equal(state.homeArt.loaded,89);assert.equal(state.art.loaded,4);
+ assert.equal(state.homeArt.loaded,HOME_ART.layers.length);assert.equal(state.art.loaded,4);
  assert.equal(state.art.systems.play,false);assert.equal(state.art.systems.complete,false);
  assert.equal(premature,false);
  await page.screenshot({path:'test-output/staged-loading/'+(entry==='/'?'source':'built')+'-home-first.png'});

@@ -1,3 +1,4 @@
+import ATLAS from "../src/runtime-atlas-manifest.js";
 import assert from 'node:assert/strict';
 import {chromium} from '../scripts/playwright_system_chrome.mjs';
 import ALIASES from '../src/image-aliases.js';
@@ -16,7 +17,7 @@ try{for(const entry of ['/', '/docs/']){
  await page.evaluate(()=>window.__toyhouse_background_ready);
  for(const [alias,source] of Object.entries(ALIASES)){
   assert.equal(requests.filter(p=>p===entry+alias).length,0,alias);
-  assert.equal(requests.filter(p=>p===entry+source).length,1,source);
+  assert.equal(requests.filter(p=>p===entry+ATLAS[source].file).length,1,source);
  }
  await page.keyboard.press('Enter');
  const draw=await page.evaluate(()=>{window.advanceTime(0);return window.__sharedDraw;});

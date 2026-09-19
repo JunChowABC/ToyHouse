@@ -1,4 +1,26 @@
 import IMAGE_ALIASES from "./image-aliases.js";
+import RUNTIME_ATLAS from "./runtime-atlas-manifest.js";
+
+const spriteImages = new Map();
+export function loadImage(path) {
+  const normalized = new URL(path, document.baseURI).href.slice(new URL(".", document.baseURI).href.length);
+  const canonical = IMAGE_ALIASES[normalized] || normalized;
+  const sprite = RUNTIME_ATLAS[canonical];
+  if (!sprite) return loadImageFile(canonical);
+  if (spriteImages.has(canonical)) return spriteImages.get(canonical);
+  const promise = loadImageFile(sprite.file).then(atlas => {
+    const [x, y, width, height] = sprite.rect;
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    canvas.getContext("2d").drawImage(atlas, x, y, width, height, 0, 0, width, height);
+    // Logical source identity for diagnostics; network requests use the atlas URL.
+    canvas.src = new URL(canonical, document.baseURI).href;
+    return canvas;
+  }).catch(error => { spriteImages.delete(canonical); throw error; });
+  spriteImages.set(canonical, promise);
+  return promise;
+}
 
 const imageRequests = new Map();
 const requestedImages = new Set();
@@ -37,7 +59,7 @@ function attemptImage(url, attempt) {
   });
 }
 
-export function loadImage(path) {
+function loadImageFile(path) {
   const url = new URL(IMAGE_ALIASES[path] || path, document.baseURI);
   const key = url.href;
   requestedImages.add(key);

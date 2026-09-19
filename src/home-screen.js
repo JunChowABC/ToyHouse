@@ -1,5 +1,5 @@
 import { loadImage } from "./image-loader.js";
-import HOME_ART from "./home-art-manifest.js";
+import HOME_ART from "./home-runtime-manifest.js";
 
 const HOME_SCALE = Math.min(540 / HOME_ART.canvas.width, 960 / HOME_ART.canvas.height);
 const HOME_OFFSET_Y = (960 - HOME_ART.canvas.height * HOME_SCALE) / 2;

@@ -16,13 +16,15 @@ const completeArt = await readFile(new URL("../src/complete-art-manifest.js", im
 const completeCode = (await readFile(new URL("../src/complete-dialog.js", import.meta.url), "utf8"))
   .replace('import COMPLETE_ART from "./complete-art-manifest.js";', completeArt.replace("export default", "const COMPLETE_ART ="))
   .replace(/^export /gm, "");
-const homeArt = await readFile(new URL("../src/home-art-manifest.js", import.meta.url), "utf8");
+const homeArt = await readFile(new URL("../src/home-runtime-manifest.js", import.meta.url), "utf8");
 const homeCode = (await readFile(new URL("../src/home-screen.js", import.meta.url), "utf8"))
-  .replace('import HOME_ART from "./home-art-manifest.js";', homeArt.replace("export default", "const HOME_ART ="))
+  .replace('import HOME_ART from "./home-runtime-manifest.js";', homeArt.replace("export default", "const HOME_ART ="))
   .replace(/^export /gm, "");
 const aliasesCode = (await readFile(new URL("../src/image-aliases.js", import.meta.url), "utf8")).replace("export default", "const IMAGE_ALIASES =");
+const atlasCode = (await readFile(new URL("../src/runtime-atlas-manifest.js", import.meta.url), "utf8")).replace("export default", "const RUNTIME_ATLAS =");
 const loaderCode = (await readFile(new URL("../src/image-loader.js", import.meta.url), "utf8"))
-  .replace('import IMAGE_ALIASES from "./image-aliases.js";', aliasesCode).replace(/^export /gm, "");
+  .replace('import IMAGE_ALIASES from "./image-aliases.js";', aliasesCode)
+  .replace('import RUNTIME_ATLAS from "./runtime-atlas-manifest.js";', atlasCode).replace(/^export /gm, "");
 const bundled = source.replace('import { loadImage, imageLoadStatus } from "./image-loader.js";', loaderCode).replace('import LEVEL_CONFIG from "./level-config.js";', config.replace("export default", "const LEVEL_CONFIG ="))
   .replace('import ART_MANIFEST from "./art-manifest.js";', art.replace("export default", "const ART_MANIFEST ="))
   .replace('import { PAUSE_UI, TOOL_MODAL_UI, HOME_SETTINGS_UI, loadPauseArt, drawPauseDialog, drawToolDialog, drawHomeSettings, pauseArtStatus } from "./pause-dialog.js";', pauseCode)
@@ -31,6 +33,7 @@ const bundled = source.replace('import { loadImage, imageLoadStatus } from "./im
 const result = await minify(bundled, { module: true, compress: true, mangle: true });
 await writeFile(new URL("../docs/game.js", import.meta.url), result.code);
 await mkdir(new URL("../docs/assets/", import.meta.url), { recursive: true });
+await cp(new URL("../assets/runtime-ui/", import.meta.url), new URL("../docs/assets/runtime-ui/", import.meta.url), { recursive: true });
 await cp(new URL("../assets/toyhouse-ui-v3/", import.meta.url), new URL("../docs/assets/toyhouse-ui-v3/", import.meta.url), { recursive: true });
 await cp(new URL("../assets/pause-dialog-v2/", import.meta.url), new URL("../docs/assets/pause-dialog-v2/", import.meta.url), { recursive: true });
 await cp(new URL("../assets/tool-dialog-v1/", import.meta.url), new URL("../docs/assets/tool-dialog-v1/", import.meta.url), { recursive: true });
