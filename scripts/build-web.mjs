@@ -20,7 +20,9 @@ const homeArt = await readFile(new URL("../src/home-art-manifest.js", import.met
 const homeCode = (await readFile(new URL("../src/home-screen.js", import.meta.url), "utf8"))
   .replace('import HOME_ART from "./home-art-manifest.js";', homeArt.replace("export default", "const HOME_ART ="))
   .replace(/^export /gm, "");
-const loaderCode = (await readFile(new URL("../src/image-loader.js", import.meta.url), "utf8")).replace(/^export /gm, "");
+const aliasesCode = (await readFile(new URL("../src/image-aliases.js", import.meta.url), "utf8")).replace("export default", "const IMAGE_ALIASES =");
+const loaderCode = (await readFile(new URL("../src/image-loader.js", import.meta.url), "utf8"))
+  .replace('import IMAGE_ALIASES from "./image-aliases.js";', aliasesCode).replace(/^export /gm, "");
 const bundled = source.replace('import { loadImage, imageLoadStatus } from "./image-loader.js";', loaderCode).replace('import LEVEL_CONFIG from "./level-config.js";', config.replace("export default", "const LEVEL_CONFIG ="))
   .replace('import ART_MANIFEST from "./art-manifest.js";', art.replace("export default", "const ART_MANIFEST ="))
   .replace('import { PAUSE_UI, TOOL_MODAL_UI, HOME_SETTINGS_UI, loadPauseArt, drawPauseDialog, drawToolDialog, drawHomeSettings, pauseArtStatus } from "./pause-dialog.js";', pauseCode)

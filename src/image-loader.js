@@ -1,3 +1,5 @@
+import IMAGE_ALIASES from "./image-aliases.js";
+
 const imageRequests = new Map();
 const requestedImages = new Set();
 const completedImages = new Set();
@@ -36,7 +38,7 @@ function attemptImage(url, attempt) {
 }
 
 export function loadImage(path) {
-  const url = new URL(path, document.baseURI);
+  const url = new URL(IMAGE_ALIASES[path] || path, document.baseURI);
   const key = url.href;
   requestedImages.add(key);
   if (imageRequests.has(key)) return imageRequests.get(key);

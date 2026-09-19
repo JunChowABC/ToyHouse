@@ -1,3 +1,4 @@
+import IMAGE_ALIASES from "../src/image-aliases.js";
 import assert from "node:assert/strict";
 import { mkdir, writeFile } from "node:fs/promises";
 import { chromium } from "../scripts/playwright_system_chrome.mjs";
@@ -22,7 +23,9 @@ try {
       const clear = p.clearRect, image = p.drawImage, text = p.fillText, stroke = p.strokeText;
       p.clearRect = function (...args) { trace.images = []; trace.text = []; trace.strokes = []; return clear.apply(this, args); };
       p.drawImage = function (im, ...bounds) {
-        trace.images.push({ file: im.src?.split("/").pop(), bounds, scale: this.getTransform().a });
+        const matrix = this.getTransform();
+        const center = new DOMPoint(bounds[0] + bounds[2] / 2, bounds[1] + bounds[3] / 2).matrixTransform(matrix);
+        trace.images.push({ file: im.src?.split("/").pop(), bounds, scale: matrix.a, center: [center.x, center.y] });
         return image.call(this, im, ...bounds);
       };
       p.fillText = function (s, ...bounds) { trace.text.push({ s: String(s), bounds, font: this.font, scale: this.getTransform().a }); return text.call(this, s, ...bounds); };
@@ -40,12 +43,18 @@ try {
     const shot = name => page.screenshot({ path: `${out}/${width}-${name}.png` });
     let checked = 0;
     async function check(rect, files, label, cancel = false) {
+      const findImage = (trace, file) => {
+        const entry = Object.entries(IMAGE_ALIASES).find(([key]) => key.endsWith("/" + file));
+        const canonical = entry ? entry[1].split("/").pop() : file;
+        const distance = image => Math.hypot(image.center[0] - (rect.x + rect.w / 2) * dpr, image.center[1] - (rect.y + rect.h / 2) * dpr);
+        return trace.images.filter(image => image.file === canonical).sort((a, b) => distance(a) - distance(b))[0];
+      };
       await page.waitForTimeout(170);
       const before = await trace();
       await move(rect); await page.mouse.down(); await page.waitForTimeout(100);
       const held = await trace();
       for (const file of files) {
-        const a = before.images.find(i => i.file === file), b = held.images.find(i => i.file === file);
+        const a = findImage(before, file), b = findImage(held, file);
         assert.ok(a && b, file);
         assert.ok(Math.abs(b.scale / a.scale - .92) < .001, `${file}: entire button should shrink`);
       }
@@ -59,7 +68,7 @@ try {
       else await move({ x: 539, y: 959, w: 0, h: 0 });
       await page.mouse.up(); await page.waitForTimeout(170);
       const after = await trace();
-      for (const file of files) assert.equal(after.images.find(i => i.file === file)?.scale, before.images.find(i => i.file === file)?.scale, `${file}: cancel returns to original scale`);
+      for (const file of files) assert.equal(findImage(after, file)?.scale, findImage(before, file)?.scale, `${file}: cancel returns to original scale`);
       checked++;
     }
     assert.ok((await trace()).text.some(t => t.s === "0" && t.bounds[0] === 490 && t.bounds[1] === 54));
