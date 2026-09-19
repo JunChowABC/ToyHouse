@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 900 900">
+<style>text{font-family:'Microsoft YaHei',sans-serif;fill:#544954}.title{font-size:28px;font-weight:bold}.label{font-size:24px}.small{font-size:19px}</style>
+<rect width="900" height="900" fill="#f5f1f4"/>
+<text x="45" y="55" class="title">主界面 · 设置弹窗</text><text x="45" y="90" class="small">交互线框 / 开关状态为示例 / 沿用玩家已保存选择</text>
+<rect x="180" y="130" width="540" height="650" rx="30" fill="#dbd1d9"/>
+<text x="450" y="194" text-anchor="middle" class="small">首页背景</text>
+<rect x="219" y="235" width="462" height="458" rx="28" fill="#fffaf6" stroke="#bbaabb" stroke-width="2"/>
+<text x="450" y="291" text-anchor="middle" class="title">设置</text>
+<rect x="580" y="254" width="78" height="45" rx="18" fill="#e9dbe4"/><text x="619" y="284" text-anchor="middle" class="small">关闭</text>
+<path d="M252 318H648" stroke="#e0d4dc"/>
+<text x="278" y="389" class="label">音乐</text><rect x="528" y="352" width="99" height="48" rx="24" fill="#99baaa"/><text x="552" y="384" class="small">开</text><circle cx="603" cy="376" r="18" fill="#fff"/>
+<text x="278" y="489" class="label">音效</text><rect x="528" y="452" width="99" height="48" rx="24" fill="#99baaa"/><text x="552" y="484" class="small">开</text><circle cx="603" cy="476" r="18" fill="#fff"/>
+<text x="278" y="589" class="label">震动</text><rect x="528" y="552" width="99" height="48" rx="24" fill="#ccc2cb"/><text x="590" y="584" class="small">关</text><circle cx="552" cy="576" r="18" fill="#fff"/>
+<text x="450" y="659" text-anchor="middle" class="small">与局内共用设置</text>
+<text x="70" y="826" class="small">1. 点击开关切换并保存；重启后保持。</text>
+<text x="70" y="862" class="small">2. 关闭后回到原首页状态；不包含局内暂停操作。</text>
+</svg>

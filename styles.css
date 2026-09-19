@@ -1,7 +1,7 @@
 :root {
   color-scheme: light;
   font-family: "Microsoft YaHei UI", "PingFang SC", system-ui, sans-serif;
-  background: #211d3d;
+  background: #48333f;
 }
 
 * {
@@ -15,8 +15,8 @@ body {
   margin: 0;
   overflow: hidden;
   background:
-    radial-gradient(circle at 50% 0%, #514879 0%, transparent 46%),
-    #211d3d;
+    radial-gradient(circle at 50% 0%, #a97688 0%, transparent 66%),
+    #48333f;
 }
 
 body {

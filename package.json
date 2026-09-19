@@ -4,6 +4,15 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node scripts/serve.mjs"
+    "start": "node scripts/serve.mjs",
+    "build": "node scripts/build-web.mjs",
+    "test:art": "node tests/verify-v3-art.mjs",
+    "test:home": "node tests/verify-home-art.mjs",
+    "test:buttons": "node tests/verify-button-feedback.mjs",
+    "test:complete": "node tests/verify-complete-dialog.mjs",
+    "test:levels": "node tests/verify-duck-rules.mjs && node tests/verify-levels-v13.mjs"
+  },
+  "devDependencies": {
+    "terser": "5.51.2"
   }
 }

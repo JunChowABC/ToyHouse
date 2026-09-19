@@ -1,0 +1,1455 @@
+// Generated from the validated home PSD by scripts/export-home-art.mjs.
+export default {
+  "version": "home-v2-art-slogan",
+  "directory": "assets/home-v2",
+  "canvas": {
+    "width": 941,
+    "height": 1672
+  },
+  "source": "outputs/20260919_home_psd_v2_art_slogan/toyhouse-home-layered-v2-art-slogan.psd",
+  "assets": {
+    "bg_room": {
+      "file": "bg_room.png",
+      "bounds": [
+        0,
+        0,
+        941,
+        1672
+      ],
+      "sha256": "f19a0e26d859f7c5bd6657ae312b07d706813fa234ea6fcd37860dbf6bc3fb5a",
+      "opacity": 1
+    },
+    "art_rug": {
+      "file": "art_rug.png",
+      "bounds": [
+        122,
+        923,
+        727,
+        309
+      ],
+      "sha256": "7ae13898bfce54f28b07fde81c9a7199ac24c7a8bc5886f163bb0fa90efb047d",
+      "opacity": 1
+    },
+    "art_bed": {
+      "file": "art_bed.png",
+      "bounds": [
+        367,
+        652,
+        464,
+        384
+      ],
+      "sha256": "090f9242312f4a34da419296cd29acefb5d2314774f7c74fed8c5258eac9963a",
+      "opacity": 1
+    },
+    "art_cabinet": {
+      "file": "art_cabinet.png",
+      "bounds": [
+        340,
+        816,
+        127,
+        137
+      ],
+      "sha256": "06931590618b490f68e730f69a1c84381059918832b466ed336503cbf1f87237",
+      "opacity": 1
+    },
+    "art_bin_rabbit": {
+      "file": "art_bin_rabbit.png",
+      "bounds": [
+        77,
+        769,
+        111,
+        153
+      ],
+      "sha256": "2445b6d353020ace4732bb198c2425d5beb55d07724df2b4f85f032381f4d7d6",
+      "opacity": 1
+    },
+    "art_bin_pillow": {
+      "file": "art_bin_pillow.png",
+      "bounds": [
+        155,
+        784,
+        94,
+        111
+      ],
+      "sha256": "d9668e37222399629c99691a5462f26824bd0bad5da5a4ed121e49a74eefd14c",
+      "opacity": 1
+    },
+    "art_gifts_left": {
+      "file": "art_gifts_left.png",
+      "bounds": [
+        229,
+        824,
+        111,
+        148
+      ],
+      "sha256": "446eb29f6c0cbc48ab34bc72de2c1ad0e2d47b7bb781fcde7a35d860ac577880",
+      "opacity": 1
+    },
+    "art_cushion": {
+      "file": "art_cushion.png",
+      "bounds": [
+        246,
+        968,
+        124,
+        105
+      ],
+      "sha256": "4bdbd2b23c7bef7a174924bc941ab86d57d0c39a77e6c41e3de369af8d2132cd",
+      "opacity": 1
+    },
+    "art_pillow": {
+      "file": "art_pillow.png",
+      "bounds": [
+        661,
+        718,
+        126,
+        92
+      ],
+      "sha256": "b0ff6809fbd423429a7d7a7d2ff7637b65b1ce14556111ed5d165364a906a4e3",
+      "opacity": 1
+    },
+    "art_sleep_rabbit": {
+      "file": "art_sleep_rabbit.png",
+      "bounds": [
+        548,
+        687,
+        163,
+        175
+      ],
+      "sha256": "dbe101d579c2e99c9da9035ad9bb4e8998f6e0395297a5e913f44edf2c8e6eb3",
+      "opacity": 1
+    },
+    "art_lamp": {
+      "file": "art_lamp.png",
+      "bounds": [
+        341,
+        706,
+        96,
+        133
+      ],
+      "sha256": "4e1ea79ffcebb9c5d0bae0611ab0cbc4481a70d32ca27103f430580203b44618",
+      "opacity": 1
+    },
+    "art_tiny_rabbit": {
+      "file": "art_tiny_rabbit.png",
+      "bounds": [
+        405,
+        782,
+        45,
+        57
+      ],
+      "sha256": "edac2f7b1a4c64624bec7a824d2853c0387d777a3bb2519dcc1652a44125be8c",
+      "opacity": 1
+    },
+    "art_toy_bin": {
+      "file": "art_toy_bin.png",
+      "bounds": [
+        77,
+        876,
+        185,
+        134
+      ],
+      "sha256": "e82180a925722af0bfe1c0629bd3057381aa8b5848c9ee43a08c491d624619c9",
+      "opacity": 1
+    },
+    "art_penguin": {
+      "file": "art_penguin.png",
+      "bounds": [
+        47,
+        835,
+        85,
+        112
+      ],
+      "sha256": "d3aea27b35bc07d0fa1213bdbf10acd81e7b4edc2f574f9f60965703ae4efff8",
+      "opacity": 1
+    },
+    "art_bin_star": {
+      "file": "art_bin_star.png",
+      "bounds": [
+        169,
+        831,
+        80,
+        83
+      ],
+      "sha256": "33670918d37673893050474ee34e573ab85aef377f8adbce513a5b3e66b666c2",
+      "opacity": 1
+    },
+    "art_gift_bow": {
+      "file": "art_gift_bow.png",
+      "bounds": [
+        247,
+        798,
+        60,
+        34
+      ],
+      "sha256": "b4568f8f7eef106b287e1157aaf2fe6d1a184e0a7ad97ff22a3b3de03f6904e2",
+      "opacity": 1
+    },
+    "art_gift_front": {
+      "file": "art_gift_front.png",
+      "bounds": [
+        275,
+        878,
+        69,
+        89
+      ],
+      "sha256": "f68a7bb49609cd0641a5969a535990d69fd229f81df62281771c418ae2dae12e",
+      "opacity": 1
+    },
+    "art_teddy": {
+      "file": "art_teddy.png",
+      "bounds": [
+        307,
+        909,
+        171,
+        177
+      ],
+      "sha256": "4aff3d5133e79cf9493e24df51649c09dfeca95e07673b3405a24f0523b482a9",
+      "opacity": 1
+    },
+    "art_table": {
+      "file": "art_table.png",
+      "bounds": [
+        425,
+        1030,
+        310,
+        192
+      ],
+      "sha256": "1bc204706f26463a06e9532552bd07c3dd5e0a3d52bfc01ee168baa43243aa37",
+      "opacity": 1
+    },
+    "art_block_house": {
+      "file": "art_block_house.png",
+      "bounds": [
+        51,
+        1060,
+        110,
+        130
+      ],
+      "sha256": "10203d9641d5757e3e0565ae850fcd1e909ccdda310b35b3e2260c05f76bdaa4",
+      "opacity": 1
+    },
+    "art_gift_right": {
+      "file": "art_gift_right.png",
+      "bounds": [
+        830,
+        1101,
+        111,
+        117
+      ],
+      "sha256": "0ba205fd66cc5c3433788fd16eaf10e29ba7096a0681a874cdb3461fcbcc5989",
+      "opacity": 1
+    },
+    "art_right_cushion": {
+      "file": "art_right_cushion.png",
+      "bounds": [
+        688,
+        1124,
+        145,
+        159
+      ],
+      "sha256": "ba9421678919ddb342233b8c16eee4916ae1a8cbfda368126ada76ca88bcc722",
+      "opacity": 1
+    },
+    "art_sleep_bow": {
+      "file": "art_sleep_bow.png",
+      "bounds": [
+        551,
+        727,
+        53,
+        47
+      ],
+      "sha256": "6a5880485878f778020477617a4a88bc3ace52c233f9336276e91818e89a8aa4",
+      "opacity": 1
+    },
+    "art_duck": {
+      "file": "art_duck.png",
+      "bounds": [
+        479,
+        781,
+        96,
+        84
+      ],
+      "sha256": "874f924a1c178ec656694710b5aec5b4e3dcb95b768f7cbb50c7baa7f15590fe",
+      "opacity": 1
+    },
+    "art_gift_front_bow": {
+      "file": "art_gift_front_bow.png",
+      "bounds": [
+        280,
+        878,
+        50,
+        45
+      ],
+      "sha256": "3f2765f0250705c337556c15d51689a8b4e928577a849edb7c9912d26a1bafab",
+      "opacity": 1
+    },
+    "art_teddy_bow": {
+      "file": "art_teddy_bow.png",
+      "bounds": [
+        364,
+        1003,
+        79,
+        62
+      ],
+      "sha256": "865f45eb57e93285a74346c3e65f954bc78233e9a3558ae80534301d5a4b65f0",
+      "opacity": 1
+    },
+    "art_star_cushion": {
+      "file": "art_star_cushion.png",
+      "bounds": [
+        288,
+        1000,
+        98,
+        90
+      ],
+      "sha256": "16f8b4b80d65fb8eee77b87812c486686dac1cd3077f3be51de258afbfa108ce",
+      "opacity": 1
+    },
+    "art_dome": {
+      "file": "art_dome.png",
+      "bounds": [
+        478,
+        952,
+        106,
+        108
+      ],
+      "sha256": "1b76b9c5b4d2ef64a4dfd6a714655c494e60024e76b39d4b1a19db1df790858f",
+      "opacity": 1
+    },
+    "art_cup": {
+      "file": "art_cup.png",
+      "bounds": [
+        556,
+        991,
+        91,
+        69
+      ],
+      "sha256": "565934443fb9550c629f500dad68f5ed88735f76f812d76a9837fbd097c208ae",
+      "opacity": 1
+    },
+    "art_book_bottom": {
+      "file": "art_book_bottom.png",
+      "bounds": [
+        539,
+        1063,
+        152,
+        55
+      ],
+      "sha256": "ba5b3dacce4a21f399bcff6e8bebc7279df854424e0355f5aa7a066a98851e05",
+      "opacity": 1
+    },
+    "art_book_top": {
+      "file": "art_book_top.png",
+      "bounds": [
+        543,
+        1043,
+        135,
+        43
+      ],
+      "sha256": "48dd6f60f873f55cd8d278f23b7fddcfe24d0e73f3bf241607576abcc82156b6",
+      "opacity": 1
+    },
+    "art_table_bow": {
+      "file": "art_table_bow.png",
+      "bounds": [
+        444,
+        1037,
+        89,
+        60
+      ],
+      "sha256": "cf1df2f16cd8b5fcb7a039d8f152baabdc0c7bbb8d95e903e0229e56513e593a",
+      "opacity": 1
+    },
+    "art_open_book": {
+      "file": "art_open_book.png",
+      "bounds": [
+        195,
+        1081,
+        218,
+        98
+      ],
+      "sha256": "0f979dd089e8169104c32f6b8395557ba8e81502bb0f76251baa391420f14b7a",
+      "opacity": 1
+    },
+    "art_floor_star": {
+      "file": "art_floor_star.png",
+      "bounds": [
+        390,
+        1105,
+        85,
+        76
+      ],
+      "sha256": "b92f201b411e64f91d83c9e3502d40a2c657a29dafc1e25e3c4c46fff591082d",
+      "opacity": 1
+    },
+    "art_whale": {
+      "file": "art_whale.png",
+      "bounds": [
+        707,
+        969,
+        234,
+        137
+      ],
+      "sha256": "114a587a6d940f3c19965d258f4060366eee1395edd466e5a8fe5c8538699c58",
+      "opacity": 1
+    },
+    "art_crown": {
+      "file": "art_crown.png",
+      "bounds": [
+        779,
+        946,
+        56,
+        42
+      ],
+      "sha256": "0ba71aba40ec0f1ec82dd08bcc81f082843c936414106f0a5c9c6e77e180d4cf",
+      "opacity": 1
+    },
+    "art_block_cart": {
+      "file": "art_block_cart.png",
+      "bounds": [
+        168,
+        1146,
+        82,
+        93
+      ],
+      "sha256": "fe0a391edf017e018a0bb6d674b7583598a0dc5e9810f4f977ce87f4a6cce56c",
+      "opacity": 1
+    },
+    "art_block_blue": {
+      "file": "art_block_blue.png",
+      "bounds": [
+        238,
+        1188,
+        75,
+        63
+      ],
+      "sha256": "cef2e9d50278e5b14d68aad99da9c280fec2750636aac2ebc65f38f1ffa79fd3",
+      "opacity": 1
+    },
+    "art_block_yellow": {
+      "file": "art_block_yellow.png",
+      "bounds": [
+        216,
+        1217,
+        51,
+        49
+      ],
+      "sha256": "01a10e9164528f1f6f681b47a0af765122074a701c0d02bb1066281bb80c7e81",
+      "opacity": 1
+    },
+    "art_gift_right_bow": {
+      "file": "art_gift_right_bow.png",
+      "bounds": [
+        823,
+        1087,
+        118,
+        93
+      ],
+      "sha256": "0525711fbf0d1cedd6d212adfc1eddf9cc27e108931f8f3988217a3b854f95cc",
+      "opacity": 1
+    },
+    "art_left_books": {
+      "file": "art_left_books.png",
+      "bounds": [
+        0,
+        1256,
+        235,
+        309
+      ],
+      "sha256": "6b20a7974f77ebc57b766accbde55eeb8e215128b2aabae7bc4d68a585c7d3e6",
+      "opacity": 1
+    },
+    "ui_footer_mat": {
+      "file": "ui_footer_mat.png",
+      "bounds": [
+        129,
+        1542,
+        613,
+        175
+      ],
+      "sha256": "aa764059432d7cae28c4245a1d48d7ec6fb64f6667df064e4fb5f3cb31fa9378",
+      "opacity": 1
+    },
+    "art_small_star_left": {
+      "file": "art_small_star_left.png",
+      "bounds": [
+        198,
+        1054,
+        44,
+        38
+      ],
+      "sha256": "88508423dbae28efbb9193109c1513f24f73f5f7962f7d8bf772806112ed1e9b",
+      "opacity": 1
+    },
+    "art_small_star_bottom": {
+      "file": "art_small_star_bottom.png",
+      "bounds": [
+        516,
+        1146,
+        47,
+        43
+      ],
+      "sha256": "2c4d1c061b52538a771d9403c89fee07c07efb6f5373f988f762e76243bc18ff",
+      "opacity": 1
+    },
+    "art_small_star_right": {
+      "file": "art_small_star_right.png",
+      "bounds": [
+        728,
+        1111,
+        34,
+        33
+      ],
+      "sha256": "9e49b90e396201862bdd0378c64236bba520d8accec887ffe193beaa013c4fa8",
+      "opacity": 1
+    },
+    "art_plant_left": {
+      "file": "art_plant_left.png",
+      "bounds": [
+        0,
+        1485,
+        289,
+        187
+      ],
+      "sha256": "b3e586e9f59ab6937a5b79d9895d8a3e70dd33eb104bdd486c7cbd6d1b5917e7",
+      "opacity": 1
+    },
+    "art_lantern": {
+      "file": "art_lantern.png",
+      "bounds": [
+        678,
+        1426,
+        263,
+        246
+      ],
+      "sha256": "c24d10ff3f3779fa4d311fd398dd2206eb0ad152d3c6fa7bcaf17481fa1387a4",
+      "opacity": 1
+    },
+    "art_plant_right": {
+      "file": "art_plant_right.png",
+      "bounds": [
+        786,
+        1299,
+        155,
+        226
+      ],
+      "sha256": "4df5a46ad347fd5199f3ea902d21377fd843fe7d72f0ea3664fd24ce89094ccd",
+      "opacity": 1
+    },
+    "art_midleft_plant": {
+      "file": "art_midleft_plant.png",
+      "bounds": [
+        0,
+        876,
+        109,
+        300
+      ],
+      "sha256": "9b3b3d9e5f2594750d5feaeef23cea7227e0fd043a0b3e7b811af3a4b4e7a518",
+      "opacity": 1
+    },
+    "ui_settings_base": {
+      "file": "ui_settings_base.png",
+      "bounds": [
+        18,
+        40,
+        96,
+        96
+      ],
+      "sha256": "e53d7cb47839c8ff5278e9faba1e19f212c22da4d5a3226e8b39226b98e4f6c5",
+      "opacity": 1
+    },
+    "ui_settings_gear": {
+      "file": "ui_settings_gear.png",
+      "bounds": [
+        40,
+        60,
+        51,
+        53
+      ],
+      "sha256": "d7ce2b1366977cba59fcf08f748769232d9b2e4c99f3feffce057e8a1de656b3",
+      "opacity": 1
+    },
+    "ui_settings_bow": {
+      "file": "ui_settings_bow.png",
+      "bounds": [
+        31,
+        113,
+        71,
+        42
+      ],
+      "sha256": "150bdfaff1ce1cb3bb7de67976f9323d4b8e001c54876d61b11a3b583035ddc5",
+      "opacity": 1
+    },
+    "ui_title_chain_left": {
+      "file": "ui_title_chain_left.png",
+      "bounds": [
+        382,
+        0,
+        23,
+        76
+      ],
+      "sha256": "468b561e57bd623dba72397836dc1add57b191b006633f65e5168d6a20bcf608",
+      "opacity": 1
+    },
+    "ui_title_chain_right": {
+      "file": "ui_title_chain_right.png",
+      "bounds": [
+        540,
+        0,
+        22,
+        71
+      ],
+      "sha256": "6f6750176ddb38ce3ccdf6d6e47a700ef7c493c0f6c93712573f766b6ef50986",
+      "opacity": 1
+    },
+    "ui_title_bow_left": {
+      "file": "ui_title_bow_left.png",
+      "bounds": [
+        344,
+        50,
+        101,
+        100
+      ],
+      "sha256": "8a7ea318277de939905fb26e801db78336ab347d4d67587ee2f55ac4c54c9190",
+      "opacity": 1
+    },
+    "ui_title_bow_right": {
+      "file": "ui_title_bow_right.png",
+      "bounds": [
+        503,
+        51,
+        88,
+        90
+      ],
+      "sha256": "1680837907782fcacffb69e4e7681ac903cc29912c0efb5691f913fb5e93a319",
+      "opacity": 1
+    },
+    "ui_title_outer": {
+      "file": "ui_title_outer.png",
+      "bounds": [
+        224,
+        104,
+        493,
+        286
+      ],
+      "sha256": "bfafbaed20e1cb5c97c2f89cd44c4c9f923447716c2100634ac5e27266234794",
+      "opacity": 1
+    },
+    "ui_title_inner": {
+      "file": "ui_title_inner.png",
+      "bounds": [
+        287,
+        110,
+        370,
+        259
+      ],
+      "sha256": "ccd4b34eaef5cd64a37a3b59fe2f03301312beb6eb35ab227da7738cd026ca37",
+      "opacity": 1
+    },
+    "ui_title_rabbit": {
+      "file": "ui_title_rabbit.png",
+      "bounds": [
+        411,
+        27,
+        107,
+        104
+      ],
+      "sha256": "eee64f88e07fd5528e1b8014260dfff1864e9c15ac87ce1babc89bc1929191d1",
+      "opacity": 1
+    },
+    "ui_title_flower_left": {
+      "file": "ui_title_flower_left.png",
+      "bounds": [
+        251,
+        284,
+        50,
+        48
+      ],
+      "sha256": "27ecced35f4a3ed63c02dfd003c09291f12de60fac228352322fcea5962cbc9d",
+      "opacity": 1
+    },
+    "ui_title_flower_right": {
+      "file": "ui_title_flower_right.png",
+      "bounds": [
+        643,
+        284,
+        49,
+        49
+      ],
+      "sha256": "98e22ffa9e8f9a0bc2c007a2ae8740d2fee4694e16d57aa2a5a55f2d7811d4f2",
+      "opacity": 1
+    },
+    "art_title": {
+      "file": "art_title.png",
+      "bounds": [
+        325,
+        124,
+        309,
+        188
+      ],
+      "sha256": "1168b4a3f0c013bdffb0146b0d80e2a44b6adfeaec9245a3115ebcb645bbe0f5",
+      "opacity": 1
+    },
+    "ui_title_moon": {
+      "file": "ui_title_moon.png",
+      "bounds": [
+        539,
+        98,
+        101,
+        105
+      ],
+      "sha256": "42fee8bf92c591f92dc7712b5411cc1bf6e502ab80e011a8c2d2eda22012c854",
+      "opacity": 1
+    },
+    "ui_title_star_left": {
+      "file": "ui_title_star_left.png",
+      "bounds": [
+        266,
+        195,
+        65,
+        62
+      ],
+      "sha256": "24e2bd8fa34fc87dc0dfd9a2eb478f24af0301c8070165b877ef07abe9f20366",
+      "opacity": 1
+    },
+    "ui_title_star_right": {
+      "file": "ui_title_star_right.png",
+      "bounds": [
+        629,
+        200,
+        56,
+        59
+      ],
+      "sha256": "e7cbb54f95d1f623f846c18c637928774eea0437736a75231fe8494acd3a807b",
+      "opacity": 1
+    },
+    "ui_title_star_small": {
+      "file": "ui_title_star_small.png",
+      "bounds": [
+        336,
+        264,
+        34,
+        34
+      ],
+      "sha256": "41e7a6cd47c5dcdf113c370b04895441fb169fc7d9e154534a4672b1ebbc0936",
+      "opacity": 1
+    },
+    "ui_ribbon_tail_left": {
+      "file": "ui_ribbon_tail_left.png",
+      "bounds": [
+        278,
+        339,
+        67,
+        59
+      ],
+      "sha256": "620b4d46eab520e04042011aab0e8b526d19a2cb97965c5163ae794f9ef50b85",
+      "opacity": 1
+    },
+    "ui_ribbon_tail_right": {
+      "file": "ui_ribbon_tail_right.png",
+      "bounds": [
+        604,
+        340,
+        58,
+        59
+      ],
+      "sha256": "6f8622f153b647a4ad04bd7b1fe0a192391658ed236c023f76aadb576e6445b1",
+      "opacity": 1
+    },
+    "ui_ribbon_front": {
+      "file": "ui_ribbon_front.png",
+      "bounds": [
+        319,
+        310,
+        304,
+        70
+      ],
+      "sha256": "54ebd391746597f77295f2d9e35c8155b47ea19e05cfc5bcba0ff3b3602d9426",
+      "opacity": 1
+    },
+    "ui_hanging_star_left": {
+      "file": "ui_hanging_star_left.png",
+      "bounds": [
+        366,
+        368,
+        36,
+        55
+      ],
+      "sha256": "692f4d8078bdd6294b4604e6e7808d01034c3481fbcdaae3fdc9fc5e4fd8e990",
+      "opacity": 1
+    },
+    "ui_hanging_star_right": {
+      "file": "ui_hanging_star_right.png",
+      "bounds": [
+        532,
+        367,
+        39,
+        55
+      ],
+      "sha256": "d63807992d8ed90bb0595f80aa1d0b035c1af83965b163201f7d09d350a9427c",
+      "opacity": 1
+    },
+    "ui_date_base": {
+      "file": "ui_date_base.png",
+      "bounds": [
+        292,
+        1239,
+        359,
+        96
+      ],
+      "sha256": "a2beefb9db0c9a89c2dc787ab15f01874d8384d6beb772ae7f8b351f819f4dc3",
+      "opacity": 1
+    },
+    "ui_date_bow": {
+      "file": "ui_date_bow.png",
+      "bounds": [
+        433,
+        1224,
+        70,
+        40
+      ],
+      "sha256": "e7bac526ab61ebeb8eb981d534c06ba38d701f5525e9a6b9320ee2e2f49bacb2",
+      "opacity": 1
+    },
+    "ui_date_star_left": {
+      "file": "ui_date_star_left.png",
+      "bounds": [
+        258,
+        1260,
+        54,
+        54
+      ],
+      "sha256": "585bc477ece6829879954be8f495105600d23f27af632ad33a53a49e880fb225",
+      "opacity": 1
+    },
+    "ui_date_star_right": {
+      "file": "ui_date_star_right.png",
+      "bounds": [
+        632,
+        1260,
+        51,
+        54
+      ],
+      "sha256": "2a73e53ad2d650b29a8a5b101b0a43c0ba9584cfebabee3c3ba3dd505a52bad3",
+      "opacity": 1
+    },
+    "ui_sleep_outer": {
+      "file": "ui_sleep_outer.png",
+      "bounds": [
+        191,
+        1350,
+        563,
+        214
+      ],
+      "sha256": "2559bbfe68c6624bce3404ec17809f86a17338222eb700848674b27da461e01e",
+      "opacity": 1
+    },
+    "ui_sleep_inner": {
+      "file": "ui_sleep_inner.png",
+      "bounds": [
+        221,
+        1389,
+        502,
+        153
+      ],
+      "sha256": "924c64ef5cbd9976b4ecfe10b89963f24a0b2819213e05b3a4be3e460cc3e3f7",
+      "opacity": 1
+    },
+    "ui_sleep_rabbit": {
+      "file": "ui_sleep_rabbit.png",
+      "bounds": [
+        219,
+        1325,
+        172,
+        124
+      ],
+      "sha256": "42ef04e3774c0d2640e044a9e037ee6d41fc26a4001ce1840084856adb741550",
+      "opacity": 1
+    },
+    "ui_sleep_rabbit_bow": {
+      "file": "ui_sleep_rabbit_bow.png",
+      "bounds": [
+        299,
+        1342,
+        50,
+        38
+      ],
+      "sha256": "a2d484b00b1bde4ffc415a8fedcc15b86c89c141957cd585cd46b288ced40e10",
+      "opacity": 1
+    },
+    "ui_sleep_bow_right": {
+      "file": "ui_sleep_bow_right.png",
+      "bounds": [
+        649,
+        1340,
+        89,
+        71
+      ],
+      "sha256": "b3144260af62731166d7886c7c3dfdfd023f21931fcebf9b3a8e95f2a320361c",
+      "opacity": 1
+    },
+    "ui_sleep_flower": {
+      "file": "ui_sleep_flower.png",
+      "bounds": [
+        214,
+        1403,
+        64,
+        56
+      ],
+      "sha256": "a06d1ae131f32cb48f5181e73795a8f132162bc798f0d9cab489431e678eae77",
+      "opacity": 1
+    },
+    "ui_sleep_star": {
+      "file": "ui_sleep_star.png",
+      "bounds": [
+        276,
+        1456,
+        39,
+        39
+      ],
+      "sha256": "c97bde43b06d08d3ee99336c8e4d2c5ce161621c3b6ac7f59c939b371cc74e38",
+      "opacity": 1
+    },
+    "ui_sleep_spark_left": {
+      "file": "ui_sleep_spark_left.png",
+      "bounds": [
+        315,
+        1481,
+        15,
+        17
+      ],
+      "sha256": "23f14d3edcf8b8c5ebcd60691642073429d99562a64f522999197e7dca54696d",
+      "opacity": 1
+    },
+    "ui_sleep_moon": {
+      "file": "ui_sleep_moon.png",
+      "bounds": [
+        606,
+        1427,
+        67,
+        72
+      ],
+      "sha256": "b857139a7d544ddf187c9a85d05a76da817663093062a0403ef0f07dc4bc41d2",
+      "opacity": 1
+    },
+    "ui_sleep_spark_right": {
+      "file": "ui_sleep_spark_right.png",
+      "bounds": [
+        669,
+        1482,
+        15,
+        17
+      ],
+      "sha256": "c331be38c5bf423c4c67b3e999523de2a09a25151a33ea5aac4ffbcdba193475",
+      "opacity": 1
+    },
+    "ui_heart_note": {
+      "file": "ui_heart_note.png",
+      "bounds": [
+        741,
+        1180,
+        200,
+        189
+      ],
+      "sha256": "d18264430f113ff7058ba02d1c6927f8d3dae18b5f123dc4ab53e5dee5463e0b",
+      "opacity": 1
+    },
+    "ui_note_heart": {
+      "file": "ui_note_heart.png",
+      "bounds": [
+        881,
+        1264,
+        29,
+        31
+      ],
+      "sha256": "0554769b2093f84db22c39f5e6de38092b562f0be297ce160ccd6e3dc6596062",
+      "opacity": 1
+    },
+    "ui_footer_heart": {
+      "file": "ui_footer_heart.png",
+      "bounds": [
+        556,
+        1604,
+        38,
+        34
+      ],
+      "sha256": "17d65308f9bb8aef8af6c5998b9c41028be6d7560c9fe68fe5de3a819f4a07e2",
+      "opacity": 1
+    },
+    "art_slogan": {
+      "file": "art_slogan.png",
+      "bounds": [
+        340,
+        326,
+        267,
+        35
+      ],
+      "sha256": "0a9b805ed89c77842887d38e0d248c6d201bfb89fce44b7bc1d2ad8dd633cdbd",
+      "opacity": 1
+    }
+  },
+  "layers": [
+    "bg_room",
+    "art_rug",
+    "art_bed",
+    "art_cabinet",
+    "art_bin_rabbit",
+    "art_bin_pillow",
+    "art_gifts_left",
+    "art_cushion",
+    "art_pillow",
+    "art_sleep_rabbit",
+    "art_lamp",
+    "art_tiny_rabbit",
+    "art_toy_bin",
+    "art_penguin",
+    "art_bin_star",
+    "art_gift_bow",
+    "art_gift_front",
+    "art_teddy",
+    "art_table",
+    "art_block_house",
+    "art_gift_right",
+    "art_right_cushion",
+    "art_sleep_bow",
+    "art_duck",
+    "art_gift_front_bow",
+    "art_teddy_bow",
+    "art_star_cushion",
+    "art_dome",
+    "art_cup",
+    "art_book_bottom",
+    "art_book_top",
+    "art_table_bow",
+    "art_open_book",
+    "art_floor_star",
+    "art_whale",
+    "art_crown",
+    "art_block_cart",
+    "art_block_blue",
+    "art_block_yellow",
+    "art_gift_right_bow",
+    "art_left_books",
+    "ui_footer_mat",
+    "art_small_star_left",
+    "art_small_star_bottom",
+    "art_small_star_right",
+    "art_plant_left",
+    "art_lantern",
+    "art_plant_right",
+    "art_midleft_plant",
+    "ui_settings_base",
+    "ui_settings_gear",
+    "ui_settings_bow",
+    "ui_title_chain_left",
+    "ui_title_chain_right",
+    "ui_title_bow_left",
+    "ui_title_bow_right",
+    "ui_title_outer",
+    "ui_title_inner",
+    "ui_title_rabbit",
+    "ui_title_flower_left",
+    "ui_title_flower_right",
+    "art_title",
+    "ui_title_moon",
+    "ui_title_star_left",
+    "ui_title_star_right",
+    "ui_title_star_small",
+    "ui_ribbon_tail_left",
+    "ui_ribbon_tail_right",
+    "ui_ribbon_front",
+    "ui_hanging_star_left",
+    "ui_hanging_star_right",
+    "ui_date_base",
+    "ui_date_bow",
+    "ui_date_star_left",
+    "ui_date_star_right",
+    "ui_sleep_outer",
+    "ui_sleep_inner",
+    "ui_sleep_rabbit",
+    "ui_sleep_rabbit_bow",
+    "ui_sleep_bow_right",
+    "ui_sleep_flower",
+    "ui_sleep_star",
+    "ui_sleep_spark_left",
+    "ui_sleep_moon",
+    "ui_sleep_spark_right",
+    "ui_heart_note",
+    "ui_note_heart",
+    "ui_footer_heart",
+    "art_slogan"
+  ],
+  "textLayers": [
+    {
+      "name": "txt_date",
+      "group": "07_EDITABLE_TEXT",
+      "text": "第一夜 · 第4天",
+      "display_name": "第一夜 · 第4天",
+      "usage": "独立可编辑文字",
+      "region": "主界面",
+      "anchor": "center",
+      "z": 999,
+      "font_family": "SimSun",
+      "font_postscript_name": "SimSun",
+      "font_size": 30,
+      "font_weight": 700,
+      "color": "#AC4238",
+      "alignment": "center",
+      "delivery_bounds": [
+        348,
+        1266,
+        246,
+        45
+      ],
+      "logical_bounds": [
+        348,
+        1266,
+        246,
+        45
+      ],
+      "runtime_rendering": "localized",
+      "font_match_status": "fallback",
+      "fallback_reason": "源字体未提供，采用本机相近字体。",
+      "default_visible": true
+    },
+    {
+      "name": "txt_sleep",
+      "group": "07_EDITABLE_TEXT",
+      "text": "准备睡觉",
+      "display_name": "准备睡觉",
+      "usage": "独立可编辑文字",
+      "region": "主界面",
+      "anchor": "center",
+      "z": 999,
+      "font_family": "SimSun",
+      "font_postscript_name": "SimSun",
+      "font_size": 62,
+      "font_weight": 700,
+      "color": "#FFFDF2",
+      "alignment": "center",
+      "delivery_bounds": [
+        338,
+        1425,
+        270,
+        80
+      ],
+      "logical_bounds": [
+        338,
+        1425,
+        270,
+        80
+      ],
+      "runtime_rendering": "localized",
+      "font_match_status": "fallback",
+      "fallback_reason": "源字体未提供，采用本机相近字体。",
+      "default_visible": true,
+      "stroke": {
+        "color": "#E676AD",
+        "width": 1
+      }
+    },
+    {
+      "name": "txt_note_1",
+      "group": "07_EDITABLE_TEXT",
+      "text": "晚安，",
+      "display_name": "晚安，",
+      "usage": "独立可编辑文字",
+      "region": "主界面",
+      "anchor": "center",
+      "z": 999,
+      "font_family": "SimSun",
+      "font_postscript_name": "SimSun",
+      "font_size": 21,
+      "font_weight": 400,
+      "color": "#D870A1",
+      "alignment": "center",
+      "delivery_bounds": [
+        780,
+        1227,
+        89,
+        29
+      ],
+      "logical_bounds": [
+        780,
+        1227,
+        89,
+        29
+      ],
+      "runtime_rendering": "localized",
+      "font_match_status": "fallback",
+      "fallback_reason": "源字体未提供，采用本机相近字体。",
+      "default_visible": true,
+      "rotation": -12
+    },
+    {
+      "name": "txt_note_2",
+      "group": "07_EDITABLE_TEXT",
+      "text": "明天也要",
+      "display_name": "明天也要",
+      "usage": "独立可编辑文字",
+      "region": "主界面",
+      "anchor": "center",
+      "z": 999,
+      "font_family": "SimSun",
+      "font_postscript_name": "SimSun",
+      "font_size": 21,
+      "font_weight": 400,
+      "color": "#D870A1",
+      "alignment": "center",
+      "delivery_bounds": [
+        776,
+        1253,
+        106,
+        29
+      ],
+      "logical_bounds": [
+        776,
+        1253,
+        106,
+        29
+      ],
+      "runtime_rendering": "localized",
+      "font_match_status": "fallback",
+      "fallback_reason": "源字体未提供，采用本机相近字体。",
+      "default_visible": true,
+      "rotation": -12
+    },
+    {
+      "name": "txt_note_3",
+      "group": "07_EDITABLE_TEXT",
+      "text": "一起玩呀～",
+      "display_name": "一起玩呀～",
+      "usage": "独立可编辑文字",
+      "region": "主界面",
+      "anchor": "center",
+      "z": 999,
+      "font_family": "SimSun",
+      "font_postscript_name": "SimSun",
+      "font_size": 20,
+      "font_weight": 400,
+      "color": "#D870A1",
+      "alignment": "center",
+      "delivery_bounds": [
+        770,
+        1279,
+        117,
+        29
+      ],
+      "logical_bounds": [
+        770,
+        1279,
+        117,
+        29
+      ],
+      "runtime_rendering": "localized",
+      "font_match_status": "fallback",
+      "fallback_reason": "源字体未提供，采用本机相近字体。",
+      "default_visible": true,
+      "rotation": -12
+    },
+    {
+      "name": "txt_footer",
+      "group": "07_EDITABLE_TEXT",
+      "text": "Good Night",
+      "display_name": "Good Night",
+      "usage": "独立可编辑文字",
+      "region": "主界面",
+      "anchor": "center",
+      "z": 999,
+      "font_family": "Georgia",
+      "font_postscript_name": "Georgia-Italic",
+      "font_size": 42,
+      "font_weight": 400,
+      "color": "#DD91B9",
+      "alignment": "center",
+      "delivery_bounds": [
+        330,
+        1587,
+        225,
+        67
+      ],
+      "logical_bounds": [
+        330,
+        1587,
+        225,
+        67
+      ],
+      "runtime_rendering": "localized",
+      "font_match_status": "fallback",
+      "fallback_reason": "源字体未提供，采用本机相近字体。",
+      "default_visible": true,
+      "italic": true
+    },
+    {
+      "name": "txt_bin",
+      "group": "07_EDITABLE_TEXT",
+      "text": "TOYS",
+      "display_name": "TOYS",
+      "usage": "独立可编辑文字",
+      "region": "主界面",
+      "anchor": "center",
+      "z": 999,
+      "font_family": "Arial",
+      "font_postscript_name": "Arial",
+      "font_size": 23,
+      "font_weight": 700,
+      "color": "#9BBEAF",
+      "alignment": "center",
+      "delivery_bounds": [
+        148,
+        928,
+        71,
+        32
+      ],
+      "logical_bounds": [
+        148,
+        928,
+        71,
+        32
+      ],
+      "runtime_rendering": "localized",
+      "font_match_status": "fallback",
+      "fallback_reason": "源字体未提供，采用本机相近字体。",
+      "default_visible": true
+    },
+    {
+      "name": "txt_book_good",
+      "group": "07_EDITABLE_TEXT",
+      "text": "Good",
+      "display_name": "Good",
+      "usage": "独立可编辑文字",
+      "region": "主界面",
+      "anchor": "center",
+      "z": 999,
+      "font_family": "Arial",
+      "font_postscript_name": "Arial",
+      "font_size": 16,
+      "font_weight": 400,
+      "color": "#FFF9EE",
+      "alignment": "center",
+      "delivery_bounds": [
+        574,
+        1064,
+        51,
+        23
+      ],
+      "logical_bounds": [
+        574,
+        1064,
+        51,
+        23
+      ],
+      "runtime_rendering": "localized",
+      "font_match_status": "fallback",
+      "fallback_reason": "源字体未提供，采用本机相近字体。",
+      "default_visible": true
+    },
+    {
+      "name": "txt_book_night",
+      "group": "07_EDITABLE_TEXT",
+      "text": "Night",
+      "display_name": "Night",
+      "usage": "独立可编辑文字",
+      "region": "主界面",
+      "anchor": "center",
+      "z": 999,
+      "font_family": "Arial",
+      "font_postscript_name": "Arial",
+      "font_size": 16,
+      "font_weight": 400,
+      "color": "#FFF9EE",
+      "alignment": "center",
+      "delivery_bounds": [
+        571,
+        1090,
+        57,
+        23
+      ],
+      "logical_bounds": [
+        571,
+        1090,
+        57,
+        23
+      ],
+      "runtime_rendering": "localized",
+      "font_match_status": "fallback",
+      "fallback_reason": "源字体未提供，采用本机相近字体。",
+      "default_visible": true
+    },
+    {
+      "name": "txt_book_sweet",
+      "group": "07_EDITABLE_TEXT",
+      "text": "Sweet",
+      "display_name": "Sweet",
+      "usage": "独立可编辑文字",
+      "region": "主界面",
+      "anchor": "center",
+      "z": 999,
+      "font_family": "Georgia",
+      "font_postscript_name": "Georgia-Italic",
+      "font_size": 26,
+      "font_weight": 400,
+      "color": "#D88FAC",
+      "alignment": "center",
+      "delivery_bounds": [
+        43,
+        1355,
+        82,
+        33
+      ],
+      "logical_bounds": [
+        43,
+        1355,
+        82,
+        33
+      ],
+      "runtime_rendering": "localized",
+      "font_match_status": "fallback",
+      "fallback_reason": "源字体未提供，采用本机相近字体。",
+      "default_visible": true,
+      "italic": true,
+      "rotation": -12
+    },
+    {
+      "name": "txt_book_dream",
+      "group": "07_EDITABLE_TEXT",
+      "text": "Dream",
+      "display_name": "Dream",
+      "usage": "独立可编辑文字",
+      "region": "主界面",
+      "anchor": "center",
+      "z": 999,
+      "font_family": "Georgia",
+      "font_postscript_name": "Georgia-Italic",
+      "font_size": 26,
+      "font_weight": 400,
+      "color": "#D88FAC",
+      "alignment": "center",
+      "delivery_bounds": [
+        46,
+        1387,
+        91,
+        33
+      ],
+      "logical_bounds": [
+        46,
+        1387,
+        91,
+        33
+      ],
+      "runtime_rendering": "localized",
+      "font_match_status": "fallback",
+      "fallback_reason": "源字体未提供，采用本机相近字体。",
+      "default_visible": true,
+      "italic": true,
+      "rotation": -12
+    }
+  ],
+  "currencySource": "toyhouse-ui-v3/06_RESOURCES",
+  "excludedAssets": [
+    "ui_star_bar",
+    "ui_star_icon",
+    "ui_coin_bar",
+    "ui_coin_icon"
+  ]
+};

@@ -1,0 +1,845 @@
+{
+  "source": "outputs/layered_psd_v5/toyhouse-gameplay-layered-v5.psd",
+  "sourceSha256": "4dc59f783a30bd036a101e969c5abdd8c5688bf7be4311b928bd383d213b6d76",
+  "canvas": [
+    941,
+    1672
+  ],
+  "policy": "Actual visible v5 PSD layers. Sitting white rabbit source rotates at runtime so ears indicate travel direction; no lying-pose assets or flattened reference. Text is rendered dynamically in SimHei.",
+  "assets": {
+    "art_bedroom_bg_01": {
+      "file": "art_bedroom_bg_01.png",
+      "bounds": [
+        0,
+        0,
+        941,
+        1672
+      ],
+      "size": [
+        941,
+        1672
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "fd089c06f73e17848360a21e85acbd0a60d24c49f060deae78b82a3fc62db2d5"
+    },
+    "fx_room_sparkles_01": {
+      "file": "fx_room_sparkles_01.png",
+      "bounds": [
+        0,
+        0,
+        941,
+        1672
+      ],
+      "size": [
+        941,
+        1672
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "4d9d028723646fecbe70a6df15c37d326e9f0afd28d11d6e330a46b8dccfbc98"
+    },
+    "ui_top_hud_base_01": {
+      "file": "ui_top_hud_base_01.png",
+      "bounds": [
+        13,
+        38,
+        928,
+        208
+      ],
+      "size": [
+        915,
+        170
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "c151b77bdcdaebcd2aaceb4d955b4d46018a29ac734214b6a4fe48cbcfb9802a"
+    },
+    "ui_top_hud_region_profile_01": {
+      "file": "ui_top_hud_region_profile_01.png",
+      "bounds": [
+        196,
+        76,
+        301,
+        176
+      ],
+      "size": [
+        105,
+        100
+      ],
+      "opacity": 0.27450980392156865,
+      "role": "ui",
+      "sha256": "262f41f6be129e6ed74714f7fa80e80f61c930de0f65809147a55e32ca3cc307"
+    },
+    "ui_top_hud_region_title_01": {
+      "file": "ui_top_hud_region_title_01.png",
+      "bounds": [
+        309,
+        26,
+        678,
+        175
+      ],
+      "size": [
+        369,
+        149
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "78b5817183465888edca72a37ed49eb2fdf5b7c7764d2c491cf6271d32adb021"
+    },
+    "ui_combo_panel_base_01": {
+      "file": "ui_combo_panel_base_01.png",
+      "bounds": [
+        219,
+        207,
+        727,
+        307
+      ],
+      "size": [
+        508,
+        100
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "fd13cf91a6879f34e77ebaab8c98bf20e40c4c888f0e04413154f921946ac2dd"
+    },
+    "ui_combo_panel_region_label_01": {
+      "file": "ui_combo_panel_region_label_01.png",
+      "bounds": [
+        253,
+        222,
+        395,
+        290
+      ],
+      "size": [
+        142,
+        68
+      ],
+      "opacity": 0.27450980392156865,
+      "role": "ui",
+      "sha256": "8b594abca0b6a1bfe82a98a92b31ab18eecb9b976026972b71a49e3642631da7"
+    },
+    "ui_combo_panel_region_bar_01": {
+      "file": "ui_combo_panel_region_bar_01.png",
+      "bounds": [
+        409,
+        238,
+        679,
+        272
+      ],
+      "size": [
+        270,
+        34
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "717a45c7e7a71a00b195518bd1e42c0b4f12acd3c1ff06835cea976daae32240"
+    },
+    "ui_playmat_base_01": {
+      "file": "ui_playmat_base_01.png",
+      "bounds": [
+        5,
+        368,
+        938,
+        1323
+      ],
+      "size": [
+        933,
+        955
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "69e9acf01a39fa77d53151f90bc9407ed801907c888f4a165ed94196171586e8"
+    },
+    "deco_rug_bow_top": {
+      "file": "deco_rug_bow_top.png",
+      "bounds": [
+        165,
+        402,
+        272,
+        501
+      ],
+      "size": [
+        107,
+        99
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "8799cb26aadf6ca29ed363de18e399c03cc80f9ca00b2c216678e292ec3fcb32"
+    },
+    "deco_rug_bow_bottom": {
+      "file": "deco_rug_bow_bottom.png",
+      "bounds": [
+        638,
+        1215,
+        761,
+        1329
+      ],
+      "size": [
+        123,
+        114
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "625ab4e02efa1cbb50ff9f62711fa9cdbd244ed86da243bfb52bcbca71e2c352"
+    },
+    "ui_bottom_toolbar_base_01": {
+      "file": "ui_bottom_toolbar_base_01.png",
+      "bounds": [
+        60,
+        1396,
+        880,
+        1663
+      ],
+      "size": [
+        820,
+        267
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "006841dd0c5e7c6457034c8087fdb34f70acb76be0a8ad791c2d5950bfc2832f"
+    },
+    "ui_resource_bar_base_row1_01": {
+      "file": "ui_resource_bar_base_row1_01.png",
+      "bounds": [
+        729,
+        78,
+        905,
+        121
+      ],
+      "size": [
+        176,
+        43
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "760562611602d0c29beea0f642ae4c377c96c8b619c5ab834d90bcf8a37ab88e"
+    },
+    "ui_resource_bar_base_row2_01": {
+      "file": "ui_resource_bar_base_row2_01.png",
+      "bounds": [
+        729,
+        131,
+        905,
+        174
+      ],
+      "size": [
+        176,
+        43
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "760562611602d0c29beea0f642ae4c377c96c8b619c5ab834d90bcf8a37ab88e"
+    },
+    "deco_profile_hanging_stars_01": {
+      "file": "deco_profile_hanging_stars_01.png",
+      "bounds": [
+        13,
+        197,
+        202,
+        394
+      ],
+      "size": [
+        189,
+        197
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "ae39812a1d18038e0b0728406ba481d584c6ca9730c138515d0ada05a1167920"
+    },
+    "art_avatar_chibi_girl_01": {
+      "file": "art_avatar_chibi_girl_01.png",
+      "bounds": [
+        36,
+        60,
+        171,
+        197
+      ],
+      "size": [
+        135,
+        137
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "690c028720e5f321c6f9b6e76376e25d22a38dc4ad43ea8bea7a22112638cae7"
+    },
+    "ui_avatar_frame_01": {
+      "file": "ui_avatar_frame_01.png",
+      "bounds": [
+        8,
+        30,
+        198,
+        241
+      ],
+      "size": [
+        190,
+        211
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "5c17bb255497f371e9743e0b6182402e5708559fe4e8b027f3103d80b5d942b8"
+    },
+    "ui_pause_button_01": {
+      "file": "ui_pause_button_01.png",
+      "bounds": [
+        812,
+        217,
+        897,
+        283
+      ],
+      "size": [
+        85,
+        66
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "2d05e990091641e842c65d394a5d6ef357e4b77e1ecad259cbed5b1c9b51d11a"
+    },
+    "ui_resource_star_icon_01": {
+      "file": "ui_resource_star_icon_01.png",
+      "bounds": [
+        718,
+        71,
+        772,
+        122
+      ],
+      "size": [
+        54,
+        51
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "f08e1495b4006b1af1fa6846d0cf82951f04e9cfe5a8ba25ff108a584ae2cef5"
+    },
+    "ui_resource_coin_icon_01": {
+      "file": "ui_resource_coin_icon_01.png",
+      "bounds": [
+        718,
+        129,
+        766,
+        175
+      ],
+      "size": [
+        48,
+        46
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "ee2236df91ae26c971bbb8a75e4e812a54b7cdab47d353cb459e70f71f2d3e31"
+    },
+    "ui_add_button_row1_01": {
+      "file": "ui_add_button_row1_01.png",
+      "bounds": [
+        858,
+        79,
+        901,
+        119
+      ],
+      "size": [
+        43,
+        40
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "fa4d649e873ce38dd6513071c117d9cd36b123cbb14c44e0eff8a3660d02d91c"
+    },
+    "ui_add_button_row2_01": {
+      "file": "ui_add_button_row2_01.png",
+      "bounds": [
+        858,
+        133,
+        901,
+        173
+      ],
+      "size": [
+        43,
+        40
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "fa4d649e873ce38dd6513071c117d9cd36b123cbb14c44e0eff8a3660d02d91c"
+    },
+    "ui_combo_bar_fill_01": {
+      "file": "ui_combo_bar_fill_01.png",
+      "bounds": [
+        414,
+        243,
+        673,
+        266
+      ],
+      "size": [
+        259,
+        23
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "8f594cbb864ea476f6c3af4e16a6020ed24d45248e22f782b8dc8bc42d864dff"
+    },
+    "ui_bottom_button_disc_left_01": {
+      "file": "ui_bottom_button_disc_left_01.png",
+      "bounds": [
+        158,
+        1431,
+        336,
+        1609
+      ],
+      "size": [
+        178,
+        178
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "5dbd410e07ac3ec36cd7e166bc84109bad1035e83fcfa08d7753e1a3d6fbe426"
+    },
+    "ui_bottom_button_disc_mid_01": {
+      "file": "ui_bottom_button_disc_mid_01.png",
+      "bounds": [
+        380,
+        1431,
+        558,
+        1609
+      ],
+      "size": [
+        178,
+        178
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "5dbd410e07ac3ec36cd7e166bc84109bad1035e83fcfa08d7753e1a3d6fbe426"
+    },
+    "ui_bottom_button_disc_right_01": {
+      "file": "ui_bottom_button_disc_right_01.png",
+      "bounds": [
+        597,
+        1431,
+        775,
+        1609
+      ],
+      "size": [
+        178,
+        178
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "5dbd410e07ac3ec36cd7e166bc84109bad1035e83fcfa08d7753e1a3d6fbe426"
+    },
+    "icon_trash_01": {
+      "file": "icon_trash_01.png",
+      "bounds": [
+        211,
+        1479,
+        281,
+        1552
+      ],
+      "size": [
+        70,
+        73
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "e55daf72c828a3448bbbba95e50e23e7af4374a23e0dcc9a1fdebbddb76e97a0"
+    },
+    "icon_shuffle_01": {
+      "file": "icon_shuffle_01.png",
+      "bounds": [
+        427,
+        1480,
+        509,
+        1551
+      ],
+      "size": [
+        82,
+        71
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "ab378534873c0cb00113d1af96756f4656c634a7a4627647d2d6a4750106eab6"
+    },
+    "icon_flip_01": {
+      "file": "icon_flip_01.png",
+      "bounds": [
+        648,
+        1481,
+        725,
+        1552
+      ],
+      "size": [
+        77,
+        71
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "ad86278afb855cdd345915f0c57570683529f2f312e2da90901554aae0701db8"
+    },
+    "ui_small_badge_left_01": {
+      "file": "ui_small_badge_left_01.png",
+      "bounds": [
+        274,
+        1434,
+        317,
+        1474
+      ],
+      "size": [
+        43,
+        40
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "f528f9294ca1c4088b2704f6900ad68fac481027025a0f1f5d4e43020acbe89c"
+    },
+    "ui_small_badge_mid_01": {
+      "file": "ui_small_badge_mid_01.png",
+      "bounds": [
+        494,
+        1434,
+        537,
+        1474
+      ],
+      "size": [
+        43,
+        40
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "f528f9294ca1c4088b2704f6900ad68fac481027025a0f1f5d4e43020acbe89c"
+    },
+    "ui_small_badge_right_01": {
+      "file": "ui_small_badge_right_01.png",
+      "bounds": [
+        711,
+        1434,
+        754,
+        1474
+      ],
+      "size": [
+        43,
+        40
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "f528f9294ca1c4088b2704f6900ad68fac481027025a0f1f5d4e43020acbe89c"
+    },
+    "ui_level_badge_01": {
+      "file": "ui_level_badge_01.png",
+      "bounds": [
+        195,
+        131,
+        271,
+        176
+      ],
+      "size": [
+        76,
+        45
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "643f6c64ecf2184e88eda5c99067c58454065f8e3719348c9d96cb1a28216d11"
+    },
+    "toy_rabbit_white_a": {
+      "file": "toy_rabbit_white_a.png",
+      "bounds": [
+        300,
+        429,
+        389,
+        607
+      ],
+      "size": [
+        89,
+        178
+      ],
+      "opacity": 1.0,
+      "role": "rabbit",
+      "sha256": "48711ba5b09f529aaa4fa4f5f35e65cae28f00eed2598671c4549cc153d6886f"
+    },
+    "toy_whale_blue_a": {
+      "file": "toy_whale_blue_a.png",
+      "bounds": [
+        395,
+        448,
+        607,
+        540
+      ],
+      "size": [
+        212,
+        92
+      ],
+      "opacity": 1.0,
+      "role": "whale",
+      "sha256": "923b76ad3442ecf6f4efd6397704b31c17ee2b911896b080e7e467aa43ccf45e"
+    },
+    "toy_duck_yellow_a": {
+      "file": "toy_duck_yellow_a.png",
+      "bounds": [
+        710,
+        484,
+        804,
+        584
+      ],
+      "size": [
+        94,
+        90
+      ],
+      "opacity": 1.0,
+      "role": "duck",
+      "sha256": "23e5de78eab4b0302329e0a4cadc22ae2e5d61d0a863557783e08bad57782bf6"
+    },
+    "toy_bear_brown_a": {
+      "file": "toy_bear_brown_a.png",
+      "bounds": [
+        177,
+        627,
+        272,
+        746
+      ],
+      "size": [
+        95,
+        115
+      ],
+      "opacity": 1.0,
+      "role": "bear",
+      "sha256": "d05c6160e270ab25c6f2df8d349bddccd2ac78a343b9592e1dc3382a9bdbd0d0"
+    },
+    "deco_star_yellow_a": {
+      "file": "deco_star_yellow_a.png",
+      "bounds": [
+        139,
+        508,
+        163,
+        540
+      ],
+      "size": [
+        24,
+        32
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "62f9bbc89f6bfd0cdfc31f2334e7f55042030c6da76e6d53ad3ce2325002c042"
+    },
+    "deco_star_yellow_b": {
+      "file": "deco_star_yellow_b.png",
+      "bounds": [
+        810,
+        601,
+        838,
+        635
+      ],
+      "size": [
+        28,
+        34
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "d1a007f181dcb6dafdb90988b8de1d691bd8c1885bc4e70c596ca027f74f0da8"
+    },
+    "deco_star_blue_a": {
+      "file": "deco_star_blue_a.png",
+      "bounds": [
+        824,
+        658,
+        853,
+        692
+      ],
+      "size": [
+        29,
+        34
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "0dc3a93d7ed482ac743b0efab80edafdf07868ef6943f9c5cee9ac3816a122f4"
+    },
+    "deco_star_pink_a": {
+      "file": "deco_star_pink_a.png",
+      "bounds": [
+        521,
+        1228,
+        545,
+        1253
+      ],
+      "size": [
+        24,
+        25
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "36e6ac11fe537cf6c1338dc86915b8eafa9d09dec9fa9798426924bd5215b6ce"
+    },
+    "deco_star_yellow_extra_0": {
+      "file": "deco_star_yellow_extra_0.png",
+      "bounds": [
+        380,
+        429,
+        404,
+        456
+      ],
+      "size": [
+        24,
+        27
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "6b6136cdcd356804eb2f0392b7329dcf48b1b065258703ff20de738472d55427"
+    },
+    "deco_star_yellow_extra_1": {
+      "file": "deco_star_yellow_extra_1.png",
+      "bounds": [
+        288,
+        611,
+        313,
+        640
+      ],
+      "size": [
+        25,
+        29
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "9553f81c780bb71fd1daf5c03ceca5cce58dd5212c63dffb187b790391e52619"
+    },
+    "deco_star_yellow_extra_2": {
+      "file": "deco_star_yellow_extra_2.png",
+      "bounds": [
+        326,
+        1061,
+        356,
+        1091
+      ],
+      "size": [
+        30,
+        30
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "7dc525c00daeb6c10c5dda30b2ca9b807321774f8e3372dc1aeea098d4f4bc43"
+    },
+    "deco_star_yellow_extra_3": {
+      "file": "deco_star_yellow_extra_3.png",
+      "bounds": [
+        823,
+        1006,
+        850,
+        1037
+      ],
+      "size": [
+        27,
+        31
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "585a4d0ebbea2d71acc8d102b5071f85d8ff2b1ad50d1c9fce4e598252d3cb56"
+    },
+    "deco_star_blue_extra_0": {
+      "file": "deco_star_blue_extra_0.png",
+      "bounds": [
+        819,
+        1060,
+        846,
+        1093
+      ],
+      "size": [
+        27,
+        33
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "7d7aa2f10bc3f6ecc93f2e81bce3f330c5aaf227c0dffa8311d41d72a24e5cc8"
+    },
+    "deco_star_pink_extra_0": {
+      "file": "deco_star_pink_extra_0.png",
+      "bounds": [
+        89,
+        1090,
+        113,
+        1116
+      ],
+      "size": [
+        24,
+        26
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "75d5c5068a35d4df09658c03d860d9953d521d6f41158488b9cf2f550c5620c4"
+    },
+    "deco_star_pink_extra_1": {
+      "file": "deco_star_pink_extra_1.png",
+      "bounds": [
+        657,
+        1038,
+        682,
+        1063
+      ],
+      "size": [
+        25,
+        25
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "0238a7812d3a56f347401925b8e0810c3ea93d5376fca3d5f921fa9db7c9bcf6"
+    },
+    "deco_star_pink_extra_2": {
+      "file": "deco_star_pink_extra_2.png",
+      "bounds": [
+        490,
+        657,
+        508,
+        678
+      ],
+      "size": [
+        18,
+        21
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "sha256": "d8a5d2a4eaf4bdc213b46a4b541bd80bbfdf317b15de761b121c078a505e2f46"
+    }
+  },
+  "excluded": [
+    "ui_playmat_region_surface_01",
+    "ui_playmat_region_border_01",
+    "toy_rabbit_lie_white_a",
+    "toy_rabbit_lie_pink_d",
+    "toy_rabbit_white_hidden",
+    "toy_rabbit_pink_a",
+    "toy_rabbit_pink_b",
+    "toy_rabbit_purple_a",
+    "toy_whale_blue_b",
+    "toy_rabbit_green_a",
+    "toy_rabbit_purple_b",
+    "toy_rabbit_pink_c",
+    "toy_rabbit_green_b",
+    "toy_duck_yellow_b",
+    "toy_rabbit_white_b",
+    "toy_rabbit_lie_pink_a",
+    "toy_duck_yellow_c",
+    "toy_rabbit_green_c",
+    "toy_rabbit_lie_pink_b",
+    "toy_rabbit_purple_c",
+    "toy_bear_brown_b",
+    "toy_rabbit_green_d",
+    "toy_rabbit_purple_d",
+    "toy_rabbit_lie_pink_c",
+    "toy_rabbit_pink_d",
+    "toy_rabbit_white_c",
+    "toy_rabbit_purple_e",
+    "toy_whale_blue_c",
+    "toy_rabbit_green_e",
+    "reference_effect_image",
+    "txt_player_name",
+    "txt_level_badge",
+    "txt_stage_title",
+    "txt_resource_star_count",
+    "txt_resource_coin_count",
+    "txt_combo_cn",
+    "txt_combo_en",
+    "txt_combo_value",
+    "txt_bottom_left_label",
+    "txt_bottom_mid_label",
+    "txt_bottom_right_label",
+    "txt_badge_left_count",
+    "txt_badge_mid_count",
+    "txt_badge_right_count",
+    "skin_toy_rabbit_stand_pink_01",
+    "skin_toy_rabbit_stand_purple_01",
+    "skin_toy_rabbit_stand_green_01",
+    "skin_toy_rabbit_lie_pink_01"
+  ]
+}

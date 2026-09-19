@@ -27,10 +27,18 @@ jobs:
         uses: actions/configure-pages@v5
         with:
           enablement: true
+      - name: Prepare runtime-only site
+        run: |
+          mkdir -p _site/assets
+          cp docs/index.html docs/game.js docs/styles.css _site/
+          for assets in home-v2 level-complete-v1 pause-dialog-v2 tool-dialog-v1 toyhouse-ui-v3; do
+            mkdir -p "_site/assets/$assets"
+            cp "docs/assets/$assets/"*.png "_site/assets/$assets/"
+          done
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: docs
+          path: _site
       - name: Deploy to Pages
         id: deployment
         uses: actions/deploy-pages@v4

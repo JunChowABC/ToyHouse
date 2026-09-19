@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1120" viewBox="0 0 1200 1120">
+<defs><style>text{font-family:'Microsoft YaHei',sans-serif;fill:#544954} .title{font-size:28px;font-weight:bold}.label{font-size:20px}.small{font-size:17px}.card{fill:#fffaf6;stroke:#cbbdc7;stroke-width:2}.room{fill:#f2e8e6;stroke:#cbbdc7;stroke-width:2}</style>
+<g id="room"><path d="M0 0H440V65H0Z M0 615H440V665H0Z" fill="#e4d9df"/><rect x="12" y="85" width="416" height="510" rx="12" class="room"/><path d="M25 480H415" stroke="#cbbdc7" stroke-width="3"/><rect x="157" y="126" width="126" height="130" rx="55" fill="#ddd9ee" stroke="#b4aabc" stroke-width="3"/><path d="M220 128V253 M160 191H280" stroke="#fffaf6" stroke-width="5"/><rect x="38" y="345" width="154" height="110" rx="25" fill="#d4dfd7"/><rect x="269" y="390" width="129" height="65" rx="12" fill="#e1cad1"/><ellipse cx="220" cy="528" rx="132" ry="43" fill="#eadbc7"/><text x="220" y="302" text-anchor="middle" class="label">玩具生活展示区</text><text x="220" y="562" text-anchor="middle" class="small">场景占位 · 非正式美术</text><text x="220" y="41" text-anchor="middle" class="small">上层局部空间</text><text x="220" y="647" text-anchor="middle" class="small">下层局部空间</text></g></defs>
+<rect width="1200" height="1120" fill="#f5f1f4"/>
+<text x="40" y="48" class="title">主界面 · 布局与状态</text><text x="40" y="80" class="small">已确认功能布局线框 / 数字与装饰仅为示例 / 不作为最终视觉尺寸</text>
+<text x="80" y="126" class="label">01　存在待通关关卡</text><text x="680" y="126" class="label">02　当前全部通关</text>
+<rect x="70" y="150" width="460" height="870" rx="28" class="card"/>
+<rect x="670" y="150" width="460" height="870" rx="28" class="card"/>
+<rect x="80" y="172" width="76" height="46" rx="23" fill="#e7dfe8"/><text x="118" y="202" class="label" text-anchor="middle">设置</text>
+<rect x="368" y="163" width="146" height="29" rx="14" fill="#e5dcef"/><text x="441" y="184" class="small" text-anchor="middle">◇ 钻石　—</text>
+<rect x="368" y="199" width="146" height="29" rx="14" fill="#efe2c7"/><text x="441" y="220" class="small" text-anchor="middle">○ 金币　120</text>
+<rect x="680" y="172" width="76" height="46" rx="23" fill="#e7dfe8"/><text x="718" y="202" class="label" text-anchor="middle">设置</text>
+<rect x="968" y="163" width="146" height="29" rx="14" fill="#e5dcef"/><text x="1041" y="184" class="small" text-anchor="middle">◇ 钻石　—</text>
+<rect x="968" y="199" width="146" height="29" rx="14" fill="#efe2c7"/><text x="1041" y="220" class="small" text-anchor="middle">○ 金币　600</text>
+<use href="#room" x="80" y="234"/><use href="#room" x="680" y="234"/>
+<text x="300" y="926" text-anchor="middle" class="label">第一夜 · 第 4 关</text>
+<rect x="150" y="948" width="300" height="54" rx="27" fill="#d99eb0"/><text x="300" y="983" text-anchor="middle" class="title">准备睡觉</text>
+<text x="900" y="926" text-anchor="middle" class="label">更多夜晚准备中</text>
+<rect x="750" y="948" width="300" height="54" rx="27" fill="#d6d0d5"/><text x="900" y="983" text-anchor="middle" class="title" opacity=".62">今晚好梦</text>
+<text x="80" y="1060" class="small">设置居左；右上钻石、金币上下排列，仅展示且无加号；钻石未接入显示「—」。</text>
+<text x="80" y="1092" class="small">全部通关后主按钮禁用；章节新增内容和补提示仍可正常展示。</text>
+</svg>

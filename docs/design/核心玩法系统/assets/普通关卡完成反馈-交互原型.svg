@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1000" viewBox="0 0 1400 1000" role="img" aria-labelledby="title desc">
+  <title id="title">普通关卡完成弹窗 · v1.3 交互原型</title>
+  <desc id="desc">通关奖励金币加30，左侧回到首页，右侧下一关。包含奖励结算、跳转与无下一关状态说明。</desc>
+  <defs>
+    <style>
+      text{font-family:'Microsoft YaHei',sans-serif;fill:#443747}
+      .title{font-size:27px;font-weight:700}.h{font-size:21px;font-weight:700}
+      .t{font-size:16px}.small{font-size:14px;fill:#796c7d}.button{font-size:20px;font-weight:700}
+    </style>
+  </defs>
+  <rect width="1400" height="1000" fill="#f8f5f9"/>
+  <text x="54" y="58" class="title">普通关卡完成弹窗 · 低保真交互原型</text>
+  <text x="1346" y="58" class="small" text-anchor="end">v1.3 · 2026.09.19</text>
+  <rect x="54" y="100" width="540" height="860" rx="26" fill="#e8e2eb" stroke="#7f7187" stroke-width="3"/>
+  <rect x="74" y="120" width="500" height="820" rx="18" fill="#fbf5ee"/>
+  <ellipse cx="324" cy="544" rx="224" ry="274" fill="#ede0ed" stroke="#dbc9df" stroke-width="4"/>
+  <text x="324" y="192" text-anchor="middle" class="small">清空后的盘面 · 局内操作已锁定</text>
+  <rect x="74" y="120" width="500" height="820" rx="18" fill="#302639" opacity="0.35"/>
+  <g id="completion-dialog">
+    <rect x="107" y="322" width="434" height="410" rx="32" fill="#fff9f2" stroke="#cf9fc4" stroke-width="3"/>
+    <path d="M170 374 l5 12 13 5 -13 5 -5 12 -5 -12 -13 -5 13 -5z M478 374 l5 12 13 5 -13 5 -5 12 -5 -12 -13 -5 13 -5z" fill="#d3aed9"/>
+    <text x="324" y="407" text-anchor="middle" font-size="36" font-weight="700">好梦</text>
+    <text x="324" y="447" text-anchor="middle" class="t">玩具们都回家啦</text>
+    <rect x="164" y="477" width="320" height="108" rx="20" fill="#fff0cf"/>
+    <text x="324" y="507" text-anchor="middle" class="small">通关奖励 · 金币</text>
+    <g id="coin-icon">
+      <circle cx="282" cy="546" r="23" fill="#efbc53" stroke="#c58c27" stroke-width="2"/>
+      <circle cx="282" cy="546" r="16" fill="none" stroke="#ffe29b" stroke-width="2"/>
+      <text x="282" y="553" text-anchor="middle" font-size="21" font-weight="700">币</text>
+    </g>
+    <text x="320" y="559" font-size="38" font-weight="700">+30</text>
+    <g id="button-home">
+      <rect x="133" y="621" width="180" height="68" rx="18" fill="#f1e6f2" stroke="#b597bd" stroke-width="2"/>
+      <text x="223" y="663" text-anchor="middle" class="button">回到首页</text>
+    </g>
+    <g id="button-next">
+      <rect x="335" y="621" width="180" height="68" rx="18" fill="#e7a8c5" stroke="#bd789d" stroke-width="2"/>
+      <text x="425" y="663" text-anchor="middle" class="button">下一关</text>
+    </g>
+  </g>
+  <text x="324" y="800" text-anchor="middle" font-size="16" fill="#ffffff" style="fill:#fff">等待玩家选择，不自动跳转</text>
+  <text x="324" y="827" text-anchor="middle" font-size="14" style="fill:#fff">示意图：背景不代表具体关卡布局</text>
+  <rect x="640" y="100" width="706" height="860" rx="22" fill="#fff" stroke="#d7cddd" stroke-width="2"/>
+  <text x="676" y="150" class="title">交互说明</text>
+  <rect x="676" y="180" width="634" height="162" rx="14" fill="#f8f5f9"/>
+  <text x="700" y="216" class="h">01 · 进入与奖励</text>
+  <text x="700" y="251" class="t">剩余玩具数为 0，等待当前离场动画结束。</text>
+  <text x="700" y="282" class="t">先保存通关结果与金币余额，再打开弹窗；奖励固定 +30。</text>
+  <text x="700" y="313" class="t">同一次结算只发奖一次；两个按钮只选去向，无需再领取。</text>
+  <rect x="676" y="360" width="634" height="162" rx="14" fill="#f8f5f9"/>
+  <text x="700" y="396" class="h">02 · 按钮与跳转</text>
+  <text x="700" y="431" class="t">左侧【回到首页】→ 关闭弹窗，返回玩具屋首页。</text>
+  <text x="700" y="462" class="t">右侧【下一关】→ 关闭弹窗，加载下一关，初始化盘面。</text>
+  <text x="700" y="493" class="t">两条路径均保留通关结果与奖励；跳转开始后锁定双按钮。</text>
+  <rect x="676" y="540" width="634" height="162" rx="14" fill="#f8f5f9"/>
+  <text x="700" y="576" class="h">03 · 停留与输入</text>
+  <text x="700" y="611" class="t">等待玩家选择，取消原 0.80 秒自动进关。</text>
+  <text x="700" y="642" class="t">遮罩、系统返回、Esc 不关闭弹窗，不穿透到背景。</text>
+  <text x="700" y="673" class="t">隐藏连击、底部道具和暂停入口；背景保留清空盘面。</text>
+  <rect x="676" y="720" width="634" height="202" rx="14" fill="#fff7e8" stroke="#e2c58d"/>
+  <text x="700" y="756" class="h">04 · 边界状态</text>
+  <text x="700" y="791" class="t">无可进入的下一关：禁用【下一关】，仍可回首页。</text>
+  <g id="button-next-disabled">
+    <rect x="700" y="810" width="148" height="46" rx="12" fill="#e5dfe5" stroke="#c4bac7"/>
+    <text x="774" y="840" text-anchor="middle" class="t" style="fill:#938797">下一关</text>
+    <text x="872" y="840" class="small">暂无下一关</text>
+  </g>
+  <text x="700" y="892" class="t">夜晚终关结算 30 金币后转交章节演出，不使用本弹窗。</text>
+</svg>

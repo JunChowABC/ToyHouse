@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1200" viewBox="0 0 1500 1200">
+  <defs>
+    <style>.title{font:700 30px 'Microsoft YaHei',sans-serif;fill:#352f45}.h{font:700 20px 'Microsoft YaHei',sans-serif;fill:#352f45}.t{font:400 16px 'Microsoft YaHei',sans-serif;fill:#514b5e}.small{font:400 14px 'Microsoft YaHei',sans-serif;fill:#756d7d}</style>
+    <linearGradient id="pink" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#efa9c0"/><stop offset="1" stop-color="#d77c9e"/></linearGradient>
+  </defs>
+  <rect width="1500" height="1200" fill="#f7f4f8"/><text x="54" y="58" class="title">暂停弹窗 · 低保真交互原型 v1.1</text><text x="54" y="88" class="t">参考图只用于结构关系；视觉沿用本项目粉紫、奶油色语言。</text>
+  <rect x="54" y="112" width="540" height="1020" rx="26" fill="#d9c8dd" stroke="#655d71" stroke-width="3"/>
+  <rect x="74" y="132" width="500" height="980" rx="20" fill="#f8e8e6"/>
+  <g opacity=".45" fill="#efb0c6" stroke="#a45f7e"><rect x="105" y="225" width="120" height="38" rx="19"/><rect x="250" y="222" width="170" height="40" rx="20"/><rect x="440" y="226" width="70" height="112" rx="20"/><rect x="108" y="315" width="70" height="112" rx="20"/><rect x="205" y="318" width="120" height="38" rx="19"/><rect x="350" y="314" width="175" height="40" rx="20"/><rect x="120" y="480" width="180" height="40" rx="20"/><rect x="330" y="465" width="70" height="112" rx="20"/><rect x="435" y="482" width="70" height="70" rx="35"/></g>
+  <rect x="74" y="132" width="500" height="980" rx="20" fill="#302942" opacity=".72"/>
+  <rect x="94" y="178" width="460" height="850" rx="34" fill="#fff3dc" stroke="#efc9b2" stroke-width="4"/>
+  <rect x="116" y="198" width="416" height="104" rx="28" fill="url(#pink)" stroke="#ffd5df" stroke-width="3"/><text x="324" y="264" font-family="Microsoft YaHei" font-size="38" font-weight="700" fill="#fff" text-anchor="middle">暂停</text>
+  <g><text x="144" y="382" font-family="Microsoft YaHei" font-size="28" fill="#d77c9e">♪</text><text x="192" y="380" class="h">背景音乐</text><rect x="392" y="346" width="112" height="48" rx="24" fill="#e59ab5"/><circle cx="480" cy="370" r="18" fill="#fffaf3"/></g>
+  <g><text x="144" y="468" font-family="Microsoft YaHei" font-size="28" fill="#d77c9e">♫</text><text x="192" y="466" class="h">游戏音效</text><rect x="392" y="432" width="112" height="48" rx="24" fill="#e59ab5"/><circle cx="480" cy="456" r="18" fill="#fffaf3"/></g>
+  <g><text x="144" y="554" font-family="Microsoft YaHei" font-size="26" fill="#d77c9e">▣</text><text x="192" y="552" class="h">震动反馈</text><rect x="392" y="518" width="112" height="48" rx="24" fill="#d4c7d0"/><circle cx="416" cy="542" r="18" fill="#fffaf3"/></g>
+  <rect x="150" y="626" width="348" height="82" rx="41" fill="#fffaf4" stroke="#d7bdc6" stroke-width="2"/><text x="324" y="662" class="h" text-anchor="middle">重新开始</text><text x="324" y="688" class="small" text-anchor="middle">从本关初始盘面再来一次</text>
+  <rect x="150" y="734" width="348" height="92" rx="46" fill="url(#pink)" stroke="#ffd5df" stroke-width="3"/><text x="324" y="776" font-family="Microsoft YaHei" font-size="22" font-weight="700" fill="#fff" text-anchor="middle">继续游戏</text><text x="324" y="804" font-family="Microsoft YaHei" font-size="14" fill="#fff" text-anchor="middle">回到今晚的整理</text>
+  <rect x="205" y="862" width="238" height="64" rx="32" fill="#fffaf4" stroke="#d7bdc6" stroke-width="2"/><text x="324" y="902" class="h" text-anchor="middle">退出关卡</text>
+  <text x="324" y="980" class="small" text-anchor="middle">点击遮罩不关闭 · Esc 等同继续游戏</text>
+
+  <rect x="640" y="112" width="806" height="1020" rx="22" fill="#fff" stroke="#d9cfda" stroke-width="2"/><text x="676" y="162" class="title">交互说明</text>
+  <rect x="676" y="206" width="734" height="166" rx="14" fill="#f8f5f9" stroke="#ded7e0"/><text x="700" y="242" class="h">1 · 打开与冻结</text><text x="700" y="278" class="t">仅玩家操作阶段可打开；自动连锁与完成等待期间禁用。</text><text x="700" y="308" class="t">遮罩阻止盘面和底部道具输入，点击遮罩不关闭弹窗。</text><text x="700" y="338" class="t">移动、撞击、结算等待与 8 秒 Combo 全部停在打开瞬间。</text>
+  <rect x="676" y="402" width="734" height="166" rx="14" fill="#f8f5f9" stroke="#ded7e0"/><text x="700" y="438" class="h">2 · 设置开关</text><text x="700" y="474" class="t">背景音乐、游戏音效、震动反馈显示当前开关状态。</text><text x="700" y="504" class="t">点击开关立即切换，弹窗保持打开；状态不只依赖颜色表达。</text><text x="700" y="534" class="t">设置与关卡盘面解耦，不改变 Combo 或玩具状态。</text>
+  <rect x="676" y="598" width="734" height="216" rx="14" fill="#fff0f4" stroke="#d786a3"/><text x="700" y="634" class="h">3 · 三条操作路径</text><text x="700" y="670" class="t">【继续游戏】：关闭弹窗，所有计时从冻结点恢复。</text><text x="700" y="704" class="t">【重新开始】：恢复初始盘面，清除当前反馈，Combo 归 0。</text><text x="700" y="738" class="t">【退出关卡】：返回玩具屋，不保留当前局内盘面进度。</text><text x="700" y="772" class="t">系统返回或 Esc 等同【继续游戏】。</text>
+  <rect x="676" y="844" width="734" height="218" rx="14" fill="#fff8e9" stroke="#d9a13d"/><text x="700" y="880" class="h">4 · 层级与验收</text><text x="700" y="916" class="t">【继续游戏】为主按钮；【重新开始】与【退出关卡】为次按钮。</text><text x="700" y="948" class="t">弹窗打开期间盘面仍可辨认，但亮度与饱和度明显降低。</text><text x="700" y="980" class="t">暂停超过 8 秒后继续，原 Combo 数与进度必须保持。</text><text x="700" y="1012" class="t">三个开关和三个操作按钮热区互不重叠，文字完整可读。</text>
+</svg>

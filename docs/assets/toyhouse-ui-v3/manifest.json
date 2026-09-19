@@ -1,0 +1,675 @@
+{
+  "version": "toyhouse-ui-v3",
+  "directory": "assets/toyhouse-ui-v3",
+  "source": "outputs/20260916_ui_proportions_v3/toyhouse-core-ui-layered-v3.psd",
+  "sourceSha256": "3087283e0f113ceae1a6d7c943d55438ef4ca80560a707766e0285041325bde0",
+  "canvas": [
+    941,
+    1672
+  ],
+  "assets": {
+    "ui_title_base_01_instance_01": {
+      "file": "ui_title_base_01_instance_01.png",
+      "size": [
+        465,
+        123
+      ],
+      "sha256": "a9cea1905d7788cc8cf09b800e297ad3d9e196732063b47565b1612e54358398",
+      "bounds": [
+        238,
+        99,
+        703,
+        222
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "group": "04_TITLE",
+      "sourceLayer": "ui_title_base_01_instance_01"
+    },
+    "ui_title_region_01_instance_01": {
+      "file": "ui_title_region_01_instance_01.png",
+      "size": [
+        419,
+        86
+      ],
+      "sha256": "b74074a0bbcbeadec9e0c9031752324ae2ff4cfd7c491ec9728d86eb24fbd399",
+      "bounds": [
+        260,
+        114,
+        679,
+        200
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "group": "04_TITLE",
+      "sourceLayer": "ui_title_region_01_instance_01"
+    },
+    "ui_title_ribbon_01_instance_01": {
+      "file": "ui_title_ribbon_01_instance_01.png",
+      "size": [
+        325,
+        67
+      ],
+      "sha256": "660712f4a1a9cbdc16cffc54ed7cc324aea77a39a7614fd4bb7eab1b9c321ca3",
+      "bounds": [
+        304,
+        59,
+        629,
+        126
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "group": "04_TITLE",
+      "sourceLayer": "ui_title_ribbon_01_instance_01"
+    },
+    "ui_title_bow_01_instance_01": {
+      "file": "ui_title_bow_01_instance_01.png",
+      "size": [
+        93,
+        38
+      ],
+      "sha256": "5b7fc53a5b6e7fc1e0bc4fd638aea27a4f8c595aa92b10ebcf86c3d23fbd8bda",
+      "bounds": [
+        424,
+        185,
+        517,
+        223
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "group": "04_TITLE",
+      "sourceLayer": "ui_title_bow_01_instance_01"
+    },
+    "ui_title_rabbit_01_instance_01": {
+      "file": "ui_title_rabbit_01_instance_01.png",
+      "size": [
+        88,
+        81
+      ],
+      "sha256": "150848163323e841577590bd0df0971503d2e8cc298f7702d6dfceae76881bc5",
+      "bounds": [
+        426,
+        27,
+        514,
+        108
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "group": "04_TITLE",
+      "sourceLayer": "ui_title_rabbit_01_instance_01"
+    },
+    "ui_title_star_01_instance_01": {
+      "file": "ui_title_star_01_instance_01.png",
+      "size": [
+        30,
+        29
+      ],
+      "sha256": "338cb714b539d1b432b3d99ddc0ce12ef32e5d1d6a24eefd402e7debd277b032",
+      "bounds": [
+        297,
+        150,
+        327,
+        179
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "group": "04_TITLE",
+      "sourceLayer": "ui_title_star_01_instance_01"
+    },
+    "ui_title_star_01_instance_02": {
+      "file": "ui_title_star_01_instance_02.png",
+      "size": [
+        30,
+        29
+      ],
+      "sha256": "338cb714b539d1b432b3d99ddc0ce12ef32e5d1d6a24eefd402e7debd277b032",
+      "bounds": [
+        613,
+        150,
+        643,
+        179
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "group": "04_TITLE",
+      "sourceLayer": "ui_title_star_01_instance_02"
+    },
+    "ui_nav_tab_base_01_instance_01": {
+      "file": "ui_nav_tab_base_01_instance_01.png",
+      "size": [
+        149,
+        89
+      ],
+      "sha256": "2fbb42c9ad95e09cf500d1a6468103fb441a1e6c8a9cc20936f8bb03bad440f2",
+      "bounds": [
+        -37,
+        38,
+        112,
+        127
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "group": "05_NAVIGATION",
+      "sourceLayer": "ui_nav_tab_base_01_instance_01"
+    },
+    "ui_nav_icon_01_instance_01": {
+      "file": "ui_nav_icon_01_instance_01.png",
+      "size": [
+        59,
+        52
+      ],
+      "sha256": "c35339fd5450b25e8c472cff010449c6670b28dc911d365f668f238b7fadcabf",
+      "bounds": [
+        25,
+        56,
+        84,
+        108
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "group": "05_NAVIGATION",
+      "sourceLayer": "ui_nav_icon_01_instance_01"
+    },
+    "ui_resource_bar_base_01_instance_01": {
+      "file": "ui_resource_bar_base_01_instance_01.png",
+      "size": [
+        196,
+        60
+      ],
+      "sha256": "7c3738d02dfcd16d1b1a3b1d023f7b5e60a7fd3be39050506048fe108809ec54",
+      "bounds": [
+        731,
+        64,
+        927,
+        124
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "group": "06_RESOURCES",
+      "sourceLayer": "ui_resource_bar_base_01_instance_01"
+    },
+    "ui_resource_bar_base_01_instance_02": {
+      "file": "ui_resource_bar_base_01_instance_02.png",
+      "size": [
+        197,
+        60
+      ],
+      "sha256": "2f01628d4a654f29d7110d7fca4ebba0bbb682aea0c499a4932003916570f511",
+      "bounds": [
+        730,
+        128,
+        927,
+        188
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "group": "06_RESOURCES",
+      "sourceLayer": "ui_resource_bar_base_01_instance_02"
+    },
+    "ui_resource_star_icon_01_instance_01": {
+      "file": "ui_resource_star_icon_01_instance_01.png",
+      "size": [
+        45,
+        45
+      ],
+      "sha256": "ed2d85751e3b4efae430684ac36de1065e83212e54044624379f8fa054caf6e3",
+      "bounds": [
+        750,
+        70,
+        795,
+        115
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "group": "06_RESOURCES",
+      "sourceLayer": "ui_resource_star_icon_01_instance_01"
+    },
+    "ui_resource_coin_icon_01_instance_01": {
+      "file": "ui_resource_coin_icon_01_instance_01.png",
+      "size": [
+        44,
+        43
+      ],
+      "sha256": "9003970c47bb436dfce3c72d14366c7abe4ae65ed35b12ae85abb73acb0ebe60",
+      "bounds": [
+        750,
+        138,
+        794,
+        181
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "group": "06_RESOURCES",
+      "sourceLayer": "ui_resource_coin_icon_01_instance_01"
+    },
+    "ui_combo_panel_base_01_instance_01": {
+      "file": "ui_combo_panel_base_01_instance_01.png",
+      "size": [
+        367,
+        50
+      ],
+      "sha256": "d729972b9145f7dc202a0dfa7ba53ec6dbe6d5f9a3fb11c9601318fbec6bf268",
+      "bounds": [
+        291,
+        224,
+        658,
+        274
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "group": "07_COMBO",
+      "sourceLayer": "ui_combo_panel_base_01_instance_01"
+    },
+    "ui_combo_panel_region_bar_01_instance_01": {
+      "file": "ui_combo_panel_region_bar_01_instance_01.png",
+      "size": [
+        334,
+        31
+      ],
+      "sha256": "7407c4a1de76a52a2d2e33940327296c412d37903106a577b2c0dc254ac2024b",
+      "bounds": [
+        313,
+        234,
+        647,
+        265
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "group": "07_COMBO",
+      "sourceLayer": "ui_combo_panel_region_bar_01_instance_01"
+    },
+    "ui_combo_bar_fill_01_instance_01": {
+      "file": "ui_combo_bar_fill_01_instance_01.png",
+      "size": [
+        264,
+        27
+      ],
+      "sha256": "02e39e51a5137acb6e986c04645c46a8329158ca580486f3c18622ef3b6fbf59",
+      "bounds": [
+        319,
+        236,
+        583,
+        263
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "group": "07_COMBO",
+      "sourceLayer": "ui_combo_bar_fill_01_instance_01"
+    },
+    "ui_combo_star_01_instance_01": {
+      "file": "ui_combo_star_01_instance_01.png",
+      "size": [
+        62,
+        58
+      ],
+      "sha256": "b3378cf765e7e5ffe541c92f7b37b0c054324b961d64fbb1e20cb76d40bcc011",
+      "bounds": [
+        279,
+        220,
+        341,
+        278
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "group": "07_COMBO",
+      "sourceLayer": "ui_combo_star_01_instance_01"
+    },
+    "ui_bottom_button_disc_01_instance_01": {
+      "file": "ui_bottom_button_disc_01_instance_01.png",
+      "size": [
+        141,
+        132
+      ],
+      "sha256": "0f29e7b177e2bb5d09bab2528049a81c0f6e64beff91be1d1f4e73aaa859b3d0",
+      "bounds": [
+        240,
+        1486,
+        381,
+        1618
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "group": "08_TOOL_BUTTONS",
+      "sourceLayer": "ui_bottom_button_disc_01_instance_01"
+    },
+    "ui_bottom_button_disc_01_instance_02": {
+      "file": "ui_bottom_button_disc_01_instance_02.png",
+      "size": [
+        141,
+        132
+      ],
+      "sha256": "0f29e7b177e2bb5d09bab2528049a81c0f6e64beff91be1d1f4e73aaa859b3d0",
+      "bounds": [
+        398,
+        1486,
+        539,
+        1618
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "group": "08_TOOL_BUTTONS",
+      "sourceLayer": "ui_bottom_button_disc_01_instance_02"
+    },
+    "ui_bottom_button_disc_01_instance_03": {
+      "file": "ui_bottom_button_disc_01_instance_03.png",
+      "size": [
+        141,
+        132
+      ],
+      "sha256": "0f29e7b177e2bb5d09bab2528049a81c0f6e64beff91be1d1f4e73aaa859b3d0",
+      "bounds": [
+        554,
+        1486,
+        695,
+        1618
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "group": "08_TOOL_BUTTONS",
+      "sourceLayer": "ui_bottom_button_disc_01_instance_03"
+    },
+    "ui_bottom_label_plate_01_instance_01": {
+      "file": "ui_bottom_label_plate_01_instance_01.png",
+      "size": [
+        125,
+        49
+      ],
+      "sha256": "63b1e0d07ae981f2aff5b6388465843c734c30e3c19ef3603ec4da70571675a5",
+      "bounds": [
+        247,
+        1577,
+        372,
+        1626
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "group": "08_TOOL_BUTTONS",
+      "sourceLayer": "ui_bottom_label_plate_01_instance_01"
+    },
+    "ui_bottom_label_plate_01_instance_02": {
+      "file": "ui_bottom_label_plate_01_instance_02.png",
+      "size": [
+        125,
+        49
+      ],
+      "sha256": "63b1e0d07ae981f2aff5b6388465843c734c30e3c19ef3603ec4da70571675a5",
+      "bounds": [
+        406,
+        1577,
+        531,
+        1626
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "group": "08_TOOL_BUTTONS",
+      "sourceLayer": "ui_bottom_label_plate_01_instance_02"
+    },
+    "ui_bottom_label_plate_01_instance_03": {
+      "file": "ui_bottom_label_plate_01_instance_03.png",
+      "size": [
+        125,
+        49
+      ],
+      "sha256": "63b1e0d07ae981f2aff5b6388465843c734c30e3c19ef3603ec4da70571675a5",
+      "bounds": [
+        563,
+        1577,
+        688,
+        1626
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "group": "08_TOOL_BUTTONS",
+      "sourceLayer": "ui_bottom_label_plate_01_instance_03"
+    },
+    "ui_small_badge_01_instance_01": {
+      "file": "ui_small_badge_01_instance_01.png",
+      "size": [
+        49,
+        51
+      ],
+      "sha256": "7b159ea374ac45093b0e3668c03a4ebe8957af4b1b888ed859ee1d1477ef50c4",
+      "bounds": [
+        329,
+        1474,
+        378,
+        1525
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "group": "08_TOOL_BUTTONS",
+      "sourceLayer": "ui_small_badge_01_instance_01"
+    },
+    "ui_small_badge_01_instance_02": {
+      "file": "ui_small_badge_01_instance_02.png",
+      "size": [
+        49,
+        51
+      ],
+      "sha256": "7b159ea374ac45093b0e3668c03a4ebe8957af4b1b888ed859ee1d1477ef50c4",
+      "bounds": [
+        494,
+        1474,
+        543,
+        1525
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "group": "08_TOOL_BUTTONS",
+      "sourceLayer": "ui_small_badge_01_instance_02"
+    },
+    "ui_small_badge_01_instance_03": {
+      "file": "ui_small_badge_01_instance_03.png",
+      "size": [
+        49,
+        51
+      ],
+      "sha256": "7b159ea374ac45093b0e3668c03a4ebe8957af4b1b888ed859ee1d1477ef50c4",
+      "bounds": [
+        647,
+        1474,
+        696,
+        1525
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "group": "08_TOOL_BUTTONS",
+      "sourceLayer": "ui_small_badge_01_instance_03"
+    },
+    "icon_trash_01_instance_01": {
+      "file": "icon_trash_01_instance_01.png",
+      "size": [
+        62,
+        65
+      ],
+      "sha256": "6c8c164402d9eecd608ac45208116f032b6207d9a6d5c46d8cfd333b8a550425",
+      "bounds": [
+        278,
+        1511,
+        340,
+        1576
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "group": "08_TOOL_BUTTONS",
+      "sourceLayer": "icon_trash_01_instance_01"
+    },
+    "icon_shuffle_01_instance_01": {
+      "file": "icon_shuffle_01_instance_01.png",
+      "size": [
+        62,
+        62
+      ],
+      "sha256": "facbd157994124f6351c018aa66807c7a1c8a53aed10cdb3c048fac29015302e",
+      "bounds": [
+        437,
+        1513,
+        499,
+        1575
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "group": "08_TOOL_BUTTONS",
+      "sourceLayer": "icon_shuffle_01_instance_01"
+    },
+    "icon_flip_01_instance_01": {
+      "file": "icon_flip_01_instance_01.png",
+      "size": [
+        67,
+        65
+      ],
+      "sha256": "52358c5ef97bba8b552afb8f00d3f5f4d052a4baf4b08331863ae58c603668fd",
+      "bounds": [
+        593,
+        1512,
+        660,
+        1577
+      ],
+      "opacity": 1.0,
+      "role": "ui",
+      "group": "08_TOOL_BUTTONS",
+      "sourceLayer": "icon_flip_01_instance_01"
+    },
+    "art_bedroom_bg_01": {
+      "file": "art_bedroom_bg_01.png",
+      "size": [
+        941,
+        1672
+      ],
+      "sha256": "c7a499bdf22c4b5e93683e6df8b2e0920238fa7bb49f054be2528d413171c3cb",
+      "bounds": [
+        0,
+        0,
+        941,
+        1672
+      ],
+      "opacity": 1,
+      "role": "original-art",
+      "source": "原画资源/背景.png",
+      "sourceSha256": "4b678e3278804c6f960c092c6d986249f3f3fa90c8ecc7ce7c5ceada7b858860",
+      "originalSize": [
+        941,
+        1672
+      ],
+      "alphaCrop": [
+        0,
+        0,
+        941,
+        1672
+      ]
+    },
+    "ui_playmat_base_01": {
+      "file": "ui_playmat_base_01.png",
+      "size": [
+        1122,
+        1402
+      ],
+      "sha256": "ad3015052e6dbfe692bc9c65e96bbd461679cbfa1f2ec7d0715c9551570cee3d",
+      "bounds": [
+        0,
+        0,
+        1122,
+        1402
+      ],
+      "opacity": 1,
+      "role": "original-art",
+      "source": "原画资源/地毯2.png",
+      "sourceSha256": "4ddd78550acd643e23efb7f3b56c959ef1e5c3588e3f99274712e3ec1dc42512",
+      "originalSize": [
+        1122,
+        1402
+      ],
+      "alphaCrop": [
+        0,
+        0,
+        1122,
+        1402
+      ]
+    },
+    "toy_rabbit_white_a": {
+      "file": "toy_rabbit_white_a.png",
+      "size": [
+        1075,
+        1116
+      ],
+      "sha256": "9708f5febf21bc10801bd44e29ae9c580c9c707b0529d9245c2b6a104f2af39b",
+      "bounds": [
+        0,
+        0,
+        1075,
+        1116
+      ],
+      "opacity": 1,
+      "role": "original-art",
+      "source": "原画资源/兔子.png",
+      "sourceSha256": "2aafa3c88c65e9b21ccf6a79a21d6216eb0365748aa5d18f340dea3c34557095",
+      "originalSize": [
+        1254,
+        1254
+      ],
+      "alphaCrop": [
+        155,
+        58,
+        1230,
+        1174
+      ]
+    },
+    "toy_whale_blue_a": {
+      "file": "toy_whale_blue_a.png",
+      "size": [
+        1199,
+        699
+      ],
+      "sha256": "f6eba9e7958f855d7fb3f439e2c55b5f0787b449773c53406a61ec096f1dd070",
+      "bounds": [
+        0,
+        0,
+        1199,
+        699
+      ],
+      "opacity": 1,
+      "role": "original-art",
+      "source": "原画资源/鲸鱼.png",
+      "sourceSha256": "1043a9f8d634e76235258eb2fd064275517b267c54dd934adcc1bed472f89792",
+      "originalSize": [
+        1254,
+        1254
+      ],
+      "alphaCrop": [
+        41,
+        301,
+        1240,
+        1000
+      ]
+    },
+    "toy_duck_yellow_a": {
+      "file": "toy_duck_yellow_a.png",
+      "size": [
+        1121,
+        1093
+      ],
+      "sha256": "5dd9aa863a2a572af8d4e4eb8eea6f9e6362db5b8832e778f494e915b97834f3",
+      "bounds": [
+        0,
+        0,
+        1121,
+        1093
+      ],
+      "opacity": 1,
+      "role": "original-art",
+      "source": "原画资源/鸭子.png",
+      "sourceSha256": "730c9a7368cbe10efcecd410f166992e0f7294eff968b4ee451aa6d2b3729da1",
+      "originalSize": [
+        1254,
+        1254
+      ],
+      "alphaCrop": [
+        87,
+        99,
+        1208,
+        1192
+      ]
+    }
+  },
+  "policy": "Actual V3 PSD UI layers; original artwork overrides PSD playmat/toys. Dynamic game text, no baked sample balances or hidden reference. Uniform art scaling."
+}

@@ -4,7 +4,7 @@ AI注意：以下所有以 `[AI_GUIDE_START]` / `[AI_GUIDE_END]` / `[AI_META...]
 
 **[AI_META_INSTRUCTION_END]**
 
-# MDD 模版 v1.4
+# MDD 模版 v1.6
 
 > 本版重点调整：
 > - 从“程序规格说明书式写法”调整为“策划需求说明式写法”。

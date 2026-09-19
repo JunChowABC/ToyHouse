@@ -1,8 +1,7 @@
 import { pathToFileURL } from "node:url";
+import { resolve as resolvePath } from "node:path";
 
-const playwrightEntry = pathToFileURL(
-  "C:/Users/Administrator/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs",
-).href;
+const playwrightEntry = pathToFileURL(resolvePath(import.meta.dirname, "playwright_system_chrome.mjs")).href;
 
 export async function resolve(specifier, context, nextResolve) {
   if (specifier === "playwright") return { url: playwrightEntry, shortCircuit: true };

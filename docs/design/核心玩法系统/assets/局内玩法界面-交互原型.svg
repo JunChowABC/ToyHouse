@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1400" viewBox="0 0 1600 1400">
+  <defs>
+    <style>
+      .title{font:700 28px 'Microsoft YaHei',sans-serif;fill:#352f45}.h{font:700 18px 'Microsoft YaHei',sans-serif;fill:#352f45}
+      .t{font:400 15px 'Microsoft YaHei',sans-serif;fill:#514b5e}.small{font:400 13px 'Microsoft YaHei',sans-serif;fill:#756d7d}.call{stroke:#b46e8b;stroke-width:2;fill:none}
+    </style>
+    <g id="rh"><rect width="92" height="34" rx="17" fill="#efb0c6" stroke="#a45f7e" stroke-width="2"/><circle cx="15" cy="17" r="12" fill="#fff4f7"/><path d="M9 8 l-3 -8 M18 7 l3 -8" stroke="#a45f7e" stroke-width="3" stroke-linecap="round"/><circle cx="11" cy="16" r="1.8" fill="#6e4d61"/><circle cx="18" cy="16" r="1.8" fill="#6e4d61"/></g>
+    <g id="rv"><rect width="34" height="92" rx="17" fill="#efb0c6" stroke="#a45f7e" stroke-width="2"/><circle cx="17" cy="15" r="12" fill="#fff4f7"/><path d="M10 8 l-4 -7 M22 8 l4 -7" stroke="#a45f7e" stroke-width="3" stroke-linecap="round"/><circle cx="13" cy="15" r="1.8" fill="#6e4d61"/><circle cx="21" cy="15" r="1.8" fill="#6e4d61"/></g>
+  </defs>
+  <rect width="1600" height="1400" fill="#f7f4f8"/><text x="60" y="58" class="title">局内玩法界面 · 竖屏低保真交互原型 v1.1</text>
+  <text x="60" y="88" class="t">已同步第一夜兔子集中布局、底部三道具、右上暂停入口与条内 Combo。</text>
+  <rect x="60" y="120" width="648" height="1152" rx="28" fill="#d8c6dc" stroke="#665d72" stroke-width="3"/>
+  <rect x="78" y="138" width="612" height="105" rx="18" fill="#fff8f1" stroke="#cfb8c5"/>
+  <text x="102" y="177" class="h">第一夜 · 1-4</text><text x="102" y="207" class="small">交错路径 · 68/68 只还没睡</text>
+  <rect x="320" y="166" width="214" height="36" rx="18" fill="#e8dce8"/><rect x="320" y="166" width="158" height="36" rx="18" fill="#dfa0b8"/><text x="427" y="190" class="h" text-anchor="middle">连击 ×12</text>
+  <rect x="608" y="153" width="58" height="58" rx="17" fill="#fff" stroke="#a98fa1" stroke-width="2"/><rect x="624" y="168" width="7" height="28" rx="3" fill="#69586f"/><rect x="642" y="168" width="7" height="28" rx="3" fill="#69586f"/>
+
+  <rect x="78" y="258" width="612" height="843" rx="24" fill="#f8e8e6" stroke="#d1aeb9" stroke-width="2"/><text x="96" y="286" class="small">14×20 隐形网格 · 第一夜只使用 1×2 普通兔子</text>
+  <path d="M78 430 h-16 M78 720 h-16 M690 500 h16 M690 890 h16 M250 258 v-16 M520 258 v-16 M330 1101 v16 M580 1101 v16" stroke="#8f7788" stroke-width="5"/>
+  <rect x="124" y="310" width="520" height="746" rx="18" fill="none" stroke="#d8bfc7" stroke-dasharray="8 8"/><text x="384" y="1042" class="small" text-anchor="middle">中央 10×14 密集区 · 四周留 2～3 格通道</text>
+  <g>
+    <use href="#rv" x="142" y="326"/><use href="#rv" x="190" y="326"/><use href="#rv" x="238" y="326"/><use href="#rv" x="286" y="326"/><use href="#rv" x="334" y="326"/><use href="#rv" x="382" y="326"/><use href="#rv" x="430" y="326"/><use href="#rv" x="478" y="326"/><use href="#rv" x="526" y="326"/><use href="#rv" x="574" y="326"/>
+    <use href="#rv" x="142" y="426"/><use href="#rv" x="190" y="426"/><use href="#rv" x="238" y="426"/><use href="#rv" x="286" y="426"/><use href="#rv" x="334" y="426"/><use href="#rv" x="382" y="426"/><use href="#rv" x="430" y="426"/><use href="#rv" x="478" y="426"/><use href="#rv" x="526" y="426"/><use href="#rv" x="574" y="426"/>
+    <use href="#rh" x="142" y="536"/><use href="#rh" x="244" y="536"/><use href="#rh" x="346" y="536"/><use href="#rh" x="448" y="536"/><use href="#rh" x="550" y="536"/>
+    <use href="#rh" x="142" y="580"/><use href="#rh" x="244" y="580"/><use href="#rh" x="346" y="580"/><use href="#rh" x="448" y="580"/><use href="#rh" x="550" y="580"/>
+    <use href="#rh" x="142" y="624"/><use href="#rh" x="244" y="624"/><use href="#rh" x="346" y="624"/><use href="#rh" x="448" y="624"/><use href="#rh" x="550" y="624"/>
+    <use href="#rh" x="142" y="668"/><use href="#rh" x="244" y="668"/><use href="#rh" x="346" y="668"/><use href="#rh" x="448" y="668"/><use href="#rh" x="550" y="668"/>
+    <use href="#rh" x="142" y="712"/><use href="#rh" x="244" y="712"/><use href="#rh" x="346" y="712"/><use href="#rh" x="448" y="712"/><use href="#rh" x="550" y="712"/>
+    <use href="#rv" x="142" y="766" transform="rotate(180 159 812)"/><use href="#rv" x="190" y="766" transform="rotate(180 207 812)"/><use href="#rv" x="238" y="766" transform="rotate(180 255 812)"/><use href="#rv" x="286" y="766" transform="rotate(180 303 812)"/><use href="#rv" x="334" y="766" transform="rotate(180 351 812)"/><use href="#rv" x="382" y="766" transform="rotate(180 399 812)"/><use href="#rv" x="430" y="766" transform="rotate(180 447 812)"/><use href="#rv" x="478" y="766" transform="rotate(180 495 812)"/><use href="#rv" x="526" y="766" transform="rotate(180 543 812)"/><use href="#rv" x="574" y="766" transform="rotate(180 591 812)"/>
+    <use href="#rv" x="142" y="866" transform="rotate(180 159 912)"/><use href="#rv" x="190" y="866" transform="rotate(180 207 912)"/><use href="#rv" x="238" y="866" transform="rotate(180 255 912)"/><use href="#rv" x="286" y="866" transform="rotate(180 303 912)"/><use href="#rv" x="334" y="866" transform="rotate(180 351 912)"/><use href="#rv" x="382" y="866" transform="rotate(180 399 912)"/><use href="#rv" x="430" y="866" transform="rotate(180 447 912)"/><use href="#rv" x="478" y="866" transform="rotate(180 495 912)"/><use href="#rv" x="526" y="866" transform="rotate(180 543 912)"/><use href="#rv" x="574" y="866" transform="rotate(180 591 912)"/>
+  </g>
+
+  <rect x="78" y="1116" width="612" height="138" rx="18" fill="#fff8f1" stroke="#cfb8c5"/><text x="102" y="1147" class="small">底部道具区 · 不显示提示与重开常驻按钮</text>
+  <g><rect x="92" y="1160" width="180" height="70" rx="22" fill="#fff" stroke="#bba6b4" stroke-width="2"/><text x="182" y="1191" class="h" text-anchor="middle">✕ 消除</text><text x="182" y="1215" class="small" text-anchor="middle">选 2 只</text></g>
+  <g><rect x="294" y="1160" width="180" height="70" rx="22" fill="#fff" stroke="#bba6b4" stroke-width="2"/><text x="384" y="1191" class="h" text-anchor="middle">⤨ 洗牌</text><text x="384" y="1215" class="small" text-anchor="middle">随机 5 只</text></g>
+  <g><rect x="496" y="1160" width="180" height="70" rx="22" fill="#fff" stroke="#bba6b4" stroke-width="2"/><text x="586" y="1191" class="h" text-anchor="middle">↔ 翻转</text><text x="586" y="1215" class="small" text-anchor="middle">选 1 只</text></g>
+
+  <rect x="760" y="120" width="780" height="1152" rx="22" fill="#fff" stroke="#d9cfda" stroke-width="2"/><text x="796" y="166" class="title">交互说明</text>
+  <rect x="796" y="204" width="708" height="164" rx="14" fill="#f8f5f9" stroke="#ded7e0"/><text x="820" y="238" class="h">1 · 顶部状态区</text><text x="820" y="270" class="t">关卡标识常驻；Combo 为 0 时整条隐藏。</text><text x="820" y="298" class="t">连击数量写在进度条内，不显示具体剩余秒数。</text><text x="820" y="326" class="t">右上角显示【暂停】，替代原常驻【重开】按钮。</text><path class="call" d="M796 286 H710"/>
+  <rect x="796" y="396" width="708" height="184" rx="14" fill="#f8f5f9" stroke="#ded7e0"/><text x="820" y="430" class="h">2 · 第一夜盘面</text><text x="820" y="462" class="t">前十关只显示 1×2 普通兔子，同关不混用同功能皮肤。</text><text x="820" y="490" class="t">兔子集中于中间 10×14 区域，四周留出出口与呼吸空间。</text><text x="820" y="518" class="t">小鸭 1×1 与鲸鱼 1×3 从后续关卡再逐步加入。</text><text x="820" y="546" class="t">受阻时主动与被撞玩具在接触当帧同时反馈。</text><path class="call" d="M796 490 H710"/>
+  <rect x="796" y="608" width="708" height="150" rx="14" fill="#f8f5f9" stroke="#ded7e0"/><text x="820" y="642" class="h">3 · 底部道具区</text><text x="820" y="674" class="t">只保留【消除】【洗牌】【翻转】三个等宽道具。</text><text x="820" y="702" class="t">不显示【提示】与【重开】常驻按钮；重开移入暂停弹窗。</text><text x="820" y="730" class="t">道具热区保持分离，且不遮挡盘面下方出口。</text><path class="call" d="M796 686 H710"/>
+  <rect x="796" y="786" width="708" height="170" rx="14" fill="#fff0f4" stroke="#d786a3"/><text x="820" y="820" class="h">4 · 暂停入口与冻结</text><text x="820" y="852" class="t">点击右上暂停后遮暗局内画面并打开暂停弹窗。</text><text x="820" y="880" class="t">暂停期间冻结移动、撞击、结算等待与 8 秒 Combo。</text><text x="820" y="908" class="t">继续游戏后从冻结点恢复，不补算暂停期间的真实时间。</text><text x="820" y="936" class="t">自动连锁与完成等待期间，暂停入口不可操作。</text><path class="call" d="M796 858 H710"/>
+  <rect x="796" y="984" width="708" height="236" rx="14" fill="#fff8e9" stroke="#d9a13d"/><text x="820" y="1018" class="h">状态对照</text><text x="820" y="1052" class="t">默认：盘面、三个道具与暂停可操作。</text><text x="820" y="1082" class="t">撞击：主动与被撞玩具接触当帧同步回弹、高亮、出粒子。</text><text x="820" y="1112" class="t">暂停：盘面变暗，弹窗接管输入，所有游戏时钟冻结。</text><text x="820" y="1142" class="t">完成等待：全部输入锁定，等待已触发离场表现结束。</text><text x="820" y="1172" class="t">连击边界：7.999 秒延续；8.000 秒先中断，再从 ×1 开始。</text><text x="820" y="1202" class="t">所有状态保持容器位置稳定，不出现按钮跳位。</text>
+</svg>

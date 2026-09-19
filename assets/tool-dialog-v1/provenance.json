@@ -1,0 +1,87 @@
+{
+  "mode": "Previously user-authorized ImageGen CLI/API",
+  "assets": [
+    {
+      "name": "ui_tool_close_v1",
+      "file": "layers/ui_tool_close_v1.png",
+      "left": 706,
+      "top": 476,
+      "visible": true,
+      "opacity": 255,
+      "display_name": "关闭道具说明弹窗",
+      "usage": "关闭道具说明弹窗",
+      "region": "道具弹窗",
+      "anchor": "top_left",
+      "z": 100,
+      "state": "default",
+      "default_visible": true,
+      "parent": "tool_dialog",
+      "logical_bounds": [
+        706,
+        476,
+        96,
+        96
+      ],
+      "source_bounds": [
+        706,
+        476,
+        96,
+        96
+      ],
+      "placement_note": "941x1672源图坐标；游戏中按540/941等比缩放并垂直居中。PNG含2像素透明边距，不再裁切。",
+      "content_rule": "关闭叉号为图形符号；购买底图不含文字、数字、金币或星星，由运行时独立叠加。",
+      "generation_method": "imagegen",
+      "asset_type": "button",
+      "asset_role": "button",
+      "imagegen_prompt": "Use case: background-extraction\nAsset type: production game UI button sprite\nImage 1 is the approved full interface. Image 2 identifies the target only; surrounding pixels must be removed.\nRegenerate only the round pink close button at the upper-right of the popup, near source coordinates (756,524). Include its thick white rounded X-shaped close pictogram as an integral graphical icon. Match the reference: circular candy-pink glossy face, pale cream double rim, warm peach thin outer edge, delicate soft pink local shadow, plump rounded white diagonal bars with a fine pink outline. Front-facing circle, not a tilted disk. Remove the ribbon, panel, rabbit and every neighboring object. Keep the entire circle and local shadow. Do not replace the X with a font glyph or thin lines.\nOne complete isolated asset only, centered with 8 percent padding. PERFECTLY FLAT PURE GREEN #00FF00 backdrop for chroma keying, no green reflections or spill. No checkerboard, no floor, no scene, no watermark. No words or numbers. Do not render the complete interface or an asset sheet.\n",
+      "reference_image": "source/effect-image.png",
+      "generation_status": "approved",
+      "model_requested": "gpt-image-2",
+      "generated_file": "generated/ui_tool_close_v1.png",
+      "generated_sha256": "9493bd0fbe688ebb89f77240e1be3bcff3529d8ee805ba208f288f2fe59270f5",
+      "final_sha256": "3e66ec9855357946c0e2d32034a0aeef7d7810d62828b392c0c4dd950007c402",
+      "alpha_processing": "native alpha preserved or bundled chroma removal with soft matte and despill"
+    },
+    {
+      "name": "ui_tool_purchase_disabled_v1",
+      "file": "layers/ui_tool_purchase_disabled_v1.png",
+      "left": 239,
+      "top": 990,
+      "visible": true,
+      "opacity": 255,
+      "display_name": "金币不足时的购买按钮底图",
+      "usage": "金币不足时的购买按钮底图",
+      "region": "道具弹窗",
+      "anchor": "top_left",
+      "z": 101,
+      "state": "disabled",
+      "default_visible": true,
+      "parent": "tool_dialog",
+      "logical_bounds": [
+        239,
+        990,
+        466,
+        110
+      ],
+      "source_bounds": [
+        239,
+        990,
+        466,
+        110
+      ],
+      "placement_note": "941x1672源图坐标；游戏中按540/941等比缩放并垂直居中。PNG含2像素透明边距，不再裁切。",
+      "content_rule": "关闭叉号为图形符号；购买底图不含文字、数字、金币或星星，由运行时独立叠加。",
+      "generation_method": "imagegen",
+      "asset_type": "button",
+      "asset_role": "button",
+      "imagegen_prompt": "Use case: background-extraction\nAsset type: production game UI button sprite\nImage 1 is the approved full interface. Image 2 identifies the target only; surrounding pixels must be removed.\nRegenerate ONLY the complete wide capsule-shaped purchase button backing from near source coordinates (239,990,466,110), transformed into its disabled / insufficient-coins state. Preserve the original approximately 4.24:1 width-to-height silhouette, rounded ends, thin cream double bevel rim and soft local shadow. Change the bright candy-pink face to a clearly desaturated muted light gray-lavender, with soft pearl-gray highlights and a subdued gray-lavender outline. It must read unavailable, opaque but not dark or transparent. The center must be a clean continuous surface reconstructed behind the original coin and lettering. REMOVE the coin, both decorative stars, all text, digits and neighboring panel. No lock or other new symbols. No active pink fill. Exact same delicate glossy toy-game material and outline proportions as the reference.\nOne complete isolated asset only, centered with 8 percent padding. PERFECTLY FLAT PURE GREEN #00FF00 backdrop for chroma keying, no green reflections or spill. No checkerboard, no floor, no scene, no watermark. No words or numbers. Do not render the complete interface or an asset sheet.\n",
+      "reference_image": "source/effect-image.png",
+      "generation_status": "approved",
+      "model_requested": "gpt-image-2",
+      "generated_file": "generated/ui_tool_purchase_disabled_v1.png",
+      "generated_sha256": "7da4963007354d4c97be7c80b07e7d5bee7cfcc45d2a127e41801a1a16c54c53",
+      "final_sha256": "c857e6e8ffd41dbf9bf1e49123e1d7f8bc4b54e4883f866bc33d476747251386",
+      "alpha_processing": "native alpha preserved or bundled chroma removal with soft matte and despill"
+    }
+  ]
+}
