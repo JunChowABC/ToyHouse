@@ -5,7 +5,8 @@ const imageQueue = [];
 let activeImageLoads = 0;
 
 export function imageLoadStatus() {
-  return { loaded: completedImages.size, total: requestedImages.size };
+  return { loaded: completedImages.size, total: requestedImages.size,
+    pending: [...requestedImages].filter(url => !completedImages.has(url)).map(url => new URL(url).pathname) };
 }
 
 function drainImageQueue() {

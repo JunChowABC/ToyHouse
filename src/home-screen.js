@@ -51,6 +51,7 @@ export function drawHomeScreen(ctx, { progressLabel, complete }, feedback = (id,
   ctx.translate(0, HOME_OFFSET_Y);
   ctx.scale(HOME_SCALE, HOME_SCALE);
   for (const id of HOME_ART.layers) {
+    if (!homeImages.has(id)) continue;
     const spec = HOME_ART.assets[id];
     ctx.globalAlpha = spec.opacity * (complete && id.startsWith("ui_sleep_") ? .68 : 1);
     const control = id.startsWith("ui_sleep_") ? "start" : id.startsWith("ui_settings_") ? "settings" : null;

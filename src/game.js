@@ -317,22 +317,51 @@ function requestSystems(keys, action) {
     render();
   });
 }
-function loadArt() {
-  artError = "";
-  // First paint needs only the home artwork and the four shared currency images.
-  return Promise.all([loadHomeArt(), loadCoreAssets(CURRENCY_LAYERS)]).then(() => {
-    artReady = true;
+let homeRecoveryTimer = null;
+function homeAssetsComplete() {
+  return homeArtStatus().loaded === homeArtStatus().expected && CURRENCY_LAYERS.every(id => artImages.has(id));
+}
+function recoverHomeAssets() {
+  clearTimeout(homeRecoveryTimer);
+  if (homeAssetsComplete()) return;
+  Promise.allSettled([loadHomeArt(), loadCoreAssets(CURRENCY_LAYERS)]).then(() => {
     render();
-    setTimeout(() => {
-      window.__toyhouse_background_ready = Promise.all([ensureSystem("play"), ensureSystem("settings"), ensureSystem("complete")]);
-    }, 0);
-    return true;
-  }).catch(() => {
-    artError = "部分图片暂时无法加载";
-    render();
-    return false;
+    if (!homeAssetsComplete()) homeRecoveryTimer = setTimeout(recoverHomeAssets, 10000);
   });
 }
+function loadArt() {
+  artError = "";
+  return new Promise(resolve => {
+    let opened = false;
+    const start = performance.now();
+    const openHome = () => {
+      if (opened) return;
+      opened = true;
+      clearInterval(progressCheck);
+      artReady = true;
+      render();
+      resolve(true);
+      setTimeout(() => {
+        window.__toyhouse_background_ready = Promise.all([ensureSystem("play"), ensureSystem("settings"), ensureSystem("complete")]);
+      }, 0);
+    };
+    // A slow decoration or background must not indefinitely block the whole room.
+    const progressCheck = setInterval(() => {
+      if (performance.now() - start >= 8000 && homeArtStatus().loaded >= 80) openHome();
+    }, 250);
+    Promise.allSettled([loadHomeArt(), loadCoreAssets(CURRENCY_LAYERS)]).then(results => {
+      if (results.every(result => result.status === "fulfilled") || homeArtStatus().loaded >= 80) openHome();
+      else if (!opened) {
+        clearInterval(progressCheck);
+        artError = "部分图片暂时无法加载";
+        render();
+        resolve(false);
+      }
+      if (opened && !homeAssetsComplete()) recoverHomeAssets();
+    });
+  });
+}
+
 function drawPendingLoad() {
   ctx.fillStyle = "rgba(70,40,65,.55)";
   ctx.fillRect(0, 0, W, H);
@@ -987,8 +1016,14 @@ function drawHeader(title, subtitle) {
 }
 
 function drawHome() {
+  ctx.fillStyle = "#fbe6e7";
+  ctx.fillRect(0, 0, W, H);
   drawHomeScreen(ctx, homeProgress(), paintControl);
   drawCurrencyHud(false);
+  if (!homeAssetsComplete()) {
+    fillRoundRect(140, 3, 260, 27, 12, "rgba(255,247,240,.92)");
+    artText("少量图片正在补载…", 270, 17, 13);
+  }
   if (state.pauseOpen) drawHomeSettings(ctx, state, paintControl);
 }
 
@@ -1592,7 +1627,7 @@ document.addEventListener("keydown", (event) => {
 
 function renderGameToText() {
   const economy = { coins: profile.coins, inventory: { ...profile.inventory }, price: TOOL_PRICE, perLevelLimit: TOOL_LIMIT };
-  const art = { systems: Object.fromEntries(Object.entries(systemAssets).map(([key, value]) => [key, value.ready])), waiting: pendingLoad ? { systems: pendingLoad.keys, error: pendingLoad.error } : null, version: ART_MANIFEST.version, ready: artReady, loaded: artImages.size, expected: Object.keys(ART_MANIFEST.assets).length, error: artError || null, rabbitPose: "head-follows-direction", rug: { ...RUG_RECT, scaling: "uniform" }, currencies: "coins", toolStock: "persistent-inventory" };
+  const art = { loading: imageLoadStatus(), systems: Object.fromEntries(Object.entries(systemAssets).map(([key, value]) => [key, value.ready])), waiting: pendingLoad ? { systems: pendingLoad.keys, error: pendingLoad.error } : null, version: ART_MANIFEST.version, ready: artReady, loaded: artImages.size, expected: Object.keys(ART_MANIFEST.assets).length, error: artError || null, rabbitPose: "head-follows-direction", rug: { ...RUG_RECT, scaling: "uniform" }, currencies: "coins", toolStock: "persistent-inventory" };
   if (state.mode === "home") {
     const progress = homeProgress();
     return JSON.stringify({ mode: "home", art, homeArt: homeArtStatus(), economy, title: "晚安，玩具屋",
