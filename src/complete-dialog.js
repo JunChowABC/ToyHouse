@@ -1,3 +1,4 @@
+import { loadImage } from "./image-loader.js";
 import COMPLETE_ART from "./complete-art-manifest.js";
 
 const COMPLETE_SCALE = Math.min(540 / COMPLETE_ART.canvas.width, 960 / COMPLETE_ART.canvas.height);
@@ -17,9 +18,7 @@ export const COMPLETE_UI = Object.freeze({
 
 export async function loadCompleteArt() {
   await Promise.all(Object.entries(COMPLETE_ART.assets).map(async ([id, spec]) => {
-    const image = new Image();
-    image.src = new URL(`${COMPLETE_ART.directory}/${spec.file}`, document.baseURI).href;
-    await image.decode();
+    const image = await loadImage(`${COMPLETE_ART.directory}/${spec.file}`);
     completeImages.set(id, image);
   }));
 }

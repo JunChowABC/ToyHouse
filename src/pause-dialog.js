@@ -1,3 +1,4 @@
+import { loadImage } from "./image-loader.js";
 import PAUSE_ART from "./pause-art-manifest.js";
 
 const PAUSE_SCALE = Math.min(540 / PAUSE_ART.canvas.width, 960 / PAUSE_ART.canvas.height);
@@ -30,15 +31,11 @@ export const HOME_SETTINGS_UI = Object.freeze({
 
 export async function loadPauseArt() {
   const toolButtonsReady = Promise.all(["ui_tool_close_v1", "ui_tool_purchase_disabled_v1"].map(async id => {
-    const image = new Image();
-    image.src = new URL(`assets/tool-dialog-v1/${id}.png`, document.baseURI).href;
-    await image.decode();
+    const image = await loadImage(`assets/tool-dialog-v1/${id}.png`);
     toolButtonImages.set(id, image);
   }));
   await Promise.all(Object.entries(PAUSE_ART.assets).map(async ([id, spec]) => {
-    const image = new Image();
-    image.src = new URL(`${PAUSE_ART.directory}/${spec.file}`, document.baseURI).href;
-    await image.decode();
+    const image = await loadImage(`${PAUSE_ART.directory}/${spec.file}`);
     pauseImages.set(id, image);
   }));
   await toolButtonsReady;

@@ -1,3 +1,4 @@
+import { loadImage } from "./image-loader.js";
 import HOME_ART from "./home-art-manifest.js";
 
 const HOME_SCALE = Math.min(540 / HOME_ART.canvas.width, 960 / HOME_ART.canvas.height);
@@ -11,9 +12,7 @@ export const HOME_UI = Object.freeze({
 
 export async function loadHomeArt() {
   await Promise.all(Object.entries(HOME_ART.assets).map(async ([id, spec]) => {
-    const image = new Image();
-    image.src = new URL(`${HOME_ART.directory}/${spec.file}`, document.baseURI).href;
-    await image.decode();
+    const image = await loadImage(`${HOME_ART.directory}/${spec.file}`);
     homeImages.set(id, image);
   }));
 }

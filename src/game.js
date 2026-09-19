@@ -1,3 +1,4 @@
+import { loadImage, imageLoadStatus } from "./image-loader.js";
 import LEVEL_CONFIG from "./level-config.js";
 import ART_MANIFEST from "./art-manifest.js";
 import { PAUSE_UI, TOOL_MODAL_UI, HOME_SETTINGS_UI, loadPauseArt, drawPauseDialog, drawToolDialog, drawHomeSettings, pauseArtStatus } from "./pause-dialog.js";
@@ -283,17 +284,16 @@ function drawArtRug() {
 }
 
 function loadArt() {
+  artError = "";
   return Promise.all([loadPauseArt(), loadCompleteArt(), loadHomeArt(), ...Object.entries(ART_MANIFEST.assets).map(async ([id, asset]) => {
-    const image = new Image();
-    image.src = new URL(`${ART_MANIFEST.directory}/${asset.file}`, document.baseURI).href;
-    await image.decode();
+    const image = await loadImage(`${ART_MANIFEST.directory}/${asset.file}`);
     artImages.set(id, image);
   })]).then(() => {
     artReady = true;
     render();
     return true;
   }).catch((error) => {
-    artError = "素材加载失败，请刷新重试";
+    artError = "部分图片暂时无法加载";
     console.error("Toyhouse V3 asset load failed", error);
     render();
     return false;
@@ -1326,7 +1326,13 @@ function render() {
   if (!artReady) {
     ctx.fillStyle = "#fae7e4";
     ctx.fillRect(0, 0, W, H);
-    artText(artError || "正在布置玩具屋…", W / 2, H / 2, 21);
+    const progress = imageLoadStatus();
+    artText(artError || "正在布置玩具屋…", W / 2, H / 2 - 25, 21);
+    artText(`图片 ${progress.loaded} / ${progress.total}`, W / 2, H / 2 + 10, 16);
+    if (artError) {
+      fillRoundRect(170, 520, 200, 52, 20, "#f5b8cd");
+      artText("点击重试", 270, 546, 20);
+    }
     return;
   }
   if (state.mode === "home") drawHome();
@@ -1418,7 +1424,13 @@ canvas.addEventListener("pointerup", (event) => {
   const released = activeControls().find(b => pointInRect(canvasPoint(event), b));
   cancelPointerGesture();
   if (pressed?.id !== released?.id) { render(); return; }
-  if (!artReady) return;
+  if (!artReady) {
+    if (artError && pointInRect(canvasPoint(event), { x: 170, y: 520, w: 200, h: 52 })) {
+      window.__toyhouse_art_ready = loadArt();
+      render();
+    }
+    return;
+  }
   if (performance.now() < state.navigationUntil) return;
   const point = canvasPoint(event);
   if (state.toolModal) {
