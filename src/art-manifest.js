@@ -590,29 +590,29 @@ export default {
     "toy_rabbit_white_a": {
       "file": "toy_rabbit_white_a.png",
       "size": [
-        708,
-        1715
+        732,
+        1285
       ],
-      "sha256": "d218495db3f0122af98051c6569be906f9d2225f3f1bedf4501eb500e31ddcbe",
+      "sha256": "d61f9e4e231e093431dfa0f6a1c9e19311d0ce89f6b9aa63704ccd757b91ae95",
       "bounds": [
         0,
         0,
-        708,
-        1715
+        732,
+        1285
       ],
       "opacity": 1,
       "role": "original-art",
-      "source": "原画资源/兔子3.png",
-      "sourceSha256": "0960dbb6db5a756dfc220a5248ab1e7ad005791509c673dfb4d421210a3e4f4c",
+      "source": "原画资源/兔子3-短版.png",
+      "sourceSha256": "fd392c2e73f3515bfed8137012d3916364220b714fdd9e9be6a7c0a983fe2cab",
       "originalSize": [
-        887,
-        1774
+        736,
+        1289
       ],
       "alphaCrop": [
-        149,
-        33,
-        857,
-        1748
+        2,
+        2,
+        734,
+        1287
       ]
     },
     "toy_whale_blue_a": {

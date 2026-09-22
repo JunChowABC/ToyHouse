@@ -153,182 +153,182 @@ export default {
       43
     ]
   },
-  "assets/toyhouse-ui-v3/toy_rabbit_white_a.png": {
-    "file": "assets/runtime-ui/play-0-5b58022605f7.webp",
-    "rect": [
-      2,
-      2,
-      708,
-      1715
-    ]
-  },
   "assets/toyhouse-ui-v3/art_bedroom_bg_01.png": {
-    "file": "assets/runtime-ui/play-0-5b58022605f7.webp",
+    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
     "rect": [
-      714,
+      2,
       2,
       941,
       1672
     ]
   },
-  "assets/toyhouse-ui-v3/ui_bottom_button_disc_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-5b58022605f7.webp",
+  "assets/toyhouse-ui-v3/toy_rabbit_white_a.png": {
+    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
     "rect": [
-      1659,
+      947,
+      2,
+      732,
+      1285
+    ]
+  },
+  "assets/toyhouse-ui-v3/ui_bottom_button_disc_01_instance_01.png": {
+    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
+    "rect": [
+      1683,
       2,
       141,
       132
     ]
   },
   "assets/toyhouse-ui-v3/ui_title_base_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-5b58022605f7.webp",
+    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
     "rect": [
       2,
-      1721,
+      1678,
       465,
       123
     ]
   },
   "assets/toyhouse-ui-v3/ui_nav_tab_base_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-5b58022605f7.webp",
+    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
     "rect": [
-      1804,
+      1828,
       2,
       149,
       89
     ]
   },
   "assets/toyhouse-ui-v3/ui_title_region_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-5b58022605f7.webp",
+    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
     "rect": [
       471,
-      1721,
+      1678,
       419,
       86
     ]
   },
   "assets/toyhouse-ui-v3/ui_title_rabbit_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-5b58022605f7.webp",
+    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
     "rect": [
-      1957,
-      2,
+      894,
+      1678,
       88,
       81
     ]
   },
   "assets/toyhouse-ui-v3/ui_title_ribbon_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-5b58022605f7.webp",
+    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
     "rect": [
-      894,
-      1721,
+      986,
+      1678,
       325,
       67
     ]
   },
   "assets/toyhouse-ui-v3/icon_flip_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-5b58022605f7.webp",
+    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
     "rect": [
-      1223,
-      1721,
+      1315,
+      1678,
       67,
       65
     ]
   },
   "assets/toyhouse-ui-v3/icon_trash_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-5b58022605f7.webp",
+    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
     "rect": [
-      1294,
-      1721,
+      1981,
+      2,
       62,
       65
     ]
   },
   "assets/toyhouse-ui-v3/icon_shuffle_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-5b58022605f7.webp",
+    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
     "rect": [
-      1360,
-      1721,
+      1386,
+      1678,
       62,
       62
     ]
   },
   "assets/toyhouse-ui-v3/ui_combo_star_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-5b58022605f7.webp",
+    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
     "rect": [
-      1426,
-      1721,
+      1452,
+      1678,
       62,
       58
     ]
   },
   "assets/toyhouse-ui-v3/ui_nav_icon_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-5b58022605f7.webp",
+    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
     "rect": [
-      1492,
-      1721,
+      1518,
+      1678,
       59,
       52
     ]
   },
   "assets/toyhouse-ui-v3/ui_small_badge_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-5b58022605f7.webp",
+    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
     "rect": [
-      1555,
-      1721,
+      1581,
+      1678,
       49,
       51
     ]
   },
   "assets/toyhouse-ui-v3/ui_combo_panel_base_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-5b58022605f7.webp",
+    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
     "rect": [
-      1608,
-      1721,
+      1634,
+      1678,
       367,
       50
     ]
   },
   "assets/toyhouse-ui-v3/ui_bottom_label_plate_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-5b58022605f7.webp",
+    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
     "rect": [
       2,
-      1848,
+      1805,
       125,
       49
     ]
   },
   "assets/toyhouse-ui-v3/ui_title_bow_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-5b58022605f7.webp",
+    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
     "rect": [
       131,
-      1848,
+      1805,
       93,
       38
     ]
   },
   "assets/toyhouse-ui-v3/ui_combo_panel_region_bar_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-5b58022605f7.webp",
+    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
     "rect": [
       228,
-      1848,
+      1805,
       334,
       31
     ]
   },
   "assets/toyhouse-ui-v3/ui_title_star_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-5b58022605f7.webp",
+    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
     "rect": [
-      1979,
-      1721,
+      2005,
+      1678,
       30,
       29
     ]
   },
   "assets/toyhouse-ui-v3/ui_combo_bar_fill_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-5b58022605f7.webp",
+    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
     "rect": [
       566,
-      1848,
+      1805,
       264,
       27
     ]

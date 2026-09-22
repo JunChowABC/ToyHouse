@@ -13,7 +13,7 @@ SOURCE = ROOT / "outputs/20260916_ui_proportions_v3/toyhouse-core-ui-layered-v3.
 OUTPUT = ROOT / "assets/toyhouse-ui-v3"
 GROUPS = {"04_TITLE", "05_NAVIGATION", "06_RESOURCES", "07_COMBO", "08_TOOL_BUTTONS"}
 ORIGINALS = {"art_bedroom_bg_01": "背景", "ui_playmat_base_01": "地毯2",
-             "toy_rabbit_white_a": "兔子3", "toy_whale_blue_a": "鲸鱼4", "toy_duck_yellow_a": "鸭子3"}
+             "toy_rabbit_white_a": "兔子3-短版", "toy_whale_blue_a": "鲸鱼4", "toy_duck_yellow_a": "鸭子3"}
 
 
 def sha(path):
