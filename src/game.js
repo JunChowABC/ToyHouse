@@ -10,8 +10,10 @@ const ctx = canvas.getContext("2d");
 
 const W = 540;
 const H = 960;
-const BOARD = { x: 66, y: 208, cols: 12, rows: 18, cell: 34 };
-const TOY_VISUAL_GAP = 4;
+const BOARD = { x: 60, y: 199, cols: 12, rows: 18, cell: 35 };
+const TOY_ART_CELL = 34; // Artwork size stays independent of the 1px wider grid spacing.
+const TOY_VISUAL_GAP = 3;
+const TOY_DISPLAY_SCALE = 1.44;
 const EXIT_DURATION_MS = 900;
 const COMBO_WINDOW_MS = 8000;
 const IMPACT_DURATION_MS = 460;
@@ -1133,13 +1135,13 @@ function toyMotionOffset(toy) {
 
 function toyArtLayout(toy) {
   const center = toyCenter(toy);
-  const width = (Math.max(...toy.cells.map(c => c.x)) - Math.min(...toy.cells.map(c => c.x)) + 1) * BOARD.cell;
-  const height = (Math.max(...toy.cells.map(c => c.y)) - Math.min(...toy.cells.map(c => c.y)) + 1) * BOARD.cell;
+  const width = (Math.max(...toy.cells.map(c => c.x)) - Math.min(...toy.cells.map(c => c.x)) + 1) * TOY_ART_CELL;
+  const height = (Math.max(...toy.cells.map(c => c.y)) - Math.min(...toy.cells.map(c => c.y)) + 1) * TOY_ART_CELL;
   const rabbit = toy.archetypeId === "ORDINARY", duck = toy.archetypeId === "AUTO_EXIT";
-  // Keep every rotated sprite inside its footprint, with a gap to adjacent toys.
+  // Keep the approved toy artwork size independent of layout spacing.
   const inset = TOY_VISUAL_GAP;
-  const displayWidth = width - inset;
-  const displayHeight = height - inset;
+  const displayWidth = (width - inset) * TOY_DISPLAY_SCALE;
+  const displayHeight = (height - inset) * TOY_DISPLAY_SCALE;
   const id = rabbit ? "toy_rabbit_white_a" : duck ? "toy_duck_yellow_a" : "toy_whale_blue_a";
   const angle = rabbit ? RABBIT_ANGLE[toy.direction] : duck ? 0 : toy.direction === "UP" ? Math.PI / 2 : toy.direction === "DOWN" ? -Math.PI / 2 : 0;
   return { id, angle, flip: !rabbit && !duck && toy.direction === "RIGHT",

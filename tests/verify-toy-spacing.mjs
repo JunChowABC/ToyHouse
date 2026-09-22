@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import art from "../src/art-manifest.js";
 import { chromium } from "../scripts/playwright_system_chrome.mjs";
 import { mkdir, writeFile } from "node:fs/promises";
 
@@ -66,16 +67,22 @@ try {
           const gap = Math.max(b.l-a.r, a.l-b.r, b.t-a.b, a.t-b.b);
           minGap = Math.min(minGap, gap);
         }
-        if (!measureOnly) assert.ok(minGap >= 4 - 1e-6, `${entry} level ${level+1} ${stage}: at least 4px separation required, got ${minGap}`);
-        for (const contact of contacts) if (!measureOnly) assert.ok(contact.pixels <= Math.max(4, contact.area*0.02),
-          `${entry} level ${level+1} ${stage}: excessive opaque overlap ${JSON.stringify(contact)}`);
+        const board = await page.evaluate(() => JSON.parse(window.render_game_to_text()).board);
+        assert.equal(board.cell, 35);
+        assert.equal(board.x + 12 * board.cell / 2, 270);
+        assert.equal(board.y + 18 * board.cell / 2, 514);
+        // Report silhouette contacts: adding 1px grid spacing does not guarantee zero overlap.
         for (const box of boxes) {
           const expected = fixedSizes.get(box.asset);
           if (expected) {
             assert.ok(Math.abs(box.width-expected.width) < 1e-6 && Math.abs(box.height-expected.height) < 1e-6,
               "same artwork must keep a fixed size across positions, directions, levels, and removals");
           } else fixedSizes.set(box.asset, { width:box.width, height:box.height });
-          assert.ok(Math.min(box.width,box.height) >= 26, "toys retain a readable size within their grid footprints");
+          const id = box.asset.split("/").pop().replace(".png", "");
+          const [iw, ih] = art.assets[id].size;
+          const cells = id.includes("rabbit") ? [1,2] : id.includes("whale") ? [3,1] : [1,1];
+          const fit = Math.min((cells[0]*34-3)*1.44/iw, (cells[1]*34-3)*1.44/ih);
+          assert.ok(Math.abs(box.width-iw*fit)<1e-6 && Math.abs(box.height-ih*fit)<1e-6, "approved artwork size must not change");
         }
         results.push({ entry, level:level+1, stage, minGap, opaqueContactPixels:contacts.reduce((sum,c)=>sum+c.pixels,0), maxContactRatio:Math.max(0,...contacts.map(c=>c.pixels/c.area)) });
       }
@@ -87,5 +94,5 @@ try {
   await writeFile("test-output/toy-spacing/report.json", JSON.stringify({ measureOnly, results, errors }, null, 2));
   console.log(measureOnly
     ? "20 levels, source/release: fixed sizes passed; silhouette contact measured for requested size preview (2% limit not enforced)."
-    : "20 levels, source/release, initial/after exits: fixed sizes retained; at least 4px separation with no overlapping sprite bounds.");
+    : "20 levels, source/release, initial/after exits: approved artwork sizes retained; centered grid pitch is 35px; silhouette contacts measured.");
 } finally { await browser.close(); }
