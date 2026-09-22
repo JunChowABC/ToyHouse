@@ -589,85 +589,85 @@
     "toy_rabbit_white_a": {
       "file": "toy_rabbit_white_a.png",
       "size": [
-        1075,
-        1116
+        708,
+        1715
       ],
-      "sha256": "9708f5febf21bc10801bd44e29ae9c580c9c707b0529d9245c2b6a104f2af39b",
+      "sha256": "d218495db3f0122af98051c6569be906f9d2225f3f1bedf4501eb500e31ddcbe",
       "bounds": [
         0,
         0,
-        1075,
-        1116
+        708,
+        1715
       ],
       "opacity": 1,
       "role": "original-art",
-      "source": "原画资源/兔子.png",
-      "sourceSha256": "2aafa3c88c65e9b21ccf6a79a21d6216eb0365748aa5d18f340dea3c34557095",
+      "source": "原画资源/兔子3.png",
+      "sourceSha256": "0960dbb6db5a756dfc220a5248ab1e7ad005791509c673dfb4d421210a3e4f4c",
       "originalSize": [
-        1254,
-        1254
+        887,
+        1774
       ],
       "alphaCrop": [
-        155,
-        58,
-        1230,
-        1174
+        149,
+        33,
+        857,
+        1748
       ]
     },
     "toy_whale_blue_a": {
       "file": "toy_whale_blue_a.png",
       "size": [
-        1199,
-        699
+        2028,
+        637
       ],
-      "sha256": "f6eba9e7958f855d7fb3f439e2c55b5f0787b449773c53406a61ec096f1dd070",
+      "sha256": "cb520dcb0f2d3809ee7abc7235ee6d1f38c909fbcda86b71a0ae4519e225eb56",
       "bounds": [
         0,
         0,
-        1199,
-        699
+        2028,
+        637
       ],
       "opacity": 1,
       "role": "original-art",
-      "source": "原画资源/鲸鱼.png",
-      "sourceSha256": "1043a9f8d634e76235258eb2fd064275517b267c54dd934adcc1bed472f89792",
+      "source": "原画资源/鲸鱼4.png",
+      "sourceSha256": "7036d522c26f1aaf12d4ea593a93bc21952524822aa4f2b2ba6a57ebac260940",
       "originalSize": [
-        1254,
-        1254
+        2172,
+        724
       ],
       "alphaCrop": [
-        41,
-        301,
-        1240,
-        1000
+        100,
+        43,
+        2128,
+        680
       ]
     },
     "toy_duck_yellow_a": {
       "file": "toy_duck_yellow_a.png",
       "size": [
-        1121,
-        1093
+        1150,
+        1131
       ],
-      "sha256": "5dd9aa863a2a572af8d4e4eb8eea6f9e6362db5b8832e778f494e915b97834f3",
+      "sha256": "76dbdf24d7672adb342c71a16dd07cd365ce9dcae322ad2d5e758a04c0d9f93c",
       "bounds": [
         0,
         0,
-        1121,
-        1093
+        1150,
+        1131
       ],
       "opacity": 1,
       "role": "original-art",
-      "source": "原画资源/鸭子.png",
-      "sourceSha256": "730c9a7368cbe10efcecd410f166992e0f7294eff968b4ee451aa6d2b3729da1",
+      "source": "原画资源/鸭子3.png",
+      "sourceSha256": "e876fa5fa30dda9ee4427774bf3a3cf47e1a97ace399911108cafc3dae57d22a",
       "originalSize": [
         1254,
         1254
       ],
       "alphaCrop": [
-        87,
-        99,
-        1208,
-        1192
+        73,
+        91,
+        1223,
+        1222
       ]
     }
   },
