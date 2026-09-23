@@ -1299,7 +1299,7 @@ function toyAnimationPose(toy, time, exitProgress = null) {
     }
   }
   if (pose.mode === "idle") {
-    const seed = [...toy.id].reduce((sum, c) => (sum * 31 + c.charCodeAt(0)) % 65521, 0);
+    const seed = [...toy.archetypeId].reduce((sum, c) => (sum * 31 + c.charCodeAt(0)) % 65521, 0);
     const clock = (time + seed * 17) % (3200 + seed % 2400);
     const blink = t => t < 0 || t >= 210 ? 0 : t < 55 ? t / 55 : t < 120 ? 1 : (210 - t) / 90;
     pose.blink = Math.max(blink(clock), seed % 4 === 0 ? blink(clock - 270) : 0);

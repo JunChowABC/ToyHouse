@@ -19,14 +19,14 @@ try {
    d.openPause();const paused=frame(0);if(paused!==frame(500))throw Error('pause animation moved');d.closePause();
    const samples=[];
    const blinkTimes=[];
-   for(const id of ['R001','R002','R013','W001','D001']) {
-    const toy={id,archetypeId:'ORDINARY',blockedAt:-9999,impactDy:0};
+   for(const archetypeId of ['ORDINARY','LARGE','AUTO_EXIT']) for(const id of ['R001','R002','R013']) {
+    const toy={id,archetypeId,blockedAt:-9999,impactDy:0};
     let first=-1,closed=0;
-    for(let time=0;time<6000;time+=25){const pose=d.toyAnimationPose(toy,time);if(pose.blink>=.5){closed++;if(first<0)first=time;}samples.push({toy,time,exit:null,pose});}
+    for(let time=0;time<6000;time+=25){const pose=d.toyAnimationPose(toy,time);if(pose.blink!==d.toyAnimationPose({...toy,id:'other-toy'},time).blink)throw Error('same toy type blinks out of sync');if(pose.blink>=.5){closed++;if(first<0)first=time;}samples.push({toy,time,exit:null,pose});}
     if(first<0||closed>30)throw Error('missing blink or eyes remain shut');
     blinkTimes.push(first);
    }
-   if(new Set(blinkTimes).size<4)throw Error('toys blink in sync');
+   if(new Set(blinkTimes).size!==3)throw Error('expected one blink schedule per toy type');
    for(const archetypeId of ['ORDINARY','LARGE','AUTO_EXIT'])for(const time of [0,60,180,459,900,2500])for(const exit of [null,0,.25,.6,1]){
     const toy={id:'toy-12',archetypeId,blockedAt:0,impactDy:1};const pose=d.toyAnimationPose(toy,time,exit);
     if(pose.mode!=='idle'&&pose.blink!==0)throw Error('blink overrides action');
