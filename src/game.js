@@ -193,7 +193,6 @@ let artError = "";
 const ART_SCALE = Math.min(W / ART_MANIFEST.canvas[0], H / ART_MANIFEST.canvas[1]);
 const ART_OFFSET_Y = (H - ART_MANIFEST.canvas[1] * ART_SCALE) / 2;
 const UI_FONT = 'SimHei, "Microsoft YaHei UI", "PingFang SC", sans-serif';
-const RUG_RECT = { x: 3, y: 171, w: 534, h: 534 * ART_MANIFEST.assets.ui_playmat_base_01.size[1] / ART_MANIFEST.assets.ui_playmat_base_01.size[0] };
 const RABBIT_ANGLE = Object.freeze({ UP: 0, RIGHT: Math.PI / 2, DOWN: Math.PI, LEFT: -Math.PI / 2 });
 const HUD_LAYERS = Object.keys(ART_MANIFEST.assets).filter(id => ART_MANIFEST.assets[id].group === "04_TITLE");
 const CURRENCY_LAYERS = Object.keys(ART_MANIFEST.assets).filter(id => ART_MANIFEST.assets[id].group === "06_RESOURCES");
@@ -307,10 +306,6 @@ function drawArtHud(spec) {
   drawArt("ui_combo_star_01_instance_01");
   artText("COMBO", 260, 145, 13, "#956a4f", undefined, 700, "#ffffff");
   artText(state.combo, 298, 142, 23, "#63345f", 28, 700, "#fff5df");
-}
-
-function drawArtRug() {
-  drawArt("ui_playmat_base_01", RUG_RECT);
 }
 
 const systemAssets = {
@@ -1190,7 +1185,6 @@ function toyArtLayout(toy) {
 
 function drawGame() {
   drawBackground();
-  drawArtRug();
   const spec = LEVEL_SPECS[state.levelIndex];
 
   const idleToys = state.toys.filter((toy) => toy.state === "IDLE");
@@ -1704,7 +1698,7 @@ document.addEventListener("keydown", (event) => {
 
 function renderGameToText() {
   const economy = { coins: profile.coins, inventory: { ...profile.inventory }, price: TOOL_PRICE, perLevelLimit: TOOL_LIMIT };
-  const art = { loading: imageLoadStatus(), systems: Object.fromEntries(Object.entries(systemAssets).map(([key, value]) => [key, value.ready])), waiting: pendingLoad ? { systems: pendingLoad.keys, error: pendingLoad.error } : null, version: ART_MANIFEST.version, ready: artReady, loaded: artImages.size, expected: Object.keys(ART_MANIFEST.assets).length, error: artError || null, rabbitPose: "head-follows-direction", rug: { ...RUG_RECT, scaling: "uniform" }, currencies: "coins", toolStock: "persistent-inventory" };
+  const art = { loading: imageLoadStatus(), systems: Object.fromEntries(Object.entries(systemAssets).map(([key, value]) => [key, value.ready])), waiting: pendingLoad ? { systems: pendingLoad.keys, error: pendingLoad.error } : null, version: ART_MANIFEST.version, ready: artReady, loaded: artImages.size, expected: Object.keys(ART_MANIFEST.assets).length, error: artError || null, rabbitPose: "head-follows-direction", rug: { visible: false }, currencies: "coins", toolStock: "persistent-inventory" };
   if (state.mode === "home") {
     const progress = homeProgress();
     return JSON.stringify({ mode: "home", art, homeArt: homeArtStatus(), economy, title: "晚安，玩具屋",

@@ -43,6 +43,7 @@ try {
     page.on("console", m => { if (m.type() === "error") errors.push(m.text()); });
     page.on("response", r => { if (r.status() >= 400) failedRequests.push(r.url()); });
     await page.goto(`http://127.0.0.1:4173${entry}`, { waitUntil: "networkidle" });
+    await page.evaluate(() => window.__toyhouse_background_ready);
     assert.equal(await page.evaluate(() => window.__toyhouse_art_ready), true);
     const read = () => page.evaluate(() => JSON.parse(window.render_game_to_text()));
     const click = async (x, y) => {
@@ -59,7 +60,7 @@ try {
     assert.equal(state.art.loaded, Object.keys(manifest.assets).length);
     assert.equal(state.art.rabbitPose, "head-follows-direction");
     assert.equal(state.levelTitle, "月光敲敲窗");
-    assert.ok(Math.abs(state.art.rug.w / state.art.rug.h - 1122 / 1402) < 1e-6);
+    assert.equal(state.art.rug.visible, false);
     assert.equal(state.remaining, 72);
     const trace = await page.evaluate(() => { window.advanceTime(0); return window.__artDrawTrace; });
     assert.equal(state.art.version, "toyhouse-ui-v3");
@@ -68,8 +69,7 @@ try {
     const rabbitTitle = trace.artScales.find(a => a.src.includes("ui_title_rabbit"));
     assert.ok(rabbitTitle);
     assert.ok(Math.abs(rabbitTitle.x - 426 * 540 / 941) < 1e-8, "title rabbit must retain the PSD position");
-    assert.equal(trace.rugs.length, 1, "rug must be drawn whole, without nine-slicing");
-    assert.equal(trace.rugs[0].length, 4);
+    assert.equal(trace.rugs.length, 0, "the separate gameplay rug must not be drawn");
     assert.equal(trace.roundRects, 0, "no default rectangular toy frames");
     assert.ok(!trace.texts.some(t => /待归位|选2只|随机5只|选1只/.test(t)));
     assert.ok(trace.texts.includes("月光敲敲窗"));

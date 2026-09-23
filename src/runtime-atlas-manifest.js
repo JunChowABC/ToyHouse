@@ -154,7 +154,7 @@ export default {
     ]
   },
   "assets/toyhouse-ui-v3/art_bedroom_bg_01.png": {
-    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
+    "file": "assets/runtime-ui/play-0-0635f78d7645.webp",
     "rect": [
       2,
       2,
@@ -163,7 +163,7 @@ export default {
     ]
   },
   "assets/toyhouse-ui-v3/toy_rabbit_white_a.png": {
-    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
+    "file": "assets/runtime-ui/play-0-0635f78d7645.webp",
     "rect": [
       947,
       2,
@@ -172,7 +172,7 @@ export default {
     ]
   },
   "assets/toyhouse-ui-v3/ui_bottom_button_disc_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
+    "file": "assets/runtime-ui/play-0-0635f78d7645.webp",
     "rect": [
       1683,
       2,
@@ -181,7 +181,7 @@ export default {
     ]
   },
   "assets/toyhouse-ui-v3/ui_title_base_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
+    "file": "assets/runtime-ui/play-0-0635f78d7645.webp",
     "rect": [
       2,
       1678,
@@ -190,7 +190,7 @@ export default {
     ]
   },
   "assets/toyhouse-ui-v3/ui_nav_tab_base_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
+    "file": "assets/runtime-ui/play-0-0635f78d7645.webp",
     "rect": [
       1828,
       2,
@@ -199,7 +199,7 @@ export default {
     ]
   },
   "assets/toyhouse-ui-v3/ui_title_region_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
+    "file": "assets/runtime-ui/play-0-0635f78d7645.webp",
     "rect": [
       471,
       1678,
@@ -208,7 +208,7 @@ export default {
     ]
   },
   "assets/toyhouse-ui-v3/ui_title_rabbit_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
+    "file": "assets/runtime-ui/play-0-0635f78d7645.webp",
     "rect": [
       894,
       1678,
@@ -217,7 +217,7 @@ export default {
     ]
   },
   "assets/toyhouse-ui-v3/ui_title_ribbon_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
+    "file": "assets/runtime-ui/play-0-0635f78d7645.webp",
     "rect": [
       986,
       1678,
@@ -226,7 +226,7 @@ export default {
     ]
   },
   "assets/toyhouse-ui-v3/icon_flip_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
+    "file": "assets/runtime-ui/play-0-0635f78d7645.webp",
     "rect": [
       1315,
       1678,
@@ -235,7 +235,7 @@ export default {
     ]
   },
   "assets/toyhouse-ui-v3/icon_trash_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
+    "file": "assets/runtime-ui/play-0-0635f78d7645.webp",
     "rect": [
       1981,
       2,
@@ -244,7 +244,7 @@ export default {
     ]
   },
   "assets/toyhouse-ui-v3/icon_shuffle_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
+    "file": "assets/runtime-ui/play-0-0635f78d7645.webp",
     "rect": [
       1386,
       1678,
@@ -253,7 +253,7 @@ export default {
     ]
   },
   "assets/toyhouse-ui-v3/ui_combo_star_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
+    "file": "assets/runtime-ui/play-0-0635f78d7645.webp",
     "rect": [
       1452,
       1678,
@@ -262,7 +262,7 @@ export default {
     ]
   },
   "assets/toyhouse-ui-v3/ui_nav_icon_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
+    "file": "assets/runtime-ui/play-0-0635f78d7645.webp",
     "rect": [
       1518,
       1678,
@@ -271,7 +271,7 @@ export default {
     ]
   },
   "assets/toyhouse-ui-v3/ui_small_badge_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
+    "file": "assets/runtime-ui/play-0-0635f78d7645.webp",
     "rect": [
       1581,
       1678,
@@ -280,7 +280,7 @@ export default {
     ]
   },
   "assets/toyhouse-ui-v3/ui_combo_panel_base_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
+    "file": "assets/runtime-ui/play-0-0635f78d7645.webp",
     "rect": [
       1634,
       1678,
@@ -289,7 +289,7 @@ export default {
     ]
   },
   "assets/toyhouse-ui-v3/ui_bottom_label_plate_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
+    "file": "assets/runtime-ui/play-0-0635f78d7645.webp",
     "rect": [
       2,
       1805,
@@ -298,7 +298,7 @@ export default {
     ]
   },
   "assets/toyhouse-ui-v3/ui_title_bow_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
+    "file": "assets/runtime-ui/play-0-0635f78d7645.webp",
     "rect": [
       131,
       1805,
@@ -307,7 +307,7 @@ export default {
     ]
   },
   "assets/toyhouse-ui-v3/ui_combo_panel_region_bar_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
+    "file": "assets/runtime-ui/play-0-0635f78d7645.webp",
     "rect": [
       228,
       1805,
@@ -316,7 +316,7 @@ export default {
     ]
   },
   "assets/toyhouse-ui-v3/ui_title_star_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
+    "file": "assets/runtime-ui/play-0-0635f78d7645.webp",
     "rect": [
       2005,
       1678,
@@ -325,7 +325,7 @@ export default {
     ]
   },
   "assets/toyhouse-ui-v3/ui_combo_bar_fill_01_instance_01.png": {
-    "file": "assets/runtime-ui/play-0-8ae97e178241.webp",
+    "file": "assets/runtime-ui/play-0-0635f78d7645.webp",
     "rect": [
       566,
       1805,
@@ -333,31 +333,22 @@ export default {
       27
     ]
   },
-  "assets/toyhouse-ui-v3/ui_playmat_base_01.png": {
-    "file": "assets/runtime-ui/play-1-4d2fe21d7aa9.webp",
-    "rect": [
-      2,
-      2,
-      1122,
-      1402
-    ]
-  },
-  "assets/toyhouse-ui-v3/toy_whale_blue_a.png": {
-    "file": "assets/runtime-ui/play-1-4d2fe21d7aa9.webp",
-    "rect": [
-      2,
-      1408,
-      2028,
-      637
-    ]
-  },
   "assets/toyhouse-ui-v3/toy_duck_yellow_a.png": {
-    "file": "assets/runtime-ui/play-2-eee874d3e43d.webp",
+    "file": "assets/runtime-ui/play-1-b096706f868d.webp",
     "rect": [
       2,
       2,
       1150,
       1131
+    ]
+  },
+  "assets/toyhouse-ui-v3/toy_whale_blue_a.png": {
+    "file": "assets/runtime-ui/play-1-b096706f868d.webp",
+    "rect": [
+      2,
+      1137,
+      2028,
+      637
     ]
   },
   "assets/pause-dialog-v2/ui_pause_panel_base.png": {

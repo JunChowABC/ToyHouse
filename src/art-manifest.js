@@ -537,7 +537,7 @@ export default {
         941,
         1672
       ],
-      "sha256": "c7a499bdf22c4b5e93683e6df8b2e0920238fa7bb49f054be2528d413171c3cb",
+      "sha256": "f78df2947baa055630c68f00b4ada054a6d1178867f124782fe3b2c5c6a0ac97",
       "bounds": [
         0,
         0,
@@ -546,8 +546,8 @@ export default {
       ],
       "opacity": 1,
       "role": "original-art",
-      "source": "原画资源/背景.png",
-      "sourceSha256": "4b678e3278804c6f960c092c6d986249f3f3fa90c8ecc7ce7c5ceada7b858860",
+      "source": "原画资源/背景2.png",
+      "sourceSha256": "4a6db2fa7ce21fc327b94f4bcaaa12608bd2460962ead4b823a54f6588465d3d",
       "originalSize": [
         941,
         1672
@@ -557,34 +557,6 @@ export default {
         0,
         941,
         1672
-      ]
-    },
-    "ui_playmat_base_01": {
-      "file": "ui_playmat_base_01.png",
-      "size": [
-        1122,
-        1402
-      ],
-      "sha256": "ad3015052e6dbfe692bc9c65e96bbd461679cbfa1f2ec7d0715c9551570cee3d",
-      "bounds": [
-        0,
-        0,
-        1122,
-        1402
-      ],
-      "opacity": 1,
-      "role": "original-art",
-      "source": "原画资源/地毯2.png",
-      "sourceSha256": "4ddd78550acd643e23efb7f3b56c959ef1e5c3588e3f99274712e3ec1dc42512",
-      "originalSize": [
-        1122,
-        1402
-      ],
-      "alphaCrop": [
-        0,
-        0,
-        1122,
-        1402
       ]
     },
     "toy_rabbit_white_a": {
