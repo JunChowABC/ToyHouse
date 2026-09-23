@@ -936,7 +936,12 @@ function update(dt) {
   state.exiting = state.exiting.filter((anim) => anim.elapsed < anim.duration);
   state.moving.forEach((motion) => {
     motion.elapsed += dt * 1000;
-    if (motion.elapsed >= motion.duration) {
+    // The cubic ease-out has a long subpixel tail. Snap to contact and react
+    // in this update as soon as the visible gap is at most one design pixel.
+    const remaining = Math.max(Math.abs(motion.fromX), Math.abs(motion.fromY))
+      * (1 - Math.min(1, motion.elapsed / motion.duration)) ** 3;
+    if (remaining <= 1) {
+      motion.elapsed = motion.duration;
       const toy = state.toys.find(item => item.id === motion.id && item.state === "IDLE");
       if (toy) triggerImpact(toy, motion.blockerId, DIR[toy.direction]);
     }

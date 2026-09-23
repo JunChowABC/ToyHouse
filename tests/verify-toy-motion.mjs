@@ -29,7 +29,17 @@ try {
    for(let level=0;level<20&&(!slide||!blocked);level++){
     d.startLevel(level);
     const t=s().toys.find(t=>t.outcome==='STOP_AT_BLOCKER');
-    if(t&&!slide){d.clickToy(t.id);if(s().impactedToys.some(x=>x.id===t.id))throw Error('early collision');const m=s().movingImpacts.find(x=>x.toyId===t.id);window.advanceTime(m.remainingMs+17);if(!s().impactedToys.some(x=>x.id===t.id))throw Error('missing arrival collision');window.advanceTime(500);if(s().impactedToys.length)throw Error('collision never settles');slide=true;}
+    if(t&&!slide){
+     d.clickToy(t.id);if(s().impactedToys.some(x=>x.id===t.id))throw Error('early collision');
+     const m=s().movingImpacts.find(x=>x.toyId===t.id);
+     const contactMs=m.remainingMs*(1-Math.cbrt(1/(t.forwardSpaces*35)));
+     const framesBefore=Math.floor(contactMs/(1000/60));
+     window.advanceTime(framesBefore*1000/60);
+     if(s().impactedToys.some(x=>x.id===t.id))throw Error('collision before visible contact');
+     window.advanceTime(1000/60);
+     if(!s().impactedToys.some(x=>x.id===t.id)||s().movingImpacts.some(x=>x.toyId===t.id))throw Error('collision delayed after visible contact');
+     window.advanceTime(500);if(s().impactedToys.length)throw Error('collision never settles');slide=true;
+    }
     d.startLevel(level);const hit=s().toys.find(t=>t.outcome==='BLOCKED');if(hit&&!blocked){d.clickToy(hit.id);if(!s().impactedToys.some(x=>x.id===hit.id))throw Error('missing immediate collision');blocked=true;}
    }
    if(!slide||!blocked)throw Error('collision cases not exercised');

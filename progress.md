@@ -378,3 +378,8 @@ Original prompt: 根据《《晚安，玩具屋》游戏设计文档 GDD.md》�
 - 新增 tests/verify-toy-motion.mjs 与 verify-maker-toy-motion.py：源码/发布包真实绘制变化、棋盘不变、暂停冻结、立即/滑行碰撞、离场完成及20关清空通过；180组JS/Lua姿态一致。Maker LSP 0 errors。
 - 标准网页客户端截图及待机/碰撞/离场/混合玩具截图已人工查看。npm run test:levels 的旧 VM 测试因未处理 image-loader ES import 失败，未计为通过；通过新增浏览器20关清空覆盖运行流程。
 - 本地构建完成；远端发布结果另行确认。
+- 发布确认：GitHub 688a143，Pages Actions 35809600903 success；线上 bundle 与 docs/game.js 完全一致，第20关截图检查通过。Maker 3b455b0，远程构建成功16s，preview_refresh 200；watcher零失败，但日志为旧会话，不作为本次手机验收。20关源码/发布版基准尺寸与35px格距回归通过。
+## 2026-09-23 · 修正滑行碰撞反馈延迟
+- 定位到三次缓出曲线的亚像素尾段：视觉已接触后仍等待原始 duration。两端现在在剩余移动距离<=1设计像素的同一更新帧结束滑行并触发碰撞。
+- 新增接触前/接触后的时序断言，Web源码/发布包与Maker Lua均通过；20关清空和180组动作参数检查通过。
+- 连续截图检查通过：R004滑行两格，接触阈值207.5ms，旧反馈274ms，消除约66.5ms末段等待。标准网页客户端截图已查看。

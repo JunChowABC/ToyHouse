@@ -22,7 +22,11 @@ for level=1,20 do
    local steps,exit=G.scan(t,g.toys)
    if not exit and steps>0 and not slid then
     g:activate(t);assert(t.blockedAt<0,'early collision');assert(#g.moving>0)
-    g:update(0.6);assert(t.blockedAt==g.time,'missing arrival collision');slid=true;break
+    local m=g.moving[1]
+    local contact=m.duration*(1-(1/(steps*35))^(1/3))
+    g:update((contact-1)/1000);assert(t.blockedAt<0,'collision before contact')
+    g:update(.002);assert(t.blockedAt==g.time and #g.moving==0,'collision delayed after contact')
+    slid=true;break
    end
   end
  end
