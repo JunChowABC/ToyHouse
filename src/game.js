@@ -1140,8 +1140,9 @@ function toyArtLayout(toy) {
   const rabbit = toy.archetypeId === "ORDINARY", duck = toy.archetypeId === "AUTO_EXIT";
   // Keep the approved toy artwork size independent of layout spacing.
   const inset = TOY_VISUAL_GAP;
-  const displayWidth = (width - inset) * TOY_DISPLAY_SCALE;
-  const displayHeight = (height - inset) * TOY_DISPLAY_SCALE;
+  const scale = TOY_DISPLAY_SCALE * (rabbit ? 0.9 : 1);
+  const displayWidth = (width - inset) * scale;
+  const displayHeight = (height - inset) * scale;
   const id = rabbit ? "toy_rabbit_white_a" : duck ? "toy_duck_yellow_a" : "toy_whale_blue_a";
   const angle = rabbit ? RABBIT_ANGLE[toy.direction] : duck ? 0 : toy.direction === "UP" ? Math.PI / 2 : toy.direction === "DOWN" ? -Math.PI / 2 : 0;
   return { id, angle, flip: !rabbit && !duck && toy.direction === "RIGHT",

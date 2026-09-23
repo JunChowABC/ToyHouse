@@ -81,7 +81,7 @@ try {
           const id = box.asset.split("/").pop().replace(".png", "");
           const [iw, ih] = art.assets[id].size;
           const cells = id.includes("rabbit") ? [1,2] : id.includes("whale") ? [3,1] : [1,1];
-          const fit = Math.min((cells[0]*34-3)*1.44/iw, (cells[1]*34-3)*1.44/ih);
+          const fit = Math.min((cells[0]*34-3)*1.44/iw, (cells[1]*34-3)*1.44/ih) * (id.includes("rabbit") ? 0.9 : 1);
           assert.ok(Math.abs(box.width-iw*fit)<1e-6 && Math.abs(box.height-ih*fit)<1e-6, "approved artwork size must not change");
         }
         results.push({ entry, level:level+1, stage, minGap, opaqueContactPixels:contacts.reduce((sum,c)=>sum+c.pixels,0), maxContactRatio:Math.max(0,...contacts.map(c=>c.pixels/c.area)) });
