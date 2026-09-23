@@ -212,6 +212,33 @@ function drawArt(id, rect = artRect(id)) {
   ctx.restore();
 }
 
+// Eye anchors in the current source PNGs; eyelids follow the sprite transform.
+const TOY_BLINK_EYES = {
+  toy_rabbit_white_a: { skin: "#fcf5ec", ink: "#8d5147", eyes: [[177, 625, 43, 49], [433, 625, 43, 49]] },
+  toy_whale_blue_a: { skin: "#c5e2f9", ink: "#855149", eyes: [[315, 363, 46, 51]] },
+  toy_duck_yellow_a: { skin: "#ffe58c", ink: "#80584d", eyes: [[438, 506, 44, 54], [588, 94, 13, 14]] },
+};
+
+function drawToyBlink(id, width, height, scale) {
+  const face = TOY_BLINK_EYES[id];
+  if (!face) return;
+  ctx.save();
+  ctx.shadowBlur = 0;
+  ctx.scale(scale, scale);
+  ctx.translate(-width / 2, -height / 2);
+  ctx.fillStyle = face.skin;
+  ctx.strokeStyle = face.ink;
+  ctx.lineCap = "round";
+  for (const [x, y, rx, ry] of face.eyes) {
+    ctx.beginPath(); ctx.ellipse(x, y, rx, ry, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.lineWidth = rx * 0.18;
+    ctx.beginPath(); ctx.moveTo(x - rx * 0.75, y);
+    ctx.bezierCurveTo(x - rx * 0.4, y + ry * 0.38, x + rx * 0.4, y + ry * 0.38, x + rx * 0.75, y);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
 function fitArt(id, rect, flip = false, angle = 0, pose = null) {
   const image = artImages.get(id);
   if (!image) return;
@@ -223,6 +250,7 @@ function fitArt(id, rect, flip = false, angle = 0, pose = null) {
   const rotated = Math.abs(Math.sin(angle)) > 0.5;
   const scale = Math.min((rotated ? rect.h : rect.w) / image.width, (rotated ? rect.w : rect.h) / image.height);
   ctx.drawImage(image, -image.width * scale / 2, -image.height * scale / 2, image.width * scale, image.height * scale);
+  if (pose?.blink >= 0.5) drawToyBlink(id, image.width, image.height, scale);
   ctx.restore();
 }
 
@@ -1249,7 +1277,7 @@ function toyAnimationPose(toy, time, exitProgress = null) {
   const phase = [...toy.id].reduce((sum, c) => sum + c.charCodeAt(0), 0) * 0.73;
   const period = toy.archetypeId === "LARGE" ? 3400 : toy.archetypeId === "AUTO_EXIT" ? 2200 : 2800;
   const breath = (1 + Math.sin(time / period * Math.PI * 2 + phase)) / 2;
-  const pose = { sx: 1 - 0.012 * breath, sy: 1 - 0.035 * breath, rotation: 0, hop: 0, alpha: 1, mode: "idle" };
+  const pose = { sx: 1 - 0.012 * breath, sy: 1 - 0.035 * breath, rotation: 0, hop: 0, alpha: 1, blink: 0, mode: "idle" };
   if (exitProgress !== null) {
     const t = Math.max(0, Math.min(1, exitProgress));
     const shrink = 1 - 0.2 * t * t;
@@ -1269,6 +1297,12 @@ function toyAnimationPose(toy, time, exitProgress = null) {
       pose.rotation = Math.sin(t * Math.PI * 4) * 0.045 * (1 - t) ** 2;
       pose.mode = "impact";
     }
+  }
+  if (pose.mode === "idle") {
+    const seed = [...toy.id].reduce((sum, c) => (sum * 31 + c.charCodeAt(0)) % 65521, 0);
+    const clock = (time + seed * 17) % (3200 + seed % 2400);
+    const blink = t => t < 0 || t >= 210 ? 0 : t < 55 ? t / 55 : t < 120 ? 1 : (210 - t) / 90;
+    pose.blink = Math.max(blink(clock), seed % 4 === 0 ? blink(clock - 270) : 0);
   }
   return pose;
 }
