@@ -212,12 +212,13 @@ function drawArt(id, rect = artRect(id)) {
   ctx.restore();
 }
 
-function fitArt(id, rect, flip = false, angle = 0) {
+function fitArt(id, rect, flip = false, angle = 0, pose = null) {
   const image = artImages.get(id);
   if (!image) return;
   ctx.save();
-  ctx.translate(rect.x + rect.w / 2, rect.y + rect.h / 2);
-  ctx.rotate(angle);
+  ctx.translate(rect.x + rect.w / 2, rect.y + rect.h / 2 + (pose?.hop || 0));
+  ctx.rotate(angle + (pose?.rotation || 0));
+  if (pose) ctx.scale(pose.sx, pose.sy);
   if (flip) ctx.scale(-1, 1);
   const rotated = Math.abs(Math.sin(angle)) > 0.5;
   const scale = Math.min((rotated ? rect.h : rect.w) / image.width, (rotated ? rect.w : rect.h) / image.height);
@@ -724,7 +725,6 @@ function slideToyToBlocker(toy, steps) {
     steps,
     blockerId: scan.blockerId,
   });
-  triggerImpact(toy, scan.blockerId, d);
   settleAutoExits();
   state.hintedId = null;
   const center = toyCenter(toy);
@@ -934,7 +934,13 @@ function update(dt) {
   }
   state.exiting.forEach((anim) => { anim.elapsed += dt * 1000; });
   state.exiting = state.exiting.filter((anim) => anim.elapsed < anim.duration);
-  state.moving.forEach((motion) => { motion.elapsed += dt * 1000; });
+  state.moving.forEach((motion) => {
+    motion.elapsed += dt * 1000;
+    if (motion.elapsed >= motion.duration) {
+      const toy = state.toys.find(item => item.id === motion.id && item.state === "IDLE");
+      if (toy) triggerImpact(toy, motion.blockerId, DIR[toy.direction]);
+    }
+  });
   state.moving = state.moving.filter((motion) => motion.elapsed < motion.duration);
   state.effects.forEach((effect) => {
     effect.life -= dt;
@@ -1166,14 +1172,14 @@ function drawGame() {
       const a = anim.path[i], b = anim.path[i + 1], fraction = progress - i;
       drawToy(anim.toy, (a.x + (b.x - a.x) * fraction - anim.toy.x) * BOARD.cell,
         (a.y + (b.y - a.y) * fraction - anim.toy.y) * BOARD.cell,
-        1 - Math.max(0, progress - (anim.path.length - 2)));
+        1 - Math.max(0, progress - (anim.path.length - 2)), anim.elapsed / anim.duration);
       return;
     }
     const t = Math.min(1, anim.elapsed / anim.duration);
     // Normal exits accelerate gently; removal retains its short fade animation.
     const eased = anim.kind === "exit" ? t * t * (3 - 2 * t) : 1 - (1 - t) ** 3;
     const alpha = anim.kind === "remove" ? 1 - eased : 1 - eased * 0.12;
-    drawToy(anim.toy, anim.dx * eased * 640, anim.dy * eased * 780, alpha);
+    drawToy(anim.toy, anim.dx * eased * 640, anim.dy * eased * 780, alpha, t);
   });
   drawEffects();
 
@@ -1233,7 +1239,36 @@ function drawExitMarkers() {
   ctx.restore();
 }
 
-function drawToy(toy, offsetX, offsetY, alpha) {
+// Pure visual animation: deterministic per-toy phase, never changes cells or hit areas.
+function toyAnimationPose(toy, time, exitProgress = null) {
+  const phase = [...toy.id].reduce((sum, c) => sum + c.charCodeAt(0), 0) * 0.73;
+  const period = toy.archetypeId === "LARGE" ? 3400 : toy.archetypeId === "AUTO_EXIT" ? 2200 : 2800;
+  const breath = (1 + Math.sin(time / period * Math.PI * 2 + phase)) / 2;
+  const pose = { sx: 1 - 0.012 * breath, sy: 1 - 0.035 * breath, rotation: 0, hop: 0, alpha: 1, mode: "idle" };
+  if (exitProgress !== null) {
+    const t = Math.max(0, Math.min(1, exitProgress));
+    const shrink = 1 - 0.2 * t * t;
+    pose.sx = shrink; pose.sy = shrink * (1 - 0.05 * Math.sin(t * Math.PI * 4));
+    pose.rotation = Math.sin(t * Math.PI * 5) * 0.09 * (1 - t);
+    pose.hop = -4 * Math.abs(Math.sin(t * Math.PI * 3)) * (1 - t);
+    pose.alpha = 1 - Math.max(0, (t - 0.55) / 0.45);
+    pose.mode = "exit";
+  } else {
+    const age = time - toy.blockedAt;
+    if (age >= 0 && age < IMPACT_DURATION_MS) {
+      const t = age / IMPACT_DURATION_MS;
+      const spring = Math.sin(t * Math.PI * 3) * (1 - t) ** 2;
+      const alongY = toy.archetypeId === "ORDINARY" || (toy.archetypeId === "AUTO_EXIT" && toy.impactDy);
+      pose.sx = 1 + (alongY ? 0.06 : -0.16) * spring;
+      pose.sy = 1 + (alongY ? -0.16 : 0.06) * spring;
+      pose.rotation = Math.sin(t * Math.PI * 4) * 0.045 * (1 - t) ** 2;
+      pose.mode = "impact";
+    }
+  }
+  return pose;
+}
+
+function drawToy(toy, offsetX, offsetY, alpha, exitProgress = null) {
   const minX = Math.min(...toy.cells.map((cell) => cell.x));
   const maxX = Math.max(...toy.cells.map((cell) => cell.x));
   const minY = Math.min(...toy.cells.map((cell) => cell.y));
@@ -1246,12 +1281,13 @@ function drawToy(toy, offsetX, offsetY, alpha) {
   const isHinted = state.hintedId === toy.id;
   const directionChanged = state.directionFxIds.includes(toy.id);
   const age = state.time - toy.blockedAt;
-  const impact = age >= 0 && age < IMPACT_DURATION_MS;
-  const shake = impact ? Math.sin(age / IMPACT_DURATION_MS * Math.PI * 4) * (1 - age / IMPACT_DURATION_MS) * 7 : 0;
+  const pose = toyAnimationPose(toy, state.time, exitProgress);
+  const impact = pose.mode === "impact";
+  const shake = impact ? Math.sin(age / IMPACT_DURATION_MS * Math.PI * 4) * (1 - age / IMPACT_DURATION_MS) * 3 : 0;
   x += (toy.impactDx || 0) * shake;
   y += (toy.impactDy || 0) * shake;
   ctx.save();
-  ctx.globalAlpha = alpha;
+  ctx.globalAlpha = alpha * pose.alpha;
   const accent = impact ? "#fff3a1" : isSelected ? "#ed75aa" : directionChanged ? "#83bed7" : "#cda998";
   const highlighted = impact || isSelected || isHinted || directionChanged;
   ctx.shadowColor = "rgba(116,64,81,.55)";
@@ -1262,7 +1298,7 @@ function drawToy(toy, offsetX, offsetY, alpha) {
   const art = toyArtLayout(toy);
   art.rect.x += offsetX + (toy.impactDx || 0) * shake;
   art.rect.y += offsetY + (toy.impactDy || 0) * shake;
-  fitArt(art.id, art.rect, art.flip, art.angle);
+  fitArt(art.id, art.rect, art.flip, art.angle, pose);
   ctx.shadowBlur = 0;
   if (isSelected) artText("✓", x + w / 2, y + h / 2, 19, "#ba497c", undefined, 700);
   ctx.restore();
@@ -1719,6 +1755,7 @@ window.advanceTime = (ms) => {
   render();
 };
 window.__toyhouse_debug = {
+  toyAnimationPose,
   grantReward,
   openToolModal,
   confirmTool,
