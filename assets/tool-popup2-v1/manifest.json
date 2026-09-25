@@ -1,0 +1,785 @@
+{
+  "version": "tool-popup2-v1",
+  "directory": "assets/tool-popup2-v1",
+  "canvas": {
+    "width": 941,
+    "height": 1672
+  },
+  "source": "outputs/eliminate-popup2-layered-v1/eliminate-popup2-layered-v1.psd",
+  "assets": {
+    "panel_base": {
+      "file": "panel_base.png",
+      "bounds": [
+        150,
+        430,
+        642,
+        925
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/panel_base.png",
+      "sha256": "4026edcaad15c7226a0ff638ce0f9cabb00a2cabc524f43e45306758a6ed28a3"
+    },
+    "ear_left": {
+      "file": "ear_left.png",
+      "bounds": [
+        301,
+        338,
+        109,
+        109
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/ear_left.png",
+      "sha256": "fcd48eb89a785777a372a0afbc5b1bb3f5bfbc1b5d9c3146b0253c6297c19dab"
+    },
+    "ear_right": {
+      "file": "ear_right.png",
+      "bounds": [
+        539,
+        338,
+        107,
+        107
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/ear_right.png",
+      "sha256": "d8c3bc90d9409c5fa756fa392e48c3a506f74c2de6b8b060b1c99e082239a1d8"
+    },
+    "header_plate": {
+      "file": "header_plate.png",
+      "bounds": [
+        235,
+        381,
+        472,
+        152
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/header_plate.png",
+      "sha256": "7c76af1ea641e9494f1e5b02fec5404dcd8eb36daebf1e22e50c0a8db30e2b37"
+    },
+    "rabbit": {
+      "file": "rabbit.png",
+      "bounds": [
+        408,
+        277,
+        162,
+        118
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/rabbit.png",
+      "sha256": "76c2d24966fd4219363406f29443cfcf81940309572bbd340c6bd2e26596bd76"
+    },
+    "header_bow": {
+      "file": "header_bow.png",
+      "bounds": [
+        166,
+        391,
+        115,
+        130
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/header_bow.png",
+      "sha256": "a19bcd634b7a2e8010c7844b7802fbe08cb4af71c3a49c27423195b83d866f16"
+    },
+    "header_star_left": {
+      "file": "header_star_left.png",
+      "bounds": [
+        267,
+        387,
+        44,
+        46
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/header_star_left.png",
+      "sha256": "8525944d6055910533a13d26bb40b99f0c88ed4d840b822b75a8d84a9a8e2cdf"
+    },
+    "header_star_inner_left": {
+      "file": "header_star_inner_left.png",
+      "bounds": [
+        328,
+        444,
+        48,
+        49
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/header_star_inner_left.png",
+      "sha256": "c528ecfd3e5319f52010fc3a719a115248b3f699d527c124fa37280480ab6285"
+    },
+    "header_star_inner_right": {
+      "file": "header_star_inner_right.png",
+      "bounds": [
+        567,
+        444,
+        48,
+        50
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/header_star_inner_right.png",
+      "sha256": "2f1fee0d53a18e11d554061447355334356a7dc9dbe2a334655cc8b6c080524a"
+    },
+    "header_star_large": {
+      "file": "header_star_large.png",
+      "bounds": [
+        645,
+        392,
+        82,
+        88
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/header_star_large.png",
+      "sha256": "a8373eba132a467b7042d1bbdae88430743f05aed7eb69ab3bedf21e5e02473a"
+    },
+    "header_star_small": {
+      "file": "header_star_small.png",
+      "bounds": [
+        699,
+        471,
+        39,
+        45
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/header_star_small.png",
+      "sha256": "6c08cdbfd3d1f1edee6275dce0f8a7b79a3c7a0fae956238b3ce1808d595f1bc"
+    },
+    "close_base": {
+      "file": "close_base.png",
+      "bounds": [
+        719,
+        419,
+        99,
+        99
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/close_base.png",
+      "sha256": "eeae75a792c47a6298c39956936af96dd0e828790fd81ed5581164b643467e2c"
+    },
+    "close_cross": {
+      "file": "close_cross.png",
+      "bounds": [
+        747,
+        445,
+        47,
+        46
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/close_cross.png",
+      "sha256": "fbc57e3d80363e6bb334aa7a6f7ecc6df4ae91eee97e4ec05fe3364c533e2997"
+    },
+    "illustration_cloud": {
+      "file": "illustration_cloud.png",
+      "bounds": [
+        229,
+        549,
+        482,
+        428
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/illustration_cloud.png",
+      "sha256": "ed7de836553e3472ae9a92323cfa21907cc8a82c690238f3d69c094be06ae55c"
+    },
+    "illustration_rays": {
+      "file": "illustration_rays.png",
+      "bounds": [
+        263,
+        581,
+        400,
+        358
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/illustration_rays.png",
+      "sha256": "6587083a9dd49bfa04b8c0b62c8befdaf9953aeda0ce68743469a83103af08d6"
+    },
+    "wand_handle": {
+      "file": "wand_handle.png",
+      "bounds": [
+        443,
+        749,
+        151,
+        190
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/wand_handle.png",
+      "sha256": "378015548ef0f7444880f2c0d83963d1bc684df34be6ffa3171fc6eabb3d1356"
+    },
+    "wand_endcap": {
+      "file": "wand_endcap.png",
+      "bounds": [
+        533,
+        876,
+        57,
+        59
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/wand_endcap.png",
+      "sha256": "7cec783da4eacaf4445a9fac8e146142530a9a89088edb6740f58a877072a0d6"
+    },
+    "wand_star": {
+      "file": "wand_star.png",
+      "bounds": [
+        324,
+        611,
+        230,
+        235
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/wand_star.png",
+      "sha256": "a2a3086331e2bb0385aa14e5bd9959a4c4867687c8d901ac185f33095d8da7cf"
+    },
+    "wand_bow": {
+      "file": "wand_bow.png",
+      "bounds": [
+        411,
+        734,
+        149,
+        130
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/wand_bow.png",
+      "sha256": "310478e4dc54c86dc17722dea81d4f73a3fcbb7b8ab890b527a2ef01ef0d0f42"
+    },
+    "wand_bow_star": {
+      "file": "wand_bow_star.png",
+      "bounds": [
+        461,
+        771,
+        56,
+        56
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/wand_bow_star.png",
+      "sha256": "0d06e1a7eb4a753a20a131bd6ee453bf227080bdb9c264ac1c5ae102d7404357"
+    },
+    "float_star_left": {
+      "file": "float_star_left.png",
+      "bounds": [
+        244,
+        690,
+        54,
+        54
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/float_star_left.png",
+      "sha256": "792dc3e3871b1eaf23a3116d7ba6327af77bc448a88a28518988cf52d813ab75"
+    },
+    "float_star_upper_right": {
+      "file": "float_star_upper_right.png",
+      "bounds": [
+        615,
+        631,
+        49,
+        50
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/float_star_upper_right.png",
+      "sha256": "78821a3585d69843416030f67aa20d18a616161777c1382d1c036e5757b8c88e"
+    },
+    "float_spark_large": {
+      "file": "float_spark_large.png",
+      "bounds": [
+        566,
+        653,
+        58,
+        72
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/float_spark_large.png",
+      "sha256": "be714d445d16ee5d19d4c826b1c3f98c706102deca5b4a6aece8fe5e961ab4e3"
+    },
+    "float_spark_small": {
+      "file": "float_spark_small.png",
+      "bounds": [
+        600,
+        704,
+        30,
+        34
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/float_spark_small.png",
+      "sha256": "7f9b7760ea63f7e4120e5bdd0aa5b74073dabc77fadd8962f3ef4de7eb6732c9"
+    },
+    "float_star_right": {
+      "file": "float_star_right.png",
+      "bounds": [
+        608,
+        760,
+        74,
+        72
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/float_star_right.png",
+      "sha256": "0368b7b3b46ec828236da0c570e2f860dbc00d93c7a7dd71a3f0993d101f89ca"
+    },
+    "float_star_bottom_left": {
+      "file": "float_star_bottom_left.png",
+      "bounds": [
+        309,
+        840,
+        52,
+        54
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/float_star_bottom_left.png",
+      "sha256": "c23a06eb85686f54052f0e4bb1d24fc03cdfaaa05efc75a1f3cb80c7faf4533c"
+    },
+    "float_star_bottom": {
+      "file": "float_star_bottom.png",
+      "bounds": [
+        380,
+        893,
+        54,
+        52
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/float_star_bottom.png",
+      "sha256": "6c1282655816ee41bb2f3aeb36c91a21d14b61c38c736f7f4e2aff61036b1d14"
+    },
+    "description_plate": {
+      "file": "description_plate.png",
+      "bounds": [
+        203,
+        987,
+        532,
+        111
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/description_plate.png",
+      "sha256": "1daabb67d08521c7ecb61e1eb4cd0956175647bdcd8d894649f0aed5957fc34d"
+    },
+    "purchase_base": {
+      "file": "purchase_base.png",
+      "bounds": [
+        220,
+        1122,
+        499,
+        143
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/purchase_base.png",
+      "sha256": "d2a45f83b4497a30c9351c05de04f684b93ad4e17767d886ffe0ad75bed7ab06"
+    },
+    "purchase_coin": {
+      "file": "purchase_coin.png",
+      "bounds": [
+        443,
+        1150,
+        76,
+        78
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/purchase_coin.png",
+      "sha256": "399865e3e371c751069d4025db2c4c0a77abba7e9dee87622d63a34ae463950e"
+    },
+    "purchase_spark_top": {
+      "file": "purchase_spark_top.png",
+      "bounds": [
+        623,
+        1149,
+        22,
+        33
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/purchase_spark_top.png",
+      "sha256": "afc73f5eda8d5281834cbeb7234a276e8388e4cb80df113df785ea29dbf8975c"
+    },
+    "purchase_spark_main": {
+      "file": "purchase_spark_main.png",
+      "bounds": [
+        639,
+        1160,
+        37,
+        46
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/purchase_spark_main.png",
+      "sha256": "e9107f902c6c4b989888f1a7243e1588b68887b8e8562293baf94f427d7bb800"
+    },
+    "purchase_spark_right": {
+      "file": "purchase_spark_right.png",
+      "bounds": [
+        659,
+        1183,
+        23,
+        35
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/purchase_spark_right.png",
+      "sha256": "48233ea33dbd80a00e247ba99eb63987ca0a668a3fb08946c4abf5603c1167a7"
+    },
+    "purchase_spark_bottom": {
+      "file": "purchase_spark_bottom.png",
+      "bounds": [
+        637,
+        1198,
+        22,
+        29
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/purchase_spark_bottom.png",
+      "sha256": "290643753cee0aa7f84b355130ca44a9b9c3a6b7b2a35cff1ed64f2609dc76f7"
+    },
+    "panel_star_top_left": {
+      "file": "panel_star_top_left.png",
+      "bounds": [
+        189,
+        527,
+        47,
+        48
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/panel_star_top_left.png",
+      "sha256": "d97a1d65a3f871990c1ad43922e3b67c5c2ae429794cb4833a70f16951caa3e1"
+    },
+    "panel_star_top_right": {
+      "file": "panel_star_top_right.png",
+      "bounds": [
+        706,
+        526,
+        46,
+        47
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/panel_star_top_right.png",
+      "sha256": "c4e3b72207864ba64c23cbb9f49c97d40baa82acef7a2377c7680fa227d31a8a"
+    },
+    "panel_star_bottom_left_yellow": {
+      "file": "panel_star_bottom_left_yellow.png",
+      "bounds": [
+        164,
+        1224,
+        49,
+        50
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/panel_star_bottom_left_yellow.png",
+      "sha256": "49a2be022307163587e226fbe5d125f3b6f5ee31f491e3777c6b1842946d4daf"
+    },
+    "panel_star_bottom_left_purple": {
+      "file": "panel_star_bottom_left_purple.png",
+      "bounds": [
+        196,
+        1266,
+        54,
+        53
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/panel_star_bottom_left_purple.png",
+      "sha256": "84ea9fcc58776c814df87819721d0d722810b42a6aca1ede171d2892c5aeca79"
+    },
+    "panel_star_bottom_right_yellow": {
+      "file": "panel_star_bottom_right_yellow.png",
+      "bounds": [
+        691,
+        1258,
+        66,
+        65
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/panel_star_bottom_right_yellow.png",
+      "sha256": "52583c7edc1036ee7457215683b63a732de27731b54b85f53e2b332c249aa68b"
+    },
+    "panel_star_bottom_right_pink": {
+      "file": "panel_star_bottom_right_pink.png",
+      "bounds": [
+        737,
+        1223,
+        47,
+        47
+      ],
+      "source": "outputs/eliminate-popup2-layered-v1/layers/panel_star_bottom_right_pink.png",
+      "sha256": "483af31e2e18008759d6316e0474e8aa0c07483a6d5aaac2cf2d5cb2d6493209"
+    },
+    "shuffle_orbit_effect": {
+      "file": "shuffle_orbit_effect.png",
+      "bounds": [
+        284,
+        660,
+        390,
+        295
+      ],
+      "source": "outputs/flip-popup2-layered-v1/layers/orbit_effect.png",
+      "sha256": "8a314155a266767d937ef3a2a4766346725bf45660a1d710e196e02965e7c4a0"
+    },
+    "shuffle_arrow_right_purple": {
+      "file": "shuffle_arrow_right_purple.png",
+      "bounds": [
+        366,
+        674,
+        242,
+        145
+      ],
+      "source": "outputs/flip-popup2-layered-v1/layers/arrow_right_purple.png",
+      "sha256": "0ec99a925f41bb27a6a3bbe5a95625c6b439780367b09bd41b03cef64a0b912a"
+    },
+    "shuffle_arrow_left_pink": {
+      "file": "shuffle_arrow_left_pink.png",
+      "bounds": [
+        350,
+        783,
+        254,
+        164
+      ],
+      "source": "outputs/flip-popup2-layered-v1/layers/arrow_left_pink.png",
+      "sha256": "b2d6b551cc863a8b92a052ca157081235ab7618e7970309030ef65e2bb7d648e"
+    },
+    "shuffle_icon_star_left": {
+      "file": "shuffle_icon_star_left.png",
+      "bounds": [
+        265,
+        776,
+        86,
+        86
+      ],
+      "source": "outputs/flip-popup2-layered-v1/layers/icon_star_left.png",
+      "sha256": "de8dfde3236f6c7af35ee671dbf0cd0e2fc95958f408ef2d5c71dcfea74f93f1"
+    },
+    "shuffle_icon_star_top_right": {
+      "file": "shuffle_icon_star_top_right.png",
+      "bounds": [
+        607,
+        712,
+        51,
+        54
+      ],
+      "source": "outputs/flip-popup2-layered-v1/layers/icon_star_top_right.png",
+      "sha256": "38954fbd81566580d4fb17386dda1baa516848ed3e3cfb1840f4bc3bbb2360cd"
+    },
+    "shuffle_icon_star_bottom_left": {
+      "file": "shuffle_icon_star_bottom_left.png",
+      "bounds": [
+        307,
+        871,
+        47,
+        51
+      ],
+      "source": "outputs/flip-popup2-layered-v1/layers/icon_star_bottom_left.png",
+      "sha256": "87d361cd153bc6b4bd4fcf201b92f611334ee48b8c21bd5026e1ca9161d31a0c"
+    },
+    "shuffle_icon_star_bottom_right": {
+      "file": "shuffle_icon_star_bottom_right.png",
+      "bounds": [
+        596,
+        875,
+        51,
+        52
+      ],
+      "source": "outputs/flip-popup2-layered-v1/layers/icon_star_bottom_right.png",
+      "sha256": "da1f73c311288b09e3cdd8cfd88eb753bea1c8ab1ebe6f1abf30bcd5f9061785"
+    },
+    "use_base": {
+      "file": "use_base.png",
+      "bounds": [
+        239.5,
+        1122.0,
+        460,
+        143
+      ],
+      "source": "outputs/flip-popup2-layered-v1/layers/use_button_base.png",
+      "sha256": "f80a1697ecea302d19abf0fbdc64e701712ea7b1b7990a9f066fc292aefa0c2b"
+    },
+    "title_flip": {
+      "file": "title_flip.png",
+      "bounds": [
+        395.0,
+        415.0,
+        163,
+        79
+      ],
+      "source": "outputs/flip-popup2-layered-v1/layers/arttext_flip.png",
+      "sha256": "116ceab2075b724b743c3e722ef13f8e58218fa77abca447b106c84dfa188b5e"
+    },
+    "title_shuffle": {
+      "file": "title_shuffle.png",
+      "bounds": [
+        398.5,
+        414.0,
+        156,
+        81
+      ],
+      "source": "output/imagegen/shuffle-arttext-v1/arttext_shuffle.png",
+      "sha256": "b8a2f2de390aacead6f63b928265e26377794b676bee4681713cb1d609dfeb51"
+    },
+    "icon_flip": {
+      "file": "icon_flip.png",
+      "bounds": [
+        318.0,
+        611.0,
+        310,
+        296
+      ],
+      "source": "outputs/flip-tool-icon-v1/ui_tool_flip.png",
+      "sha256": "bfa33981f6196e3a66250af85e8964d27fef8861a6b04be75a0902c54741264f"
+    }
+  },
+  "common": [
+    "panel_base",
+    "ear_left",
+    "ear_right",
+    "header_plate",
+    "rabbit",
+    "header_bow",
+    "header_star_left",
+    "header_star_inner_left",
+    "header_star_inner_right",
+    "header_star_large",
+    "header_star_small",
+    "illustration_cloud",
+    "illustration_rays",
+    "description_plate",
+    "panel_star_top_left",
+    "panel_star_top_right",
+    "panel_star_bottom_left_yellow",
+    "panel_star_bottom_left_purple",
+    "panel_star_bottom_right_yellow",
+    "panel_star_bottom_right_pink"
+  ],
+  "close": [
+    "close_base",
+    "close_cross"
+  ],
+  "purchase": [
+    "purchase_base",
+    "purchase_coin",
+    "purchase_spark_top",
+    "purchase_spark_main",
+    "purchase_spark_right",
+    "purchase_spark_bottom"
+  ],
+  "icons": {
+    "remove": [
+      "wand_handle",
+      "wand_endcap",
+      "wand_star",
+      "wand_bow",
+      "wand_bow_star",
+      "float_star_left",
+      "float_star_upper_right",
+      "float_spark_large",
+      "float_spark_small",
+      "float_star_right",
+      "float_star_bottom_left",
+      "float_star_bottom"
+    ],
+    "shuffle": [
+      "shuffle_orbit_effect",
+      "shuffle_arrow_right_purple",
+      "shuffle_arrow_left_pink",
+      "shuffle_icon_star_left",
+      "shuffle_icon_star_top_right",
+      "shuffle_icon_star_bottom_left",
+      "shuffle_icon_star_bottom_right"
+    ],
+    "flip": [
+      "icon_flip"
+    ]
+  },
+  "titles": {
+    "remove": null,
+    "shuffle": "title_shuffle",
+    "flip": "title_flip"
+  },
+  "textLayers": [
+    {
+      "name": "txt_title",
+      "group": "07_EDITABLE_TEXT",
+      "text": "消除",
+      "display_name": "消除",
+      "usage": "独立美术字标题",
+      "region": "弹窗",
+      "anchor": "center",
+      "z": 700,
+      "default_visible": true,
+      "font_family": "STHupo",
+      "font_postscript_name": "STHupo",
+      "font_size": 74,
+      "font_weight": 400,
+      "color": "#CC518B",
+      "alignment": "center",
+      "delivery_bounds": [
+        395,
+        414,
+        163,
+        81
+      ],
+      "logical_bounds": [
+        395,
+        414,
+        163,
+        81
+      ],
+      "runtime_rendering": "psd_text",
+      "font_match_status": "fallback",
+      "fallback_reason": "原图未附字体；标题用华文琥珀美术字并加白描边，普通文字用微软雅黑粗体；均保留可编辑类型层",
+      "stroke": {
+        "color": "#FFFFFF",
+        "width": 5
+      },
+      "parent": "header_plate"
+    },
+    {
+      "name": "txt_description",
+      "group": "07_EDITABLE_TEXT",
+      "text": "指定移除 2 只玩具",
+      "display_name": "指定移除 2 只玩具",
+      "usage": "可编辑文字",
+      "region": "弹窗",
+      "anchor": "center",
+      "z": 701,
+      "default_visible": true,
+      "font_family": "Microsoft YaHei",
+      "font_postscript_name": "MicrosoftYaHei-Bold",
+      "font_size": 36,
+      "font_weight": 700,
+      "color": "#AD76B2",
+      "alignment": "center",
+      "delivery_bounds": [
+        320,
+        1024,
+        300,
+        39
+      ],
+      "logical_bounds": [
+        320,
+        1024,
+        300,
+        39
+      ],
+      "runtime_rendering": "psd_text",
+      "font_match_status": "fallback",
+      "fallback_reason": "原图未附字体；标题用华文琥珀美术字并加白描边，普通文字用微软雅黑粗体；均保留可编辑类型层",
+      "parent": "description_plate"
+    },
+    {
+      "name": "txt_purchase",
+      "group": "07_EDITABLE_TEXT",
+      "text": "购买",
+      "display_name": "购买",
+      "usage": "可编辑文字",
+      "region": "弹窗",
+      "anchor": "center",
+      "z": 702,
+      "default_visible": true,
+      "font_family": "Microsoft YaHei",
+      "font_postscript_name": "MicrosoftYaHei-Bold",
+      "font_size": 48,
+      "font_weight": 700,
+      "color": "#D6503D",
+      "alignment": "center",
+      "delivery_bounds": [
+        323,
+        1161,
+        108,
+        58
+      ],
+      "logical_bounds": [
+        323,
+        1161,
+        108,
+        58
+      ],
+      "runtime_rendering": "psd_text",
+      "font_match_status": "fallback",
+      "fallback_reason": "原图未附字体；标题用华文琥珀美术字并加白描边，普通文字用微软雅黑粗体；均保留可编辑类型层",
+      "stroke": {
+        "color": "#FFFFFF",
+        "width": 3
+      },
+      "parent": "purchase_base"
+    },
+    {
+      "name": "txt_price",
+      "group": "07_EDITABLE_TEXT",
+      "text": "100",
+      "display_name": "100",
+      "usage": "可编辑文字",
+      "region": "弹窗",
+      "anchor": "center",
+      "z": 703,
+      "default_visible": true,
+      "font_family": "Microsoft YaHei",
+      "font_postscript_name": "MicrosoftYaHei-Bold",
+      "font_size": 48,
+      "font_weight": 700,
+      "color": "#D6503D",
+      "alignment": "center",
+      "delivery_bounds": [
+        528,
+        1161,
+        95,
+        55
+      ],
+      "logical_bounds": [
+        528,
+        1161,
+        95,
+        55
+      ],
+      "runtime_rendering": "psd_text",
+      "font_match_status": "fallback",
+      "fallback_reason": "原图未附字体；标题用华文琥珀美术字并加白描边，普通文字用微软雅黑粗体；均保留可编辑类型层",
+      "stroke": {
+        "color": "#FFFFFF",
+        "width": 3
+      },
+      "parent": "purchase_base"
+    }
+  ]
+}

@@ -7,13 +7,16 @@ const completeImages = new Map();
 const completeRect = ([x, y, w, h]) => ({ x: x * COMPLETE_SCALE, y: y * COMPLETE_SCALE + COMPLETE_OFFSET_Y, w: w * COMPLETE_SCALE, h: h * COMPLETE_SCALE });
 const completeText = Object.fromEntries(COMPLETE_ART.textLayers.map(spec => [spec.name, spec]));
 const COMPLETE_REWARD_ART = Object.freeze({
-  coins: { card: "ui_reward_card_coin", icon: "ui_coin", text: "txt_coin_count" },
-  stars: { card: "ui_reward_card_star", icon: "ui_rainbow_star", text: "txt_star_count" },
+  coins: { card: "ui_coin_card", plate: "ui_coin_count_plate", icon: "ui_reward_coin", text: "txt_coin_count" },
+  stars: { card: "ui_gem_card", plate: "ui_gem_count_plate", icon: "ui_reward_gem", text: "txt_gem_count" },
 });
+const COMPLETE_BUTTON_BY_LAYER = Object.fromEntries(Object.entries(COMPLETE_ART.buttonLayers)
+  .flatMap(([key, layers]) => layers.map(id => [id, key])));
+const COMPLETE_REWARD_SPACING = 194;
 
 export const COMPLETE_UI = Object.freeze({
-  home: completeRect(COMPLETE_ART.assets.ui_button_home.bounds),
-  next: completeRect(COMPLETE_ART.assets.ui_button_next.bounds),
+  home: completeRect(COMPLETE_ART.assets.ui_home_button.bounds),
+  next: completeRect(COMPLETE_ART.assets.ui_next_button.bounds),
 });
 
 export async function loadCompleteArt() {
@@ -39,10 +42,10 @@ export function completionRewardLayout(rewards) {
   return [...amounts].map(([type, amount], index, row) => {
     const spec = COMPLETE_REWARD_ART[type];
     const card = [...COMPLETE_ART.assets[spec.card].bounds];
-    const centerX = COMPLETE_ART.canvas.width / 2 + (index - (row.length - 1) / 2) * 209;
+    const centerX = COMPLETE_ART.canvas.width / 2 + (index - (row.length - 1) / 2) * COMPLETE_REWARD_SPACING;
     const dx = centerX - card[0] - card[2] / 2;
     const shift = bounds => [bounds[0] + dx, ...bounds.slice(1)];
-    return { type, amount, ...spec, cardBounds: shift(card), iconBounds: shift(COMPLETE_ART.assets[spec.icon].bounds), textBounds: shift(completeText[spec.text].delivery_bounds) };
+    return { type, amount, ...spec, cardBounds: shift(card), plateBounds: shift(COMPLETE_ART.assets[spec.plate].bounds), iconBounds: shift(COMPLETE_ART.assets[spec.icon].bounds), textBounds: shift(completeText[spec.text].delivery_bounds) };
   });
 }
 
@@ -50,7 +53,7 @@ function paintCompleteText(ctx, spec, text = spec.text, bounds = spec.delivery_b
   const [x, y, w, h] = bounds;
   const family = spec.font_family === "STHupo"
     ? 'STHupo, "华文琥珀", "Arial Rounded MT Bold", "Microsoft YaHei", sans-serif'
-    : 'SimSun, "Songti SC", "Noto Serif CJK SC", serif';
+    : '"Microsoft YaHei", "Noto Sans CJK SC", sans-serif';
   ctx.font = `${spec.font_weight} ${spec.font_size}px ${family}`;
   ctx.textAlign = "center";
   ctx.textBaseline = "alphabetic";
@@ -76,21 +79,24 @@ export function drawCompleteDialog(ctx, { levelNo, title, rewards, isLastLevel }
   ctx.scale(COMPLETE_SCALE, COMPLETE_SCALE);
   const image = (id, bounds = COMPLETE_ART.assets[id].bounds) => ctx.drawImage(completeImages.get(id), ...bounds);
   COMPLETE_ART.staticLayers.forEach(id => {
-    const key = /^ui_(button|icon)_home$/.test(id) ? "home" : /^ui_(button|icon)_next$/.test(id) ? "next" : null;
+    const key = COMPLETE_BUTTON_BY_LAYER[id];
     if (key) feedback(`complete.${key}`, COMPLETE_UI[key], () => image(id));
     else image(id);
   });
   const row = completionRewardLayout(rewards);
   for (const reward of row) {
     image(reward.card, reward.cardBounds);
+    image(reward.plate, reward.plateBounds);
     image(reward.icon, reward.iconBounds);
     paintCompleteText(ctx, completeText[reward.text], `×${reward.amount}`, reward.textBounds);
   }
+  image("arttext_level_complete");
+  if (row.length) image("arttext_rewards");
   for (const spec of COMPLETE_ART.textLayers) {
-    if (spec.name === "txt_coin_count" || spec.name === "txt_star_count") continue;
-    const text = spec.name === "txt_level" ? `第${levelNo}关 ${title}`
-      : spec.name === "txt_next" && isLastLevel ? "晚安"
-      : spec.name === "txt_reward" && !row.length ? "本关已完成" : spec.text;
+    if (["txt_coin_count", "txt_gem_count", "txt_level_complete"].includes(spec.name)) continue;
+    if (spec.name === "txt_rewards" && row.length) continue;
+    const text = spec.name === "txt_next" && isLastLevel ? "晚安"
+      : spec.name === "txt_rewards" ? "本关已完成" : spec.text;
     const key = spec.name === "txt_home" ? "home" : spec.name === "txt_next" ? "next" : null;
     const paint = () => paintCompleteText(ctx, spec, text);
     if (key) feedback(`complete.${key}`, COMPLETE_UI[key], paint);

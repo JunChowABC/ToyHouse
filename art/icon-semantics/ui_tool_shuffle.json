@@ -1,0 +1,21 @@
+{
+  "resource_id": "ui_tool_shuffle",
+  "display_name": "洗牌图标",
+  "meaning": "洗牌",
+  "user_confirmed_on": "2026-09-25",
+  "file": "ui_tool_shuffle.png",
+  "appearance": "紫色向右箭头与粉色向左箭头，周围有环形轨迹及星星",
+  "rule": "此图标按用户定义代表洗牌；不要因相向箭头、原始弹窗标题或历史目录名而解释为翻转、反转方向。只更正命名和说明，不修改图形、弹窗文案或玩法。",
+  "layered_source": "../../outputs/flip-popup2-layered-v1/flip-popup2-layered-v1.psd",
+  "layer_group": "03_SHUFFLE_ICON",
+  "component_layer_ids": [
+    "orbit_effect",
+    "arrow_right_purple",
+    "arrow_left_pink",
+    "icon_star_left",
+    "icon_star_top_right",
+    "icon_star_bottom_left",
+    "icon_star_bottom_right"
+  ],
+  "sha256": "4a1ddb1f1422fe05fa58f953ad977f9b3c9ea0df7f0329758ee7dab0745a70f9"
+}

@@ -9,8 +9,12 @@ const source = await readFile(new URL("../src/game.js", import.meta.url), "utf8"
 const config = await readFile(new URL("../src/level-config.js", import.meta.url), "utf8");
 const art = await readFile(new URL("../src/art-manifest.js", import.meta.url), "utf8");
 const pauseArt = await readFile(new URL("../src/pause-art-manifest.js", import.meta.url), "utf8");
+const sharedDialogArt = await readFile(new URL("../src/shared-dialog-art-manifest.js", import.meta.url), "utf8");
+const toolArt = await readFile(new URL("../src/tool-art-manifest.js", import.meta.url), "utf8");
 const pauseCode = (await readFile(new URL("../src/pause-dialog.js", import.meta.url), "utf8"))
   .replace('import PAUSE_ART from "./pause-art-manifest.js";', pauseArt.replace("export default", "const PAUSE_ART ="))
+  .replace('import SHARED_DIALOG_ART from "./shared-dialog-art-manifest.js";', sharedDialogArt.replace("export default", "const SHARED_DIALOG_ART ="))
+  .replace('import TOOL_ART from "./tool-art-manifest.js";', toolArt.replace("export default", "const TOOL_ART ="))
   .replace(/^export /gm, "");
 const completeArt = await readFile(new URL("../src/complete-art-manifest.js", import.meta.url), "utf8");
 const completeCode = (await readFile(new URL("../src/complete-dialog.js", import.meta.url), "utf8"))
@@ -33,14 +37,17 @@ const bundled = source.replace('import { loadImage, imageLoadStatus } from "./im
 const result = await minify(bundled, { module: true, compress: true, mangle: true });
 await writeFile(new URL("../docs/game.js", import.meta.url), result.code);
 await mkdir(new URL("../docs/assets/", import.meta.url), { recursive: true });
+await cp(new URL("../assets/core-ui-v4/", import.meta.url), new URL("../docs/assets/core-ui-v4/", import.meta.url), { recursive: true });
 await cp(new URL("../assets/runtime-ui/", import.meta.url), new URL("../docs/assets/runtime-ui/", import.meta.url), { recursive: true });
 await cp(new URL("../assets/toyhouse-ui-v3/", import.meta.url), new URL("../docs/assets/toyhouse-ui-v3/", import.meta.url), { recursive: true });
 await cp(new URL("../assets/pause-dialog-v2/", import.meta.url), new URL("../docs/assets/pause-dialog-v2/", import.meta.url), { recursive: true });
+await cp(new URL("../assets/pause-popup2-v2/", import.meta.url), new URL("../docs/assets/pause-popup2-v2/", import.meta.url), { recursive: true });
+await cp(new URL("../assets/tool-popup2-v1/", import.meta.url), new URL("../docs/assets/tool-popup2-v1/", import.meta.url), { recursive: true });
 await cp(new URL("../assets/tool-dialog-v1/", import.meta.url), new URL("../docs/assets/tool-dialog-v1/", import.meta.url), { recursive: true });
-await cp(new URL("../assets/level-complete-v1/", import.meta.url), new URL("../docs/assets/level-complete-v1/", import.meta.url), { recursive: true });
+await cp(new URL("../assets/level-complete-popup2-v1/", import.meta.url), new URL("../docs/assets/level-complete-popup2-v1/", import.meta.url), { recursive: true });
 await cp(new URL("../assets/home-v2/", import.meta.url), new URL("../docs/assets/home-v2/", import.meta.url), { recursive: true });
 await cp(new URL("../styles.css", import.meta.url), new URL("../docs/styles.css", import.meta.url));
 const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
 const bundleVersion = createHash("sha256").update(result.code).digest("hex").slice(0, 12);
 await writeFile(new URL("../docs/index.html", import.meta.url), html.replace('src="src/game.js"', `src="game.js?v=${bundleVersion}"`));
-console.log("Updated docs/ with v1.3 levels, V3 PSD UI and supplied original art, styles and entry point");
+console.log("Updated docs/ with v1.3 levels, core UI v4 and supplied original art, styles and entry point");

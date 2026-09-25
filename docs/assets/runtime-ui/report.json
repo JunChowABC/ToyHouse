@@ -97,13 +97,14 @@
   ],
   "atlasPages": [
     "assets/runtime-ui/home-controls-0-3c9e38364402.webp",
-    "assets/runtime-ui/currency-0-aef6aba60f49.webp",
-    "assets/runtime-ui/play-0-0635f78d7645.webp",
+    "assets/runtime-ui/currency-0-c54430753894.webp",
+    "assets/runtime-ui/play-0-0e93eb8858e6.webp",
     "assets/runtime-ui/play-1-b096706f868d.webp",
-    "assets/runtime-ui/settings-0-a618329427e0.webp",
-    "assets/runtime-ui/complete-0-30c1eb94ffcd.webp"
+    "assets/runtime-ui/settings-0-01c0fd4604b9.webp",
+    "assets/runtime-ui/settings-1-f4fb8c84f0db.webp",
+    "assets/runtime-ui/complete-0-a41331417197.webp"
   ],
-  "sourceSprites": 152,
-  "runtimeImages": 9,
-  "bytes": 7515574
+  "sourceSprites": 256,
+  "runtimeImages": 10,
+  "bytes": 9872214
 }

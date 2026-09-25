@@ -1,0 +1,35 @@
+[
+  {
+    "id": "remove_label",
+    "text": "消除",
+    "method": "ImageGen CLI/API",
+    "model": "gpt-image-2",
+    "prompt": "Use case: logo-brand. Create one isolated game UI art-lettering asset with EXACT simplified Chinese text \"消除\", two characters on one horizontal line, no other text. Cozy pastel toy-house mobile puzzle game, sweet cute plump hand-lettered rounded Chinese glyphs, gently playful silhouette, clear open counters, thick soft strokes and a shared baseline. Palette: strawberry milk pink, upper #FFD8E9 to lower #E987B3, thin dusty rose outer edge #B8608F. Cream-white outline #FFF9EE about 5 percent of glyph height, fine colored outer keyline for readability, subtle satin top highlights and tiny close soft shadow. Readable at 20px display height. Flat frontal artwork, no heavy 3D extrusion. Make the two characters balanced equal size, comfortably spaced, together occupying 80 percent canvas width. No icons, stars, buttons, plates, panels, scenery, watermark or floating decoration. Perfectly uniform chroma green RGB(0,255,0) background including holes for transparency removal, no green reflected light. Complete uncropped lettering with generous clear margins.",
+    "generated_file": "generated/remove-lettering.png",
+    "generated_sha256": "631d209ea47621a7d393b2d7e242fcd1d4f9a83339a677f497caa1ddf50db76b",
+    "asset": "remove-label.png",
+    "alpha": true
+  },
+  {
+    "id": "shuffle_label",
+    "text": "洗牌",
+    "method": "ImageGen CLI/API",
+    "model": "gpt-image-2",
+    "prompt": "Use case: logo-brand. Create one isolated game UI art-lettering asset with EXACT simplified Chinese text \"洗牌\", two characters on one horizontal line, no other text. Cozy pastel toy-house mobile puzzle game, sweet cute plump hand-lettered rounded Chinese glyphs, gently playful silhouette, clear open counters, thick soft strokes and a shared baseline. Palette: soft lavender milk, upper #E8DDFF to lower #B59BEA, thin muted violet outer edge #8870B7. Cream-white outline #FFF9EE about 5 percent of glyph height, fine colored outer keyline for readability, subtle satin top highlights and tiny close soft shadow. Readable at 20px display height. Flat frontal artwork, no heavy 3D extrusion. Make the two characters balanced equal size, comfortably spaced, together occupying 80 percent canvas width. No icons, stars, buttons, plates, panels, scenery, watermark or floating decoration. Perfectly uniform chroma green RGB(0,255,0) background including holes for transparency removal, no green reflected light. Complete uncropped lettering with generous clear margins.",
+    "generated_file": "generated/shuffle-lettering.png",
+    "generated_sha256": "b30968076cff25c6744aab229971590e461241e27fff40129de775b4d73ca15e",
+    "asset": "shuffle-label.png",
+    "alpha": true
+  },
+  {
+    "id": "flip_label",
+    "text": "翻转",
+    "method": "ImageGen CLI/API",
+    "model": "gpt-image-2",
+    "prompt": "Use case: logo-brand. Create one isolated game UI art-lettering asset with EXACT simplified Chinese text \"翻转\", two characters on one horizontal line, no other text. Cozy pastel toy-house mobile puzzle game, sweet cute plump hand-lettered rounded Chinese glyphs, gently playful silhouette, clear open counters, thick soft strokes and a shared baseline. Palette: apricot cream orange, upper #FFE2BC to lower #F0AC71, thin warm peach outer edge #C77F59. Cream-white outline #FFF9EE about 5 percent of glyph height, fine colored outer keyline for readability, subtle satin top highlights and tiny close soft shadow. Readable at 20px display height. Flat frontal artwork, no heavy 3D extrusion. Make the two characters balanced equal size, comfortably spaced, together occupying 80 percent canvas width. No icons, stars, buttons, plates, panels, scenery, watermark or floating decoration. Perfectly uniform chroma green RGB(0,255,0) background including holes for transparency removal, no green reflected light. Complete uncropped lettering with generous clear margins.",
+    "generated_file": "generated/flip-lettering.png",
+    "generated_sha256": "99d524811c6553cd1320f37a04bdae9fdb56f33fa73ed0bb00016312d4008391",
+    "asset": "flip-label.png",
+    "alpha": true
+  }
+]

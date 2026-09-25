@@ -1,0 +1,76 @@
+{
+  "source": "outputs/level-complete-popup2-layered-v1/level-complete-popup2-layered-v1.psd",
+  "source_png_sha256": {
+    "ui_popup_base": "b7897ab98edec5bc81c675de1ff3a10f3de3270ae55988ac172cf04cb0a04798",
+    "ui_reward_region": "ad250cbdc4de64b32ef56bbafd0c18302672f534b4716801c02cf9d3de62e50d",
+    "art_celebration": "37e26cefe5866ae926d267395b4c80f3ca5a2afe80d0cb47ddec1b64f8363b8a",
+    "ui_reward_title_plate": "fd8fbc25befda4e132ad2f1ae63c42555a6e5bfed59122bbc630f6d17f0b5434",
+    "ui_coin_card": "2172b2a79a976f0d8aefcd1ee4841efc408a7f0138cde07b6fd847d345cff524",
+    "ui_gem_card": "54418f2cc711e8d12174a232851379c36978874299b9f243e764626eae7092cc",
+    "ui_coin_count_plate": "3302ab44162fdac590afdec5468f2307dae7501634e7ef72b13bf3e47d165108",
+    "ui_gem_count_plate": "bae88d23d13af5a1048ed77520a5fde28b12b9d642dca5d6519c1bb6c8ff4420",
+    "ui_reward_coin": "d2abcdcca5c6fd975dac7a2a71bdfb11f0b597ee1a9fd211c14405b74060a4e0",
+    "ui_reward_gem": "4c6ccf8a078ca14df2cfae237748e5867c1ca5835ec62f1b77b96b8776e9665a",
+    "ui_home_button": "c29df62618651d976c7f42ec09e2854e963bf7bce95e3dfb4cc9de61434cdf38",
+    "ui_next_button": "6ede8077925054de9299e46af6fa014e371326d91391f3046ee5ca019e307fdd",
+    "ui_home_icon": "47e95502a9243c87d29c2b9257223bd7e1b61e79e6510617d7f729a65e2ac5b2",
+    "ui_next_arrow": "78e5f15635de815ac7383bc712ee3ca8547d29619277fd5c214372531d7ff038",
+    "ui_title_ribbon_left_outer": "65ad18ed7a665387fe772fc65077c1aac393ccb7fbb68eb32471cca8420339d4",
+    "ui_title_ribbon_left_pink": "031ead3136aa31bd71cfd5a13af0acab496c839fe0d84a5e2016c2a0c208942d",
+    "ui_title_ribbon_left_purple": "8a6ad53ec1e622e35a0ce25b754586863ae66fe7bff23775e4103e607f1fd96a",
+    "ui_title_ribbon_right_purple": "34ea3484bc5930ec3898bc33a1536fbcce19ca476a9d36b3602595c18bba54bb",
+    "ui_title_ribbon_right_outer": "48faa65ea2df7790aa61a046d7057bffa34c2a8c623a280c08230592f6eda4da",
+    "ui_title_banner": "40d805ca69a64ee08e40eb795338cdea4407f5c7872277850d8d3e78a4489485",
+    "art_title_rabbit": "d539fc1c769618f3b452e138dad340052f775562e2a3d4bc169ea1edafa3c546",
+    "ui_title_rabbit_bow": "cb0edac7cda7d2dff921375200d865aacc6027e36e8ce4f8afa626900bfe8c91",
+    "ui_star_header_left": "2e186b488cb37334848fa29e6d29048e1693fbfa1e858912a9c1c77ab68e4d8d",
+    "ui_star_header_right": "1d535e723b9cee9302a56ca58869356a13ae9db56e6460d8526d121d129fb89e",
+    "ui_star_upper_left": "f1ae314a231b3152f11e0878eb943f6f7035c5369cc57087701cf976822d689e",
+    "ui_star_upper_right": "2c98e96ee6841faaf0894217e861b0efd10cbff9cf29487ce2e7aadcafee80d6",
+    "ui_spark_header_left": "c7f93d21361a37cabe7944d9acc9fcd9b870ef52cac22ff8f16824716cde017a",
+    "ui_spark_header_right": "087535c4e3e8fd944bb0f12b1d452a624e8889cdd07c04591d294b275d5f8daf",
+    "ui_spark_header_inner": "6088f9d5eb9140bc65a657389cbefb0302ca50f0ddce81b839698b37b9aa0497",
+    "ui_spark_header_right_small": "c244fda5059077717bb5faf118f3c06e7c7e28ba90456687c72a383db556b583",
+    "ui_spark_header_outer_right": "6b96440c6f450c6f56baadf1dbae966619f3e746aaaf176a44ba7647c65a0962",
+    "ui_star_reward_title_left": "d811dfb5f48b667663b90dbc5a77069affb73602c62888661c5817978a7e9f9a",
+    "ui_star_reward_title_right": "8c8d0b6add37a54462c7ab21983d0a8df5b28f38efbc07c5c6f392459cba2ee9",
+    "ui_star_reward_upper_left": "d176e9cc3b5a2737072a05b60b06b28a65b9c9b13831d733e4d0a020f7309d44",
+    "ui_star_reward_upper_right": "5edcd87a4209acdb8c259defe4d8dc61a3973f18fb6e980750f6a3c21c3be42e",
+    "ui_star_reward_lower_left": "db425df47bf96f9e4abac369ded6d2b97cbe9aba039f4ee4451b91611fbd1573",
+    "ui_star_reward_lower_left_small": "281654c88c9588bb82da5115e19867841f108c96533a340f292448822d69a413",
+    "ui_star_reward_lower_right": "913bb2581d4398da2c09f83120b6fa218e0d6cca201f47e2996195add74bbf8f",
+    "ui_star_next_button": "7b9d9d19715561949813d435438334fcaae4fabba8e697e2fd22a7c6d7c570b2",
+    "ui_spark_next_upper": "69bbf6b0251950aede51c44433e83b5ea0ea8199da0306ee657d533502eac39b",
+    "ui_spark_next_mid": "7824e7757c7c997e18be6b07f7ab5b325e87861c4ed469a11284c4b67b34b9b3",
+    "ui_spark_next_lower": "6a732d85b7db7f39314dcc37ecc4e5c5d70bbf38a7c22e453af3a84b73ee26d9",
+    "ui_spark_next_lower_small": "939e85dcb60e7981b07fcf43b0f571eb0d1d5ea585186e767bf57f0ca2ccd9b2"
+  },
+  "assets": {
+    "arttext_level_complete": {
+      "file": "arttext_level_complete.png",
+      "bounds": [
+        260,
+        344,
+        429,
+        122
+      ],
+      "sha256": "9f761fbcc284611479aa1730fd58aea5cffb3e5c94e8cf626e06dc4d57535f3c",
+      "source_layer": "txt_level_complete",
+      "text": "关卡完成",
+      "method": "runtime export of approved PSD type layer; authoring PSD remains editable"
+    },
+    "arttext_rewards": {
+      "file": "arttext_rewards.png",
+      "bounds": [
+        402,
+        974,
+        142,
+        34
+      ],
+      "sha256": "34eea0bf50722562480e38b13f3d059d6361a4e03fa03caf75de05811ffd9d3e",
+      "source_layer": "txt_rewards",
+      "text": "获得奖励",
+      "method": "runtime export of approved PSD type layer; authoring PSD remains editable"
+    }
+  }
+}

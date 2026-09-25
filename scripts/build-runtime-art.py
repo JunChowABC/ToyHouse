@@ -44,8 +44,8 @@ groups={k:[] for k in ['home-controls','currency','play','settings','complete']}
 for id in original_home['layers']:
     if id.startswith(('ui_sleep_','ui_settings_')):groups['home-controls'].append(original_home['directory']+'/'+original_home['assets'][id]['file'])
 core=read('art-manifest.js')
-for spec in core['assets'].values():groups['currency' if spec.get('group')=='06_RESOURCES' else 'play'].append(core['directory']+'/'+spec['file'])
-for name,group in [('pause-art-manifest.js','settings'),('complete-art-manifest.js','complete')]:
+for spec in core['assets'].values():groups['currency' if spec.get('group')=='06_RESOURCES' else 'play'].append(spec.get('directory',core['directory'])+'/'+spec['file'])
+for name,group in [('pause-art-manifest.js','settings'),('shared-dialog-art-manifest.js','settings'),('tool-art-manifest.js','settings'),('complete-art-manifest.js','complete')]:
     m=read(name);groups[group]+=[m['directory']+'/'+s['file'] for s in m['assets'].values()]
 groups['settings']+=['assets/tool-dialog-v1/ui_tool_close_v1.png','assets/tool-dialog-v1/ui_tool_purchase_disabled_v1.png']
 mapping={};pages=[]

@@ -1,0 +1,730 @@
+{
+  "version": "pause-popup2-v2-arttext",
+  "directory": "assets/pause-popup2-v2",
+  "canvas": {
+    "width": 941,
+    "height": 1672
+  },
+  "source": "outputs/pause-popup2-layered-v2-arttext/pause-popup2-layered-v2-arttext.psd",
+  "assets": {
+    "panel_base": {
+      "file": "panel_base.png",
+      "bounds": [
+        151,
+        383,
+        641,
+        995
+      ],
+      "sha256": "9b4236e423c28aefc1382877f4fad5ecd5f8873de835111447be3a3fcad6106b"
+    },
+    "settings_region": {
+      "file": "settings_region.png",
+      "bounds": [
+        207,
+        560,
+        532,
+        357
+      ],
+      "sha256": "3c63dac051d28af9ce9c9294c6c9a14bc2d1eaae53dc03838fb92213a6cf1588"
+    },
+    "ear_left": {
+      "file": "ear_left.png",
+      "bounds": [
+        299,
+        338,
+        109,
+        104
+      ],
+      "sha256": "40e1696bf07e859b48c545d7c53337724c3241493cd0b7bd333507417317dcd7"
+    },
+    "ear_right": {
+      "file": "ear_right.png",
+      "bounds": [
+        537,
+        338,
+        110,
+        103
+      ],
+      "sha256": "f3273b1ad8104ff75ba251905fa8031603c009b8d4f8a97e30c70ab1b28260f7"
+    },
+    "title_plate": {
+      "file": "title_plate.png",
+      "bounds": [
+        230,
+        383,
+        482,
+        156
+      ],
+      "sha256": "64643c8a64da6c3ba7d17b2285b22f815c8b932a87e8c6d41e13c14a0ef1331f"
+    },
+    "rabbit": {
+      "file": "rabbit.png",
+      "bounds": [
+        406,
+        278,
+        163,
+        116
+      ],
+      "sha256": "43243721880ab6a222708f97b4947d2fdc6077e2d09a7c4ca953184e41e6d5ab"
+    },
+    "bow": {
+      "file": "bow.png",
+      "bounds": [
+        166,
+        393,
+        115,
+        130
+      ],
+      "sha256": "bb6158f930fba231b1f276a85d8811e8faa144de70fef00b5b5bdef6e624f4d0"
+    },
+    "star_title_left": {
+      "file": "star_title_left.png",
+      "bounds": [
+        329,
+        446,
+        47,
+        49
+      ],
+      "sha256": "fe3b605c9c2901c3836bd005e9449438cb1eb5be5dd444eef4359f1a9810f60c"
+    },
+    "star_title_right": {
+      "file": "star_title_right.png",
+      "bounds": [
+        567,
+        445,
+        47,
+        49
+      ],
+      "sha256": "52d94712fc47ff532c98f9998a6e3de176962e7456c5cecafaa28f07ac98d2ba"
+    },
+    "star_upper_left": {
+      "file": "star_upper_left.png",
+      "bounds": [
+        268,
+        390,
+        41,
+        44
+      ],
+      "sha256": "d90b0aeabff477eeb65113607bf6adb74cc21c5eae0dd39782e0b4736a9c3e47"
+    },
+    "star_upper_right": {
+      "file": "star_upper_right.png",
+      "bounds": [
+        646,
+        393,
+        81,
+        82
+      ],
+      "sha256": "2c1c03cbd34de29be76b228efe89d438d1cff9033436bad51cd369e02b8ecc7b"
+    },
+    "star_right_small": {
+      "file": "star_right_small.png",
+      "bounds": [
+        698,
+        477,
+        42,
+        41
+      ],
+      "sha256": "17d53318063823eb83b3bd2741fb4ab996275d371bcd45f5ffc73c5bf535ef71"
+    },
+    "star_body_left": {
+      "file": "star_body_left.png",
+      "bounds": [
+        189,
+        529,
+        44,
+        46
+      ],
+      "sha256": "4cc760a0ba951aebf1d9af8a2b76ddae6a668c86059669dbbb69c49b66cd83b7"
+    },
+    "star_body_right": {
+      "file": "star_body_right.png",
+      "bounds": [
+        708,
+        530,
+        43,
+        45
+      ],
+      "sha256": "5c45d97a5674ed8479049c4d1ba1509291cc957a22b77351fecec6f80c283f0b"
+    },
+    "star_bottom_left_yellow": {
+      "file": "star_bottom_left_yellow.png",
+      "bounds": [
+        164,
+        1245,
+        47,
+        50
+      ],
+      "sha256": "325da40a5d3baf2df3fa6f76a72d986a188444efac8c810d75f2ab6527b84683"
+    },
+    "star_bottom_left_purple": {
+      "file": "star_bottom_left_purple.png",
+      "bounds": [
+        197,
+        1288,
+        51,
+        53
+      ],
+      "sha256": "99bd07031bb6a07a8b90efee274cd267e6b6f0f0843be636fbe2c572985ab8ea"
+    },
+    "star_bottom_right_yellow": {
+      "file": "star_bottom_right_yellow.png",
+      "bounds": [
+        692,
+        1280,
+        64,
+        65
+      ],
+      "sha256": "108625d68e77db45f7301be95c0fa46c219536ef9bc002c229c8188603b75b3b"
+    },
+    "star_bottom_right_pink": {
+      "file": "star_bottom_right_pink.png",
+      "bounds": [
+        740,
+        1245,
+        45,
+        47
+      ],
+      "sha256": "77a63177f8c1f2a1b681fcd527e7212ec41548eae3e36b2a37ff6d0d24cacdd4"
+    },
+    "divider_01": {
+      "file": "divider_01.png",
+      "bounds": [
+        247,
+        680,
+        450,
+        2
+      ],
+      "sha256": "6a7a7336e3d38a562d76365eb378fb16e1eebd9cb5dfab6863ebb5ae73beafe6"
+    },
+    "divider_02": {
+      "file": "divider_02.png",
+      "bounds": [
+        247,
+        789,
+        450,
+        2
+      ],
+      "sha256": "7b88b1f0051f05b58ce50dbc07e8735a4609081ceee7e80540b70c1a7ec4ec27"
+    },
+    "music_icon": {
+      "file": "music_icon.png",
+      "bounds": [
+        252,
+        605,
+        46,
+        45
+      ],
+      "sha256": "0510eadcf8cdb2ea7260ef411d9c36808fdbfbd91acbbab6e9bc5c7bab58eaba"
+    },
+    "sound_icon": {
+      "file": "sound_icon.png",
+      "bounds": [
+        250,
+        711,
+        53,
+        45
+      ],
+      "sha256": "54710e327192f502778b696f251dd82605af58f0702bb6e8d840b937be175df7"
+    },
+    "vibration_icon": {
+      "file": "vibration_icon.png",
+      "bounds": [
+        249,
+        816,
+        55,
+        54
+      ],
+      "sha256": "4a8b4528493918e6d3532b0612f94a20a069f4cc7a53088daed95f95360a44ec"
+    },
+    "music_track": {
+      "file": "music_track.png",
+      "bounds": [
+        562,
+        598,
+        132,
+        65
+      ],
+      "sha256": "fc119cbfe548fdfa573a641c0ac7e1b48542218b304bf7870755bd38177b01f0"
+    },
+    "music_thumb": {
+      "file": "music_thumb.png",
+      "bounds": [
+        621,
+        597,
+        72,
+        66
+      ],
+      "sha256": "f76e476229037f7d7a9616091d7680eccfec2ae8e23f60ddfa3fa86871fd9986"
+    },
+    "music_star": {
+      "file": "music_star.png",
+      "bounds": [
+        640,
+        610,
+        37,
+        36
+      ],
+      "sha256": "7e773168d80b9985438125d30ebc56a6b207b87bdca918d23bfba1ea0e779df2"
+    },
+    "sound_track": {
+      "file": "sound_track.png",
+      "bounds": [
+        562,
+        702,
+        132,
+        66
+      ],
+      "sha256": "876a4df874f4e5058a1016684a608b44b5f6a82b31b4640f3747d7c38344281d"
+    },
+    "sound_thumb": {
+      "file": "sound_thumb.png",
+      "bounds": [
+        621,
+        701,
+        72,
+        66
+      ],
+      "sha256": "f9d3f6c61708f2fd04bad40a7d51d11dc97ea8f25c30666f3574d54bb95fc105"
+    },
+    "sound_star": {
+      "file": "sound_star.png",
+      "bounds": [
+        640,
+        714,
+        37,
+        37
+      ],
+      "sha256": "9d7bcd908bdbf28ac1ab2cc768e274029f72ef77d183331fe1994f5d191c403a"
+    },
+    "vibration_track": {
+      "file": "vibration_track.png",
+      "bounds": [
+        561,
+        810,
+        132,
+        66
+      ],
+      "sha256": "62af7eb2f73fa4c9fa4e18662613cdfe2f5b16574fe4927778620a25ce541128"
+    },
+    "vibration_thumb": {
+      "file": "vibration_thumb.png",
+      "bounds": [
+        560,
+        809,
+        71,
+        67
+      ],
+      "sha256": "df4370a9e6b2cf8d5578c34237040832ae7676da9b85402a07670a729536fb6d"
+    },
+    "vibration_star": {
+      "file": "vibration_star.png",
+      "bounds": [
+        578,
+        823,
+        37,
+        37
+      ],
+      "sha256": "612b90f8e1cb61669dfa2dd6c62ad719a94500b735853c75412c9c8458ccd96e"
+    },
+    "restart_base": {
+      "file": "restart_base.png",
+      "bounds": [
+        248,
+        940,
+        446,
+        112
+      ],
+      "sha256": "47a3850dac87bd371b7b0f9c2dfc15c42c9d4cc8422735f4e75ce14f2a185b1b"
+    },
+    "restart_icon": {
+      "file": "restart_icon.png",
+      "bounds": [
+        348,
+        960,
+        65,
+        64
+      ],
+      "sha256": "00aae063f10c10a8dd08073ad701bf89be1e6db5f4347bdd7d1604561f0cb369"
+    },
+    "continue_base": {
+      "file": "continue_base.png",
+      "bounds": [
+        223,
+        1054,
+        497,
+        144
+      ],
+      "sha256": "3de956d2ca5afa138b7af485929ad9819191634e3f2f01605933833c6cdd9a95"
+    },
+    "continue_icon": {
+      "file": "continue_icon.png",
+      "bounds": [
+        328,
+        1090,
+        54,
+        65
+      ],
+      "sha256": "dc40395b635a99789dede80feea42721dd4d0e4d65a71cf7fd44593dfe4dcb23"
+    },
+    "continue_sparkle_01": {
+      "file": "continue_sparkle_01.png",
+      "bounds": [
+        625,
+        1083,
+        20,
+        25
+      ],
+      "sha256": "93f55779fdd784f06feab2fea33653d72985a295f802beb62f4f7d7d86165753"
+    },
+    "continue_sparkle_02": {
+      "file": "continue_sparkle_02.png",
+      "bounds": [
+        634,
+        1095,
+        43,
+        41
+      ],
+      "sha256": "1d47e4cf793815bd987edde6d6f2189bae7b3f855a9439c315b38afb19ff9bc2"
+    },
+    "continue_sparkle_03": {
+      "file": "continue_sparkle_03.png",
+      "bounds": [
+        660,
+        1122,
+        23,
+        24
+      ],
+      "sha256": "45b79c7106934e0664a0eb21790e09d74a84d23f97d621e1defe3835c225f655"
+    },
+    "continue_sparkle_04": {
+      "file": "continue_sparkle_04.png",
+      "bounds": [
+        636,
+        1132,
+        24,
+        29
+      ],
+      "sha256": "5f7bb0fea09a7a48f1477fb1525bb9b4765074c977cc20f50f813600b2f027ee"
+    },
+    "exit_base": {
+      "file": "exit_base.png",
+      "bounds": [
+        248,
+        1202,
+        446,
+        114
+      ],
+      "sha256": "5609a749fc7e330ab76ec85cf12774d6d1ad8eb51084649310fcb85d360785ac"
+    },
+    "exit_icon": {
+      "file": "exit_icon.png",
+      "bounds": [
+        350,
+        1223,
+        68,
+        66
+      ],
+      "sha256": "8f669e8ec0674f48bda760e0cc535e251ae7ea0d44fbc16b54b8c06ff9cdc8cd"
+    },
+    "arttext_pause": {
+      "file": "arttext_pause.png",
+      "bounds": [
+        390,
+        416,
+        167,
+        79
+      ],
+      "sha256": "8c3682d816b962a4bfb8fb70cc5ec5289d31de7ce6ee345d1a98323eb7f6cc4e"
+    },
+    "arttext_restart": {
+      "file": "arttext_restart.png",
+      "bounds": [
+        434,
+        972,
+        151,
+        42
+      ],
+      "sha256": "03e89a9daa0a8d0e577fde73c6d94c035a39efd3fd8f5cc06cdab2966a0c459a"
+    },
+    "arttext_continue": {
+      "file": "arttext_continue.png",
+      "bounds": [
+        409,
+        1096,
+        211,
+        51
+      ],
+      "sha256": "b53742e6b4d5c9cc6ad935116563d7a55e9a5ab60aa772534c006f6a8c03d66f"
+    },
+    "arttext_exit": {
+      "file": "arttext_exit.png",
+      "bounds": [
+        437,
+        1236,
+        147,
+        42
+      ],
+      "sha256": "1c27c7059b5296842224d62faa0aa3b7074990db8e7dae694973eeaced5c9c7a"
+    }
+  },
+  "staticLayers": [
+    "panel_base",
+    "settings_region",
+    "ear_left",
+    "ear_right",
+    "title_plate",
+    "rabbit",
+    "bow",
+    "star_title_left",
+    "star_title_right",
+    "star_upper_left",
+    "star_upper_right",
+    "star_right_small",
+    "star_body_left",
+    "star_body_right",
+    "star_bottom_left_yellow",
+    "star_bottom_left_purple",
+    "star_bottom_right_yellow",
+    "star_bottom_right_pink",
+    "divider_01",
+    "divider_02",
+    "music_icon",
+    "sound_icon",
+    "vibration_icon",
+    "restart_base",
+    "restart_icon",
+    "continue_base",
+    "continue_icon",
+    "continue_sparkle_01",
+    "continue_sparkle_02",
+    "continue_sparkle_03",
+    "continue_sparkle_04",
+    "exit_base",
+    "exit_icon",
+    "arttext_pause",
+    "arttext_restart",
+    "arttext_continue",
+    "arttext_exit"
+  ],
+  "textLayers": [
+    {
+      "name": "txt_music",
+      "group": "08_EDITABLE_SETTINGS",
+      "text": "背景音乐",
+      "display_name": "背景音乐",
+      "usage": "可编辑文字",
+      "region": "弹窗",
+      "anchor": "center",
+      "z": 801,
+      "default_visible": true,
+      "font_family": "Microsoft YaHei",
+      "font_postscript_name": "MicrosoftYaHei-Bold",
+      "font_size": 29,
+      "font_weight": 700,
+      "color": "#9D69B0",
+      "alignment": "center",
+      "delivery_bounds": [
+        324,
+        610,
+        132,
+        36
+      ],
+      "logical_bounds": [
+        324,
+        610,
+        132,
+        36
+      ],
+      "runtime_rendering": "psd_text",
+      "font_match_status": "fallback",
+      "fallback_reason": "原图字体未提供，使用可编辑微软雅黑粗体匹配；保留字体替换能力"
+    },
+    {
+      "name": "txt_sound",
+      "group": "08_EDITABLE_SETTINGS",
+      "text": "游戏音效",
+      "display_name": "游戏音效",
+      "usage": "可编辑文字",
+      "region": "弹窗",
+      "anchor": "center",
+      "z": 802,
+      "default_visible": true,
+      "font_family": "Microsoft YaHei",
+      "font_postscript_name": "MicrosoftYaHei-Bold",
+      "font_size": 29,
+      "font_weight": 700,
+      "color": "#9D69B0",
+      "alignment": "center",
+      "delivery_bounds": [
+        324,
+        715,
+        132,
+        36
+      ],
+      "logical_bounds": [
+        324,
+        715,
+        132,
+        36
+      ],
+      "runtime_rendering": "psd_text",
+      "font_match_status": "fallback",
+      "fallback_reason": "原图字体未提供，使用可编辑微软雅黑粗体匹配；保留字体替换能力"
+    },
+    {
+      "name": "txt_vibration",
+      "group": "08_EDITABLE_SETTINGS",
+      "text": "震动反馈",
+      "display_name": "震动反馈",
+      "usage": "可编辑文字",
+      "region": "弹窗",
+      "anchor": "center",
+      "z": 803,
+      "default_visible": true,
+      "font_family": "Microsoft YaHei",
+      "font_postscript_name": "MicrosoftYaHei-Bold",
+      "font_size": 29,
+      "font_weight": 700,
+      "color": "#9D69B0",
+      "alignment": "center",
+      "delivery_bounds": [
+        324,
+        825,
+        133,
+        37
+      ],
+      "logical_bounds": [
+        324,
+        825,
+        133,
+        37
+      ],
+      "runtime_rendering": "psd_text",
+      "font_match_status": "fallback",
+      "fallback_reason": "原图字体未提供，使用可编辑微软雅黑粗体匹配；保留字体替换能力"
+    }
+  ],
+  "controls": [
+    {
+      "id": "music",
+      "setting": "musicEnabled",
+      "trackBounds": [
+        562,
+        598,
+        132,
+        65
+      ],
+      "onTrack": "music_track",
+      "offTrack": "vibration_track",
+      "onThumb": "music_thumb",
+      "offThumb": "vibration_thumb",
+      "onStar": "music_star",
+      "offStar": "vibration_star",
+      "onThumbBounds": [
+        621,
+        597,
+        72,
+        66
+      ],
+      "offThumbBounds": [
+        560,
+        597,
+        71,
+        66
+      ],
+      "onStarBounds": [
+        640,
+        610,
+        37,
+        36
+      ],
+      "offStarBounds": [
+        579,
+        610,
+        37,
+        36
+      ]
+    },
+    {
+      "id": "sound",
+      "setting": "audioEnabled",
+      "trackBounds": [
+        562,
+        702,
+        132,
+        66
+      ],
+      "onTrack": "sound_track",
+      "offTrack": "vibration_track",
+      "onThumb": "sound_thumb",
+      "offThumb": "vibration_thumb",
+      "onStar": "sound_star",
+      "offStar": "vibration_star",
+      "onThumbBounds": [
+        621,
+        701,
+        72,
+        66
+      ],
+      "offThumbBounds": [
+        560,
+        701,
+        71,
+        66
+      ],
+      "onStarBounds": [
+        640,
+        714,
+        37,
+        37
+      ],
+      "offStarBounds": [
+        579,
+        714,
+        37,
+        37
+      ]
+    },
+    {
+      "id": "vibration",
+      "setting": "vibrationEnabled",
+      "trackBounds": [
+        561,
+        810,
+        132,
+        66
+      ],
+      "onTrack": "music_track",
+      "offTrack": "vibration_track",
+      "onThumb": "music_thumb",
+      "offThumb": "vibration_thumb",
+      "onStar": "music_star",
+      "offStar": "vibration_star",
+      "onThumbBounds": [
+        621,
+        809,
+        72,
+        67
+      ],
+      "offThumbBounds": [
+        560,
+        809,
+        71,
+        67
+      ],
+      "onStarBounds": [
+        639,
+        823,
+        37,
+        37
+      ],
+      "offStarBounds": [
+        578,
+        823,
+        37,
+        37
+      ]
+    }
+  ]
+}

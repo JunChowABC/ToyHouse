@@ -10,6 +10,8 @@ const ctx = canvas.getContext("2d");
 
 const W = 540;
 const H = 960;
+const ART_SCALE = Math.min(W / ART_MANIFEST.canvas[0], H / ART_MANIFEST.canvas[1]);
+const ART_OFFSET_Y = (H - ART_MANIFEST.canvas[1] * ART_SCALE) / 2;
 const BOARD = { x: 60, y: 199, cols: 12, rows: 18, cell: 35 };
 const TOY_ART_CELL = 34; // Artwork size stays independent of the 1px wider grid spacing.
 const TOY_VISUAL_GAP = 3;
@@ -91,12 +93,12 @@ const PALETTES = [
   ["#8fa9cf", "#edf3ff", "#4d6486"],
 ];
 const TOOL_BUTTONS = [
-  { id: "remove", x: 137, y: 847, w: 83, h: 88, slot: "01", icon: "icon_trash_01_instance_01", label: "消除", detail: "选2只" },
-  { id: "shuffle", x: 228, y: 847, w: 83, h: 88, slot: "02", icon: "icon_shuffle_01_instance_01", label: "洗牌", detail: "随机5只" },
-  { id: "flip", x: 318, y: 847, w: 83, h: 88, slot: "03", icon: "icon_flip_01_instance_01", label: "翻转", detail: "选1只" },
+  { id: "remove", ...artRect("remove_base"), icon: "remove_icon", label: "消除", detail: "选2只" },
+  { id: "shuffle", ...artRect("shuffle_base"), icon: "shuffle_icon", label: "洗牌", detail: "随机5只" },
+  { id: "flip", ...artRect("flip_base"), icon: "flip_icon", label: "翻转", detail: "选1只" },
 ];
-// The V3 left navigation tab opens the existing pause/navigation menu.
-const PAUSE_BUTTON = { x: 0, y: 22, w: 65, h: 51 };
+// The back artwork opens the existing pause/navigation menu.
+const PAUSE_BUTTON = artRect("back_base");
 const SETTINGS_KEY = "toyhouse-settings-v1";
 function loadSettings() {
   const settings = { musicEnabled: true, audioEnabled: true, vibrationEnabled: false };
@@ -190,8 +192,6 @@ function consumeTool(id) {
 const artImages = new Map();
 let artReady = false;
 let artError = "";
-const ART_SCALE = Math.min(W / ART_MANIFEST.canvas[0], H / ART_MANIFEST.canvas[1]);
-const ART_OFFSET_Y = (H - ART_MANIFEST.canvas[1] * ART_SCALE) / 2;
 const UI_FONT = 'SimHei, "Microsoft YaHei UI", "PingFang SC", sans-serif';
 const RABBIT_ANGLE = Object.freeze({ UP: 0, RIGHT: Math.PI / 2, DOWN: Math.PI, LEFT: -Math.PI / 2 });
 const HUD_LAYERS = Object.keys(ART_MANIFEST.assets).filter(id => ART_MANIFEST.assets[id].group === "04_TITLE");
@@ -271,41 +271,48 @@ function artText(text, x, y, size, color = "#8b5e4d", maxWidth, weight = 400, ou
   ctx.restore();
 }
 
+function sourceText(id, value) {
+  const spec = ART_MANIFEST.text[id];
+  const [x, y, w, h] = spec.logical_bounds;
+  artText(value, (x + w / 2) * ART_SCALE, (y + h / 2) * ART_SCALE + ART_OFFSET_Y,
+    spec.font_size * ART_SCALE, spec.color, w * ART_SCALE, spec.font_weight);
+}
+
 function drawCurrencyHud(showAcquisition = true) {
-  CURRENCY_LAYERS.forEach(id => drawArt(id));
-  artText("0", 490, 54, 17);
-  artText(profile.coins, 490, 90, 16, "#8b5e4d", 38);
+  CURRENCY_LAYERS.filter(id => showAcquisition || !id.endsWith("plus_base")).forEach(id => drawArt(id));
+  sourceText("txt_gem", "0");
+  sourceText("txt_coin", profile.coins);
   // Existing star economy and acquisition entries are not wired up yet.
   if (showAcquisition) {
-    artText("+", 520, 53, 21, "#cfb0a3");
-    artText("+", 520, 90, 21, "#cfb0a3");
+    sourceText("txt_gem_plus", "+");
+    sourceText("txt_coin_plus", "+");
   }
 }
 
 function drawArtHud(spec) {
-  HUD_LAYERS.forEach(id => {
-    const rect = artRect(id);
-    if (id === "ui_title_rabbit_01_instance_01") rect.y += 9;
-    drawArt(id, rect);
-  });
-  // Keep the two PSD text positions, but use real level/economy state.
-  artText(`第${String(spec.levelNo).padStart(2, "0")}关`, 269, 74, 15, "#b47850", 100, 700);
-  artText(spec.title, 270, 97, 21, "#b47850", 172, 700);
+  HUD_LAYERS.forEach(id => drawArt(id));
+  sourceText("txt_level", `第${String(spec.levelNo).padStart(2, "0")}关 / ${spec.title}`);
   drawCurrencyHud();
   drawPauseButton();
   if (state.combo <= 0) return;
-  drawArt("ui_combo_panel_base_01_instance_01");
-  drawArt("ui_combo_panel_region_bar_01_instance_01");
-  const fill = artRect("ui_combo_bar_fill_01_instance_01");
+  drawArt("combo_base");
+  drawArt("combo_track");
+  const track = artRect("combo_track");
+  const fill = { x: track.x + 8 * ART_SCALE, y: track.y + 8 * ART_SCALE,
+    w: track.w - 16 * ART_SCALE, h: track.h - 16 * ART_SCALE };
   ctx.save();
   ctx.beginPath();
   ctx.rect(fill.x, fill.y, fill.w * comboRemainingMs() / COMBO_WINDOW_MS, fill.h);
   ctx.clip();
-  drawArt("ui_combo_bar_fill_01_instance_01");
+  drawArt("combo_fill", fill);
   ctx.restore();
-  drawArt("ui_combo_star_01_instance_01");
-  artText("COMBO", 260, 145, 13, "#956a4f", undefined, 700, "#ffffff");
-  artText(state.combo, 298, 142, 23, "#63345f", 28, 700, "#fff5df");
+  ["combo_star", "combo_sparkle_1", "combo_sparkle_2", "art_combo_label"].forEach(id => drawArt(id));
+  const digits = String(state.combo);
+  const scale = Math.min(56 / 128, 100 / (96 + (digits.length - 1) * 88)) * ART_SCALE;
+  [...digits].forEach((digit, i) => drawArt(`digit_${digit}`, {
+    x: 495 * ART_SCALE + i * 88 * scale, y: 194 * ART_SCALE + ART_OFFSET_Y - 112 * scale,
+    w: 96 * scale, h: 128 * scale,
+  }));
 }
 
 const systemAssets = {
@@ -318,7 +325,7 @@ const LOAD_UI = { retry: { x: 170, y: 520, w: 200, h: 52 }, cancel: { x: 170, y:
 async function loadCoreAssets(ids) {
   await Promise.all(ids.map(async id => {
     const asset = ART_MANIFEST.assets[id];
-    const image = await loadImage(`${ART_MANIFEST.directory}/${asset.file}`);
+    const image = await loadImage(`${asset.directory || ART_MANIFEST.directory}/${asset.file}`);
     artImages.set(id, image);
   }));
 }
@@ -1084,7 +1091,7 @@ function drawHomeToy(x, y, typeIndex, scale) {
 
 function drawButton(x, y, w, h, title, subtitle = "", primary = false) {
   paintControl("finale.home", { x, y, w, h }, () => {
-  drawArt(primary ? "ui_title_base_01_instance_01" : "ui_title_region_01_instance_01", { x, y: y - (primary ? 15 : 0), w, h: h + (primary ? 15 : 0) });
+  drawArt("level_plate", { x, y: y - (primary ? 15 : 0), w, h: h + (primary ? 15 : 0) });
   artText(title, x + w / 2, y + (subtitle ? h * 0.46 : h * 0.52), subtitle ? 23 : 18, primary ? "#b97921" : "#915e6b", w - 45, 700);
   if (subtitle) artText(subtitle, x + w / 2, y + h * 0.74, 11, "#9b7780", w - 44);
   });
@@ -1092,8 +1099,8 @@ function drawButton(x, y, w, h, title, subtitle = "", primary = false) {
 
 function drawPauseButton() {
   paintControl("play.pause", PAUSE_BUTTON, () => {
-  drawArt("ui_nav_tab_base_01_instance_01");
-  drawArt("ui_nav_icon_01_instance_01");
+  drawArt("back_base");
+  drawArt("back_arrow");
   });
 }
 
@@ -1101,7 +1108,7 @@ function drawToolModal() {
   const id = state.toolModal;
   const tool = TOOL_BUTTONS.find(item => item.id === id);
   drawToolDialog(ctx, {
-    title: id === "flip" ? "反转" : tool.label,
+    toolId: id,
     lines: TOOL_DESCRIPTIONS[id],
     icon: tool.icon,
     buying: profile.inventory[id] === 0,
@@ -1217,23 +1224,22 @@ function drawGame() {
 function drawToolButton(button) {
   paintControl(`play.${button.id}`, button, () => {
   const active = state.toolMode === button.id;
-  const disc = artRect(`ui_bottom_button_disc_01_instance_${button.slot}`);
+  const disc = artRect(`${button.id}_base`);
   ctx.save();
   if (active) {
     ctx.shadowColor = "#ffc648";
     ctx.shadowBlur = 16;
     fillRoundRect(disc.x + 5, disc.y + 5, disc.w - 10, disc.h - 10, disc.w / 2, "rgba(255,228,150,.75)", "#ffdb83", 3);
   }
-  drawArt(`ui_bottom_button_disc_01_instance_${button.slot}`);
+  drawArt(`${button.id}_base`);
+  drawArt(`${button.id}_inner`);
   ctx.shadowBlur = 0;
   drawArt(button.icon);
-  const badge = artRect(`ui_small_badge_01_instance_${button.slot}`);
-  drawArt(`ui_small_badge_01_instance_${button.slot}`);
+  if (button.id === "remove") ["remove_sparkle_1", "remove_sparkle_2"].forEach(id => drawArt(id));
+  const badge = artRect(`${button.id}_badge`);
+  drawArt(`${button.id}_badge`);
   artText(profile.inventory[button.id], badge.x + badge.w / 2, badge.y + badge.h / 2, 14, "#fff", badge.w - 4);
-  const plateId = `ui_bottom_label_plate_01_instance_${button.slot}`;
-  const plate = artRect(plateId);
-  drawArt(plateId);
-  artText(button.label, plate.x + plate.w / 2, plate.y + plate.h / 2, 16, active ? "#b67923" : "#ca666b", undefined, 700);
+  drawArt(`${button.id}_label`);
   ctx.restore();
   });
 }

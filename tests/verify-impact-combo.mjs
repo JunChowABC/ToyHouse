@@ -9,6 +9,8 @@ await mkdir(outputDir, { recursive: true });
 const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage({ viewport: { width: 540, height: 960 } });
 const errors = [];
+// Keep simulation time deterministic while screenshots and assertions run.
+await page.addInitScript(() => { window.requestAnimationFrame = () => 0; });
 page.on("console", (message) => {
   if (message.type() === "error") errors.push(message.text());
 });
@@ -18,6 +20,8 @@ const readState = () => page.evaluate(() => JSON.parse(window.render_game_to_tex
 
 try {
   await page.goto("http://127.0.0.1:4173", { waitUntil: "domcontentloaded" });
+  await page.waitForFunction(() => Boolean(window.__toyhouse_background_ready));
+  await page.evaluate(() => window.__toyhouse_background_ready);
 
   await page.evaluate(() => window.__toyhouse_debug.startLevel(0));
   let state = await readState();
@@ -42,6 +46,9 @@ try {
   assert.deepEqual(state.movingImpacts.map(({ toyId, blockerId }) => ({ toyId, blockerId })), [
     { toyId: slidingToy.id, blockerId: slidingToy.blockerId },
   ]);
+  // Impact begins when the slide reaches the blocker, not on pointer down.
+  await page.evaluate(ms => window.advanceTime(ms + 1), state.movingImpacts[0].remainingMs);
+  state = await readState();
   impactById = Object.fromEntries(state.impactedToys.map((toy) => [toy.id, toy.role]));
   assert.equal(impactById[slidingToy.id], "mover");
   assert.equal(impactById[slidingToy.blockerId], "blocker");
@@ -80,7 +87,8 @@ try {
   assert.ok(state.comboRemainingMs > 7800 && state.comboRemainingMs <= 8000);
   await page.locator("#game").screenshot({ path: fileURLToPath(new URL("combo-countdown.png", outputDir)) });
 
-  await page.evaluate(() => window.advanceTime(8001));
+  // advanceTime rounds to 60Hz frames; step clearly beyond the boundary.
+  await page.evaluate(() => window.advanceTime(8050));
   state = await readState();
   assert.equal(state.combo, 0);
   assert.equal(state.comboRemainingMs, 0);

@@ -1,5 +1,33 @@
 Original prompt: 根据《《晚安，玩具屋》游戏设计文档 GDD.md》帮我实现核心玩法
 
+## 2026-09-25 · 通关奖励统一货币栏图标
+
+- 按用户要求，关卡完成弹窗的金币、钻石改用货币栏coin_icon/gem_icon原PNG；导出器核对源哈希并复制同一字节，保留原奖励中心，等比适配原图标区域。源图路径记入运行manifest，后续导出可持续同步。
+- 更新运行图集及docs；金币/钻石与货币栏源文件SHA-256分别一致。标准Web Game客户端、三视口verify-complete-dialog、构建和diff检查通过；已查看标准单金币及双奖励截图。运行图片仍10张；本地完成，尚未远程发布。
+
+## 2026-09-25 · 关卡完成弹窗效果图2资源实装
+
+- 用户要求将本任务新交付的资源替换入项目。接入43个独立PNG和2个由PSD标题层导出的美术字，共45项；庆祝插画为一张PNG，941×1672原坐标映射到游戏画布。
+- 新导出工具核对PNG与PSD层像素/坐标，保留SHA-256；运行标题不依赖手机字体。奖励数量动态显示，普通通关30金币不变；卡片、数量条、图标、数字随单/双奖励居中。新按钮命中区域与底板/图标/装饰/文字按压联动。
+- 运行图集与docs本地构建已更新；全系统仍10张运行图、首页5张，无独立PNG请求。
+- 已通过标准web_game_playwright_client、verify-complete-dialog（三视口、静态资源位置、单双空奖励、30金币真实结算/存档/防重复、按压取消、返回/下一关/结局/双击防穿透）、verify-runtime-atlas、build-web和git diff --check。已查看标准客户端、源码桌面、docs手机、横屏截图。
+- 说明：art/level-complete-popup2-integration.md；截图：test-output/complete-dialog/standard/shot-0.png、390-single-coin.png。当前Web工程及docs完成，无待处理实现项；尚未远程发布，未修改独立Maker项目。
+
+## 2026-09-25 · 三个道具弹窗资源实装
+
+- 按用户确认，以 eliminate-popup2-layered-v1.psd 的框体和布局为准，消除/洗牌/翻转使用对应图标和标题；购买黄色，使用粉色，现有经济与玩法逻辑保留。
+- 接入51个独立资源，运行图集和docs本地构建已更新。洗牌为紫粉相向箭头，翻转为新生成黄粉环形箭头。说明见 art/tool-popup2-integration.md。
+- 验证通过：标准Web Game客户端（本地副本仅替换Playwright导入，以使用已安装Chrome）、verify-tool-popup2（18组合/坐标/拖离取消/关闭）、verify-tool-economy（源码及手机发布包全流程）、verify-runtime-atlas、npm run build。已查看消除禁用、洗牌使用、翻转购买、手机与横屏截图。运行图像10张，首页5张，无独立PNG请求。
+- 当前Web项目与docs已完成，未推送或远程发布，未修改独立Maker工程。无待处理实现项。
+
+## 2026-09-24 · 暂停弹窗效果图2美术字版实装
+
+- 用户要求将本任务交付的新暂停UI替换到项目中。接入 outputs/pause-popup2-layered-v2-arttext 的46个独立PNG，含四个美术字；原位映射941×1672至540×960，背景音乐/游戏音效/震动反馈继续动态绘字。
+- 更新三行设置和三个按钮的点击区域；底槽、滑块、星星随持久化状态切换，按钮底板/图标/美术字同步按压。首页设置与道具说明通过 shared-dialog-art-manifest.js 使用原共用资源。
+- 新资源、运行图集及docs本地构建已更新。运行图片请求仍为9次，首页5次；源码与docs没有独立PNG请求。原有未提交核心UI修改保留。
+- 验证通过：标准web_game_playwright_client；verify-pause-art（三视口、46资源逐项位置/源PNG/构建PNG一致、4项美术字、6控件按压移出取消、切换和刷新存档、重开/退出及首页设置）；verify-pause-menu（暂停冻结/继续恢复）；verify-tool-economy；verify-runtime-atlas；npm run build。已查看默认、切换、手机、横屏和标准客户端截图。
+- 截图：test-output/pause-popup2/standard/shot-0.png、test-output/pause-art/390-default.png、390-toggled.png。当前只更新Web项目及docs本地包，未提交推送/远程发布，未修改独立Maker工程；实际BGM仍受原项目无音轨限制，震动真机未验收。无待处理实现项。
+
 ## 2026-09-19 · 隐藏金币不足文字
 
 - 按用户要求，道具弹窗不再绘制“金币不足”提示；保留余额校验、购买按钮置灰及禁用状态。其他不可用原因沿用原行为。
@@ -402,3 +430,34 @@ Original prompt: 根据《《晚安，玩具屋》游戏设计文档 GDD.md》�
 - 更新旧美术测试的地毯断言；该测试仍被已有呼吸动作的非等比变换断言阻断，未计为通过。
 - 本地修改完成。Maker 提交/推送/远程构建被自动审批拒绝：要求用户明确授权远端发布。尚未提交或发布两端，等待用户确认。
 - 用户已确认两端远程发布，开始提交 GitHub 与 Maker。
+- 发布确认：GitHub 005d11a，Pages 35853945822成功，线上bundle与docs完全一致，第20关截图已检查，无页面或资源错误；Maker 3e26944，远程构建33秒成功，预览刷新200。日志watcher零失败，但回传的是旧会话，未作为本次手机实机验收。
+
+## 2026-09-24 · 核心玩法效果图2 UI 实装
+- 将 outputs/core-gameplay-2-arttype-v4 的新版导航、标题、货币、Combo 和三种道具资源接入 Web 项目；新增可重复执行的 scripts/export-core-ui-v4.py，保留原背景/玩具与独立资源。
+- 排除 board_*（地毯底板、内层、缝线及四角星星）和固定数字5样例；原背景2内自带的地垫图案仍保留。Combo 大写C，数字按实时连击使用 digit_0 至 digit_9 拼接。货币/库存使用实际存档值。
+- 更新按钮命中范围及统一按下缩放，原暂停/购买/使用逻辑保留。货币加号仍沿用原先未接入购买功能的状态。
+- 更新运行图集与 docs 本地发布包；46个核心资源，全部系统运行图片9次请求，首页5次，无独立PNG请求。
+- 验证通过：标准 web_game_playwright_client；verify-core-ui-v4（源码540×960和docs手机390×844，按压/移出取消/弹窗/暂停/Combo12与超时）；verify-tool-economy；verify-impact-combo；verify-runtime-atlas；npm run build；git diff --check。已查看标准局内和手机Combo12截图。
+- 修正旧测试时序：图集测试等待后台Promise注册，碰撞测试等待滑动接触，冻结RAF并避开60Hz计时边界；未修改玩法规则。
+- 截图：test-output/core-ui-v4/standard/shot-0.png、540-combo12.png、390-combo12.png。
+- 本次仅完成当前Web项目及docs包；未提交、推送、远程发布或改动独立Maker项目。
+
+## 2026-09-24 · UI 可读性与可爱美术字修订
+- 按用户反馈将 Combo 底槽改成奶白色并扩大填充周围留白；扩大奶白标题托底，进度槽下移38个原图像素，为放大的文字留出空间。
+- Combo 使用未缩小字库源图，显示区域159×42（原91×28且内容更小）；数字画布高76（原44），仍按独立0–9实时拼接。
+- 用户明确允许 CLI/API；通过技能自带 image_gen.py、gpt-image-2 生成消除/洗牌/翻转三枚圆润糖果美术字，粉/紫/杏橙配色及奶白描边。独立透明PNG、生成原图、完整提示词和SHA256存于 art/core-ui-v5/provenance.json 及同目录。清除消除字周围的生成光晕，保留真实字形和描边。
+- 三个按钮绘制改为独立美术字资源，数字库存和按钮功能不变。重新导出49个核心资源，重建图集和docs；运行图片请求仍为9次。
+- 验证通过：标准 web_game_playwright_client、verify-core-ui-v4（增加三枚文字资源及半进度截图）、verify-tool-economy、verify-runtime-atlas、npm run build、git diff --check。已查看源码局内截图、390手机Combo12满/半进度截图，未见重叠或裁切。
+- 仅本地项目与docs更新，未远程发布或更新独立Maker项目。无待处理实现项。
+
+## 2026-09-24 · 恢复原槽框并增强按钮文字对比
+- 按用户纠正，撤销v5重画/加宽托底与进度槽下移，combo_base恢复原PNG（字节完全一致），所有槽框/星星位置恢复v4。combo_track仅调整RGB至奶白色，alpha和尺寸逐像素保持原样；未调用生成工具重做底框。
+- 保留较初版放大的Combo字库文字，重新排入原框附近，消除新加托底。三个美术字只调整原字面RGB：深莓紫、深葡萄紫、焦糖棕，保留字形、alpha和奶白描边。
+- 原始生成素材仍在art/core-ui-v5；改色由导出脚本可重复执行，不覆盖生成原图。
+- 已重建图集及docs。标准客户端、verify-core-ui-v4源码/手机打包版通过，已查看半进度手机截图及标准截图；原框字节一致、槽alpha一致检查通过。局部预览test-output/core-ui-v6/ui-detail-preview.png。未远程发布。
+
+## 2026-09-24 · 保留槽边线并还原浅色文字
+- 修正整张combo_track调色导致粉色边线变淡的问题：仅对内缩胶囊区域调奶白色，保留原PNG边缘RGB、亮边、圆头及alpha；未重画底框。
+- 删除v6按钮文字深色重映射，恢复v5原浅粉/浅紫/杏橙糖果美术字。尺寸、描边、字形不变。
+- 重建运行图集及docs；verify-core-ui-v4源码与手机打包版、标准客户端通过，边缘8像素和alpha与原图一致性检查通过，已查看局部半进度截图和标准截图。
+- 预览test-output/core-ui-v7/ui-detail-preview.png。未远程发布。

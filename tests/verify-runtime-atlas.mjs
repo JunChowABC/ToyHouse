@@ -9,6 +9,7 @@ try{for(const entry of ['/', '/docs/']){
  page.on('pageerror',e=>errors.push(String(e)));
  page.on('response',r=>{if(r.status()>=400)errors.push(r.url());});
  await page.goto('http://127.0.0.1:4173'+entry,{waitUntil:'networkidle'});
+ await page.waitForFunction(()=>Boolean(window.__toyhouse_background_ready));
  await page.evaluate(()=>window.__toyhouse_background_ready);
  assert.equal(images.length,report.runtimeImages);
  assert.equal(new Set(images).size,report.runtimeImages);
@@ -17,5 +18,5 @@ try{for(const entry of ['/', '/docs/']){
  assert.equal(await page.evaluate(()=>JSON.parse(window.render_game_to_text()).homeArt.loaded),16);
  await page.keyboard.press('Enter');
  assert.equal(await page.evaluate(()=>JSON.parse(window.render_game_to_text()).mode),'play');
- assert.deepEqual(errors,[]);await page.close();console.log(entry+' 10 runtime images, 5 homepage images, no source PNG requests PASS');
+ assert.deepEqual(errors,[]);await page.close();console.log(entry+` ${report.runtimeImages} runtime images, 5 homepage images, no source PNG requests PASS`);
 }}finally{await browser.close();}
