@@ -12,7 +12,7 @@ try {
     page.on('pageerror', e => errors.push(String(e)));
     page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
     page.on('response', r => { if (r.status() >= 400) errors.push(r.url()); });
-    await page.goto(`http://127.0.0.1:4173${entry}`, { waitUntil: 'networkidle' });
+    await page.goto(`${process.env.TOYHOUSE_TEST_URL || "http://127.0.0.1:4173"}${entry}`, { waitUntil: 'networkidle' });
     await page.waitForFunction(() => Boolean(window.__toyhouse_background_ready));
     await page.evaluate(() => window.__toyhouse_background_ready);
     await page.keyboard.press('Enter');
@@ -34,18 +34,27 @@ try {
     for (const id of ['remove','shuffle','flip']) {
       await open(id);
       await page.evaluate(() => { window.__adCalls=0; window.toyhouseAds={showRewarded: () => { window.__adCalls++; return new Promise(resolve => { window.__finishAd=resolve; }); }}; });
-      const before = (await read()).economy;
+      const beforeState = await read();
+      const before = beforeState.economy;
       await ad(); await ad(); await close(); await page.keyboard.press('Escape'); await page.keyboard.press('Enter');
       assert.equal((await read()).toolDialog.adPending, true);
       assert.equal(await page.evaluate(() => window.__adCalls), 1);
       assert.deepEqual((await read()).economy, before);
+      await page.evaluate(() => Object.defineProperty(document,'hidden',{configurable:true,get:()=>true}));
       await page.evaluate(receiptId => window.__finishAd({status:'completed',receiptId}), `test-${id}`);
+      await page.evaluate(() => window.advanceTime(300));
+      assert.equal((await read()).toolUses[id],0);
+      assert.equal((await read()).toolDialog.adPending,true);
+      await page.evaluate(() => { delete document.hidden; });
+      await page.waitForFunction(() => !JSON.parse(window.render_game_to_text()).toolDialog);
       let state=await read();
-      assert.equal(state.economy.inventory[id], before.inventory[id]+1);
+      assert.equal(state.economy.inventory[id], before.inventory[id]+(id==='shuffle'?0:1));
       assert.equal(state.economy.coins, before.coins);
-      assert.equal(state.toolUses[id], 0);
-      assert.equal(state.toolDialog.action,'use');
+      assert.equal(state.toolUses[id], id==='shuffle'?1:0);
+      if(id==='shuffle') assert.equal(state.toys.filter(t=>beforeState.toys.find(b=>b.id===t.id)?.direction!==t.direction).length,5);
+      else { assert.equal(state.toolMode,id); await page.keyboard.press('Escape'); }
       await page.screenshot({path:`${out}/${width}-${id}-reward.png`});
+      await open(id);
       await ad();
       await page.evaluate(receiptId => window.__finishAd({status:'completed',receiptId}), `test-${id}`);
       assert.deepEqual((await read()).economy,state.economy,'duplicate receipt must not reward twice');
@@ -79,7 +88,7 @@ try {
     await page.reload({waitUntil:'networkidle'});
     await page.waitForFunction(() => Boolean(window.__toyhouse_background_ready));
     await page.evaluate(() => window.__toyhouse_background_ready);
-    assert.deepEqual((await read()).economy.inventory,{remove:1,shuffle:1,flip:1});
+    assert.deepEqual((await read()).economy.inventory,{remove:1,shuffle:0,flip:1});
     await page.keyboard.press('Enter'); await page.evaluate(() => window.advanceTime(1500));
     await open('remove');
     await page.waitForFunction(()=>!JSON.parse(window.render_game_to_text()).uiMotion.busy);

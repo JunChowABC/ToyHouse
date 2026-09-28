@@ -193,9 +193,25 @@ function confirmToolAction() {
 // No browser timer or ad-close event is treated as successful viewing.
 let toolAdPending = false;
 let toolAdMessage = "";
+let toolAdAutoUse = null;
+function resumeAdTool() {
+  if (!toolAdAutoUse || document.hidden) return;
+  const { id, levelIndex } = toolAdAutoUse;
+  toolAdAutoUse = null;
+  const canResume = () => state.mode === "play" && state.levelIndex === levelIndex && state.toolModal === id;
+  if (!canResume() || toolUnavailable(id)) { toolAdPending = false; return; }
+  closeDialogMotion(() => {
+    if (document.hidden) { toolAdAutoUse = { id, levelIndex }; return; }
+    toolAdPending = false;
+    if (canResume() && profile.inventory[id] > 0) confirmToolAction();
+  });
+}
 async function watchToolAd() {
   const id = state.toolModal;
   if (!id || toolAdPending) return;
+  const reason = toolUnavailable(id);
+  if (reason && reason !== "金币不足") return;
+  const levelIndex = state.levelIndex;
   const adapter = window.toyhouseAds;
   if (typeof adapter?.showRewarded !== "function") {
     toolAdMessage = "暂无可播放的广告，请稍后再试";
@@ -215,7 +231,8 @@ async function watchToolAd() {
     ]);
     if (result?.status === "completed" && typeof result.receiptId === "string" && result.receiptId.trim()) {
       const granted = grantReward({ id: result.receiptId, source: "rewarded_ad", tools: { [id]: 1 } });
-      toolAdMessage = granted ? "已获得 1 个道具，点击使用" : "这份广告奖励已领取";
+      toolAdMessage = granted ? "观看完成，正在使用…" : "这份广告奖励已领取";
+      if (granted) toolAdAutoUse = { id, levelIndex };
     } else {
       toolAdMessage = result?.status === "cancelled" ? "完整观看广告后才可获得道具" : "暂无可播放的广告，请稍后再试";
     }
@@ -224,7 +241,7 @@ async function watchToolAd() {
   } finally {
     clearTimeout(timeout);
     controller.abort();
-    toolAdPending = false;
+    toolAdPending = Boolean(toolAdAutoUse);
     render();
   }
 }
@@ -1050,6 +1067,7 @@ function comboRemainingMs() {
 }
 
 function update(dt) {
+  resumeAdTool();
   const wasClosing = dialogMotion.closing;
   tickDialogMotion(dt * 1000);
   if (levelTransition) { updateLevelTransition(dt * 1000); return; }
@@ -1650,7 +1668,10 @@ function activeControls() {
   if (!artReady || performance.now() < state.navigationUntil) return [];
   if (pendingLoad) return [{ id: "loading.cancel", ...LOAD_UI.cancel }, ...(pendingLoad.error ? [{ id: "loading.retry", ...LOAD_UI.retry }] : [])];
   const group = (prefix, rects) => Object.entries(rects).map(([key, rect]) => ({ id: `${prefix}.${key}`, ...rect }));
-  if (state.toolModal) return toolAdPending ? [] : group("tool", TOOL_MODAL_UI).filter(b => b.id !== "tool.action" || !toolUnavailable(state.toolModal));
+  if (state.toolModal) return toolAdPending ? [] : group("tool", TOOL_MODAL_UI).filter(b => {
+    const reason = toolUnavailable(state.toolModal);
+    return b.id === "tool.action" ? !reason : b.id === "tool.ad" ? !reason || reason === "金币不足" : true;
+  });
   if (state.mode === "home") return state.pauseOpen ? group("settings", HOME_SETTINGS_UI)
     : group("home", HOME_UI).filter(b => b.id !== "home.start" || !homeProgress().complete);
   if (state.mode === "level-complete") return group("complete", COMPLETE_UI);
