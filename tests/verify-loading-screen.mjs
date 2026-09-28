@@ -10,6 +10,23 @@ async function click(p,rect){
  await p.mouse.click(c.x+(rect.x+rect.w/2)*c.width/540,c.y+(rect.y+rect.h/2)*c.height/960);
 }
 try{
+ // Cold start: no external artwork has arrived, but the new UI must already render.
+ for(const entry of ['/', '/docs/']){
+  const cold=await browser.newPage({viewport:{width:390,height:844}}),held=[];
+  let hold=true;
+  await cold.route('**/assets/**/*.webp*',async r=>{if(hold)held.push(r);else await r.continue();});
+  await cold.goto('http://127.0.0.1:4173'+entry,{waitUntil:'domcontentloaded'});
+  await cold.waitForFunction(()=>window.render_game_to_text&&JSON.parse(window.render_game_to_text()).art.loadingScreen.loaded===2);
+  const state=await read(cold);
+  assert.equal(state.art.loadingScreen.fullResolutionLoaded,0);
+  assert.equal(state.art.loadingScreen.visible,true);
+  assert.equal(state.art.loading.loaded,0);
+  await cold.screenshot({path:`test-output/loading-screen/cold-inline-${entry==='/'?'source':'built'}.png`});
+  hold=false;await Promise.all(held.map(r=>r.continue()));
+  await cold.waitForFunction(()=>JSON.parse(window.render_game_to_text()).art.ready);
+  await cold.waitForFunction(()=>JSON.parse(window.render_game_to_text()).art.loadingScreen.fullResolutionLoaded===2);
+  await cold.unrouteAll({behavior:'ignoreErrors'});await cold.close();
+ }
  for(const [entry,width,height] of [['/',540,960],['/docs/',390,844],['/docs/',844,390]]){
   const page=await browser.newPage({viewport:{width,height}}),errors=[],home=[],secondary=[];
   let holdHome=true,holdSecondary=true;
@@ -62,6 +79,6 @@ try{
  await click(failed,(await read(failed)).art.loadingScreen.retry);
  await failed.waitForFunction(()=>JSON.parse(window.render_game_to_text()).mode==='play');
  await failed.close();
- await writeFile('test-output/loading-screen/report.json',JSON.stringify({valid:true,scenarios:results,decorativeFailureFallback:true,secondaryFailureRetry:true},null,2));
+ await writeFile('test-output/loading-screen/report.json',JSON.stringify({valid:true,coldStartWithoutExternalImages:true,scenarios:results,decorativeFailureFallback:true,secondaryFailureRetry:true},null,2));
  console.log('Loading art: 3 viewports; real progress; cancel/reentry; secondary retry; missing-art fallback PASS');
 }finally{await browser.close();}

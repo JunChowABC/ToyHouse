@@ -22,11 +22,12 @@ try {
       const proto = CanvasRenderingContext2D.prototype, clear = proto.clearRect, draw = proto.drawImage;
       proto.clearRect = function(...a) { if(this.canvas.id==='game') window.__toolTrace=[]; return clear.apply(this,a); };
       proto.drawImage = function(im,...a) {
-        if(this.canvas.id==='game' && im.src?.includes('/tool-popup2-v1/')) window.__toolTrace.push({file:im.src.split('/').pop(), bounds:a, filter:this.filter, scale:this.getTransform().a});
+        if(this.canvas.id==='game' && /\/(tool-popup2-v1|tool-dialog-v1)\//.test(im.src || '')) window.__toolTrace.push({file:im.src.split('/').pop(), bounds:a, filter:this.filter, scale:this.getTransform().a});
         return draw.call(this,im,...a);
       };
     });
     await page.goto(`http://127.0.0.1:4173${entry}`,{waitUntil:'networkidle'});
+    await page.waitForFunction(() => Boolean(window.__toyhouse_background_ready), null, { polling: 100 });
     await page.evaluate(()=>window.__toyhouse_background_ready);
     await page.keyboard.press('Enter');
     const state = ()=>page.evaluate(()=>JSON.parse(window.render_game_to_text()));
@@ -48,8 +49,9 @@ try {
           assert.ok(item,`${id}: missing ${name}`);
           assert.deepEqual(item.bounds,ART.assets[name].bounds);
         }
-        assert.ok(files.includes(action==='buy'?'purchase_base.png':'use_base.png'));
-        assert.ok(!files.includes(action==='buy'?'use_base.png':'purchase_base.png'));
+        assert.ok(files.includes('ui_tool_buy_yellow_v3.png'));
+        assert.ok(files.includes('ui_tool_ad_pink_v3.png'));
+        assert.ok(!files.includes('purchase_base.png') && !files.includes('use_base.png'));
         await page.screenshot({path:`${out}/${width}-${id}-${action}.png`});
         // Press and drag away must leave the dialog and economy intact.
         const before=(await state()).economy, r=(await state()).uiHitAreas.toolModal.action;

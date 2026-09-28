@@ -26,7 +26,8 @@ try {
     const reward = r => page.evaluate(r => window.__toyhouse_debug.grantReward(r), r);
     const shot = name => page.screenshot({ path: fileURLToPath(new URL(`${width}-${name}.png`, out)) });
     await page.goto(`http://127.0.0.1:4173${entry}`, { waitUntil: "networkidle" });
-    await page.evaluate(() => window.__toyhouse_art_ready);
+    await page.waitForFunction(() => Boolean(window.__toyhouse_background_ready));
+    await page.evaluate(() => window.__toyhouse_background_ready);
     await page.keyboard.press("Enter");
     let s = await read();
     assert.deepEqual(s.economy.inventory, { remove: 0, shuffle: 0, flip: 0 });
@@ -102,6 +103,8 @@ try {
     assert.deepEqual(s.toolUses, { remove: 3, shuffle: 3, flip: 3 });
     const saved = s.economy;
     await page.reload({ waitUntil: "networkidle" });
+    await page.waitForFunction(() => Boolean(window.__toyhouse_background_ready));
+    await page.evaluate(() => window.__toyhouse_background_ready);
     await page.keyboard.press("Enter");
     assert.deepEqual((await read()).economy, saved);
     assert.deepEqual((await read()).toolUses, { remove: 3, shuffle: 3, flip: 3 });

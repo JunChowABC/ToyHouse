@@ -3,9 +3,9 @@
   "psdSha256": "1216f0bcf040e08830b3c0f8362b075efd801aa6ef6daa8b862481708f65dc4d",
   "runtimeImages": [
     "background-f2df99b41453.webp",
-    "ui-c0d8bca92d0e.webp"
+    "ui-5b8d2a286d8b.webp"
   ],
-  "bytes": 1919326,
-  "independentSprites": 25,
+  "bytes": 2166356,
+  "independentSprites": 26,
   "losslessAtlasVerified": true
 }

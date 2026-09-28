@@ -397,7 +397,7 @@ export default {
     ]
   },
   "assets/toyhouse-ui-v3/art_bedroom_bg_01.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
       2,
       2,
@@ -406,7 +406,7 @@ export default {
     ]
   },
   "assets/toyhouse-ui-v3/toy_rabbit_white_a.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
       947,
       2,
@@ -415,7 +415,7 @@ export default {
     ]
   },
   "assets/core-ui-v4/flip_base.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
       1683,
       2,
@@ -424,7 +424,7 @@ export default {
     ]
   },
   "assets/core-ui-v4/remove_base.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
       2,
       1678,
@@ -433,7 +433,7 @@ export default {
     ]
   },
   "assets/core-ui-v4/shuffle_base.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
       230,
       1678,
@@ -442,7 +442,7 @@ export default {
     ]
   },
   "assets/core-ui-v4/digit_0.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
       1911,
       2,
@@ -451,7 +451,7 @@ export default {
     ]
   },
   "assets/core-ui-v4/digit_1.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
       458,
       1678,
@@ -460,7 +460,7 @@ export default {
     ]
   },
   "assets/core-ui-v4/digit_2.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
       558,
       1678,
@@ -469,7 +469,7 @@ export default {
     ]
   },
   "assets/core-ui-v4/digit_3.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
       658,
       1678,
@@ -478,7 +478,7 @@ export default {
     ]
   },
   "assets/core-ui-v4/digit_4.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
       758,
       1678,
@@ -487,7 +487,7 @@ export default {
     ]
   },
   "assets/core-ui-v4/digit_5.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
       858,
       1678,
@@ -496,7 +496,7 @@ export default {
     ]
   },
   "assets/core-ui-v4/digit_6.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
       958,
       1678,
@@ -505,7 +505,7 @@ export default {
     ]
   },
   "assets/core-ui-v4/digit_7.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
       1058,
       1678,
@@ -514,7 +514,7 @@ export default {
     ]
   },
   "assets/core-ui-v4/digit_8.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
       1158,
       1678,
@@ -523,7 +523,7 @@ export default {
     ]
   },
   "assets/core-ui-v4/digit_9.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
       1258,
       1678,
@@ -532,7 +532,7 @@ export default {
     ]
   },
   "assets/core-ui-v4/flip_inner.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
       1358,
       1678,
@@ -541,7 +541,7 @@ export default {
     ]
   },
   "assets/core-ui-v4/remove_inner.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
       1566,
       1678,
@@ -550,7 +550,7 @@ export default {
     ]
   },
   "assets/core-ui-v4/shuffle_inner.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
       1774,
       1678,
@@ -559,7 +559,7 @@ export default {
     ]
   },
   "assets/core-ui-v4/back_base.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
       2,
       1826,
@@ -567,125 +567,125 @@ export default {
       106
     ]
   },
-  "assets/core-ui-v4/combo_base.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+  "assets/combo-login-v1/combo_star.png": {
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
-      115,
-      1826,
-      466,
-      88
+      1982,
+      1678,
+      63,
+      80
     ]
   },
   "assets/core-ui-v4/level_plate.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
-      585,
+      115,
       1826,
       383,
       76
     ]
   },
   "assets/core-ui-v4/remove_icon.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
-      972,
+      502,
       1826,
       69,
       76
     ]
   },
   "assets/core-ui-v4/flip_icon.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
-      1045,
+      575,
       1826,
       73,
       72
     ]
   },
   "assets/core-ui-v4/shuffle_icon.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
-      1122,
+      652,
       1826,
       73,
       71
     ]
   },
-  "assets/core-ui-v4/combo_star.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+  "assets/combo-login-v1/combo_base.png": {
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
-      1199,
+      729,
       1826,
-      66,
-      66
+      490,
+      65
     ]
   },
   "assets/core-ui-v4/art_combo_label.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
-      1269,
+      1223,
       1826,
       243,
       64
     ]
   },
   "assets/core-ui-v4/flip_badge.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
-      1982,
-      1678,
+      1470,
+      1826,
       58,
       60
     ]
   },
   "assets/core-ui-v4/remove_badge.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
-      1516,
+      1532,
       1826,
       58,
       60
     ]
   },
   "assets/core-ui-v4/shuffle_badge.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
-      1578,
+      1594,
       1826,
       58,
       60
     ]
   },
   "assets/core-ui-v4/back_arrow.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
-      1640,
+      1656,
       1826,
       54,
       51
     ]
   },
-  "assets/core-ui-v4/combo_track.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+  "assets/combo-login-v1/combo_track.png": {
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
       2,
       1936,
-      439,
-      46
+      465,
+      38
     ]
   },
-  "assets/core-ui-v4/combo_fill.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+  "assets/combo-login-v1/combo_fill.png": {
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
-      1698,
-      1826,
-      286,
-      36
+      471,
+      1936,
+      363,
+      38
     ]
   },
   "assets/core-ui-v4/level_star_1.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
       2011,
       2,
@@ -694,48 +694,93 @@ export default {
     ]
   },
   "assets/core-ui-v4/level_star_2.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
-      1988,
+      1714,
       1826,
       35,
       36
     ]
   },
   "assets/core-ui-v4/remove_sparkle_1.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
-      445,
-      1936,
+      1753,
+      1826,
       28,
       31
     ]
   },
-  "assets/core-ui-v4/combo_sparkle_2.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+  "assets/combo-login-v1/combo_inner_star_01.png": {
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
-      477,
-      1936,
+      1785,
+      1826,
       28,
-      30
-    ]
-  },
-  "assets/core-ui-v4/remove_sparkle_2.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
-    "rect": [
-      509,
-      1936,
-      23,
       27
     ]
   },
-  "assets/core-ui-v4/combo_sparkle_1.png": {
-    "file": "assets/runtime-ui/play-0-0f24658ef548.webp",
+  "assets/combo-login-v1/combo_inner_star_02.png": {
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
     "rect": [
-      536,
-      1936,
+      1817,
+      1826,
+      28,
+      27
+    ]
+  },
+  "assets/combo-login-v1/combo_inner_star_03.png": {
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
+    "rect": [
+      1849,
+      1826,
+      28,
+      27
+    ]
+  },
+  "assets/combo-login-v1/combo_inner_star_04.png": {
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
+    "rect": [
+      1881,
+      1826,
+      28,
+      27
+    ]
+  },
+  "assets/combo-login-v1/combo_inner_star_05.png": {
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
+    "rect": [
+      1913,
+      1826,
+      28,
+      27
+    ]
+  },
+  "assets/combo-login-v1/combo_inner_star_06.png": {
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
+    "rect": [
+      1945,
+      1826,
+      28,
+      27
+    ]
+  },
+  "assets/combo-login-v1/combo_inner_star_07.png": {
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
+    "rect": [
+      1977,
+      1826,
+      28,
+      27
+    ]
+  },
+  "assets/core-ui-v4/remove_sparkle_2.png": {
+    "file": "assets/runtime-ui/play-0-2d40f4d1ff68.webp",
+    "rect": [
+      2009,
+      1826,
       23,
-      24
+      27
     ]
   },
   "assets/toyhouse-ui-v3/toy_duck_yellow_a.png": {

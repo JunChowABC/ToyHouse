@@ -5,6 +5,7 @@ import { PAUSE_UI, TOOL_MODAL_UI, HOME_SETTINGS_UI, loadPauseArt, drawPauseDialo
 import { COMPLETE_UI, loadCompleteArt, drawCompleteDialog, completeArtStatus, completionRewardLayout } from "./complete-dialog.js";
 import { HOME_UI, loadHomeArt, drawHomeScreen, homeArtStatus } from "./home-screen.js";
 import { loadLoadingArt, drawLoadingScreen, loadingArtStatus } from "./loading-screen.js";
+import { dialogMotion, syncDialogMotion, closeDialogMotion, tickDialogMotion, dialogMotionBusy } from "./ui-motion.js";
 
 const canvas = document.querySelector("#game");
 const ctx = canvas.getContext("2d");
@@ -19,6 +20,9 @@ const TOY_VISUAL_GAP = 3;
 const TOY_DISPLAY_SCALE = 1.44;
 const EXIT_DURATION_MS = 900;
 const COMBO_WINDOW_MS = 8000;
+// Visible horizontal ink bounds in the 96x128 digit sprites (all y=16..112).
+const COMBO_DIGIT_INK = [[9, 86], [20, 76], [11, 85], [12, 83], [5, 90],
+  [11, 85], [10, 85], [9, 87], [11, 85], [10, 85]];
 const IMPACT_DURATION_MS = 460;
 const TOOL_LIMIT = 3;
 const TOOL_PRICE = 100;
@@ -162,12 +166,18 @@ function openToolModal(id) {
   if (!TOOL_IDS.includes(id) || state.mode !== "play" || state.pauseOpen || state.levelCompleteAt || state.moving.length || state.exiting.length) return;
   cancelToolMode();
   state.toolModal = id;
+  toolAdMessage = "";
   render();
 }
 
 function confirmTool() {
+  if (!state.toolModal || toolAdPending || toolUnavailable(state.toolModal)) return;
+  if (!dialogMotion.closing) { closeDialogMotion(confirmToolAction); return; }
+}
+
+function confirmToolAction() {
   const id = state.toolModal;
-  if (!id || toolUnavailable(id)) return;
+  if (!id || toolAdPending || toolUnavailable(id)) return;
   if (profile.inventory[id] === 0) {
     profile.coins -= TOOL_PRICE;
     profile.inventory[id] += 1;
@@ -177,6 +187,46 @@ function confirmTool() {
   if (id === "shuffle") shuffleDirections();
   else setToolMode(id);
   render();
+}
+
+// The host SDK adapter resolves only after the rewarded-video completion event.
+// No browser timer or ad-close event is treated as successful viewing.
+let toolAdPending = false;
+let toolAdMessage = "";
+async function watchToolAd() {
+  const id = state.toolModal;
+  if (!id || toolAdPending) return;
+  const adapter = window.toyhouseAds;
+  if (typeof adapter?.showRewarded !== "function") {
+    toolAdMessage = "暂无可播放的广告，请稍后再试";
+    render();
+    return;
+  }
+  toolAdPending = true;
+  toolAdMessage = "广告加载中，请稍候…";
+  render();
+  let timeout;
+  const controller = new AbortController();
+  try {
+    const requestId = crypto.randomUUID();
+    const result = await Promise.race([
+      adapter.showRewarded({ placement: "tool_reward", toolId: id, requestId, signal: controller.signal }),
+      new Promise((_, reject) => { timeout = setTimeout(() => reject(new Error("ad timeout")), 180000); }),
+    ]);
+    if (result?.status === "completed" && typeof result.receiptId === "string" && result.receiptId.trim()) {
+      const granted = grantReward({ id: result.receiptId, source: "rewarded_ad", tools: { [id]: 1 } });
+      toolAdMessage = granted ? "已获得 1 个道具，点击使用" : "这份广告奖励已领取";
+    } else {
+      toolAdMessage = result?.status === "cancelled" ? "完整观看广告后才可获得道具" : "暂无可播放的广告，请稍后再试";
+    }
+  } catch {
+    toolAdMessage = "广告未能完成，请稍后重试";
+  } finally {
+    clearTimeout(timeout);
+    controller.abort();
+    toolAdPending = false;
+    render();
+  }
 }
 
 function consumeTool(id) {
@@ -296,24 +346,48 @@ function drawArtHud(spec) {
   drawCurrencyHud();
   drawPauseButton();
   if (state.combo <= 0) return;
-  drawArt("combo_base");
   drawArt("combo_track");
   const track = artRect("combo_track");
-  const fill = { x: track.x + 8 * ART_SCALE, y: track.y + 8 * ART_SCALE,
-    w: track.w - 16 * ART_SCALE, h: track.h - 16 * ART_SCALE };
+  const fraction = Math.max(0, Math.min(1, comboRemainingMs() / COMBO_WINDOW_MS));
   ctx.save();
   ctx.beginPath();
-  ctx.rect(fill.x, fill.y, fill.w * comboRemainingMs() / COMBO_WINDOW_MS, fill.h);
+  ctx.roundRect(track.x, track.y, track.w, track.h, track.h / 2);
   ctx.clip();
-  drawArt("combo_fill", fill);
+  ctx.beginPath();
+  ctx.rect(track.x, track.y, track.w * fraction, track.h);
+  ctx.clip();
+  drawArt("combo_fill", track);
+  for (let i = 1; i <= 7; i += 1) drawArt(`combo_inner_star_${String(i).padStart(2, "0")}`);
   ctx.restore();
-  ["combo_star", "combo_sparkle_1", "combo_sparkle_2", "art_combo_label"].forEach(id => drawArt(id));
+  drawArt("combo_base");
+  const cursor = artRect("combo_star");
+  cursor.x = Math.max(track.x, Math.min(track.x + track.w - cursor.w,
+    track.x + track.w * fraction - cursor.w / 2));
+  drawArt("combo_star", cursor);
   const digits = String(state.combo);
-  const scale = Math.min(56 / 128, 100 / (96 + (digits.length - 1) * 88)) * ART_SCALE;
-  [...digits].forEach((digit, i) => drawArt(`digit_${digit}`, {
-    x: 495 * ART_SCALE + i * 88 * scale, y: 194 * ART_SCALE + ART_OFFSET_Y - 112 * scale,
-    w: 96 * scale, h: 128 * scale,
-  }));
+  const frame = artRect("combo_base");
+  const scale = Math.min(72 / 128, 160 / (digits.length * 80)) * ART_SCALE;
+  const gap = 4 * scale;
+  const digitWidth = [...digits].reduce((sum, digit) => {
+    const [left, right] = COMBO_DIGIT_INK[Number(digit)];
+    return sum + (right - left) * scale;
+  }, (digits.length - 1) * gap);
+  const label = artRect("art_combo_label");
+  label.w *= 1.3; label.h *= 1.3;
+  const bottom = frame.y - 2 * ART_SCALE;
+  const labelGap = 8 * ART_SCALE;
+  label.x = frame.x + (frame.w - label.w - labelGap - digitWidth) / 2;
+  label.y = bottom - label.h;
+  drawArt("art_combo_label", label);
+  let digitX = label.x + label.w + labelGap;
+  for (const digit of digits) {
+    const [left, right] = COMBO_DIGIT_INK[Number(digit)];
+    const image = artImages.get(`digit_${digit}`);
+    const width = (right - left) * scale;
+    if (image) ctx.drawImage(image, left, 16, right - left, 96,
+      digitX, bottom - 96 * scale, width, 96 * scale);
+    digitX += width + gap;
+  }
 }
 
 const systemAssets = {
@@ -976,6 +1050,10 @@ function comboRemainingMs() {
 }
 
 function update(dt) {
+  const wasClosing = dialogMotion.closing;
+  tickDialogMotion(dt * 1000);
+  if (levelTransition) { updateLevelTransition(dt * 1000); return; }
+  if (wasClosing) return;
   if (state.pauseOpen || state.toolModal) return;
   state.time += dt * 1000;
   for (let i = timers.length - 1; i >= 0; i -= 1) {
@@ -1136,6 +1214,8 @@ function drawToolModal() {
     buying: profile.inventory[id] === 0,
     price: TOOL_PRICE,
     reason: toolUnavailable(id),
+    adPending: toolAdPending,
+    adMessage: toolAdMessage,
   }, (asset, rect) => fitArt(asset, rect), paintControl);
 }
 
@@ -1148,7 +1228,7 @@ function openPause() {
 }
 
 function closePause() {
-  state.pauseOpen = false;
+  closeDialogMotion(() => { state.pauseOpen = false; render(); });
   render();
 }
 
@@ -1167,9 +1247,9 @@ function handlePausePointer(point) {
   if (pointInRect(point, PAUSE_UI.music)) state.musicEnabled = !state.musicEnabled;
   else if (pointInRect(point, PAUSE_UI.audio)) state.audioEnabled = !state.audioEnabled;
   else if (pointInRect(point, PAUSE_UI.vibration)) state.vibrationEnabled = !state.vibrationEnabled;
-  else if (pointInRect(point, PAUSE_UI.restart)) restartLevel();
+  else if (pointInRect(point, PAUSE_UI.restart)) closeDialogMotion(restartLevel);
   else if (pointInRect(point, PAUSE_UI.resume)) closePause();
-  else if (pointInRect(point, PAUSE_UI.exit)) exitLevel();
+  else if (pointInRect(point, PAUSE_UI.exit)) closeDialogMotion(exitLevel);
   saveSettings();
   render();
 }
@@ -1181,7 +1261,7 @@ function saveSettings() {
 }
 
 function handleHomeSettings(point) {
-  if (pointInRect(point, HOME_SETTINGS_UI.close)) state.pauseOpen = false;
+  if (pointInRect(point, HOME_SETTINGS_UI.close)) closePause();
   else if (pointInRect(point, HOME_SETTINGS_UI.music)) state.musicEnabled = !state.musicEnabled;
   else if (pointInRect(point, HOME_SETTINGS_UI.audio)) state.audioEnabled = !state.audioEnabled;
   else if (pointInRect(point, HOME_SETTINGS_UI.vibration)) state.vibrationEnabled = !state.vibrationEnabled;
@@ -1460,7 +1540,7 @@ function drawEffects() {
 
 function drawComplete() {
   drawGame();
-  if (!systemAssets.complete.ready) return;
+  if (!systemAssets.complete.ready || levelTransition) return;
   const spec = LEVEL_SPECS[state.levelIndex];
   drawCompleteDialog(ctx, { levelNo: spec.levelNo, title: spec.title,
     rewards: state.completionRewards, isLastLevel: state.levelIndex === LEVEL_SPECS.length - 1 }, paintControl);
@@ -1499,6 +1579,7 @@ function lighten(hex, amount) {
 }
 
 function render() {
+  syncDialogMotion(!artReady || pendingLoad || levelTransition ? null : state.toolModal ? `tool.${state.toolModal}` : state.pauseOpen ? `${state.mode}.settings` : state.mode === "level-complete" ? "complete" : null);
   // Keep source-resolution detail on high-DPI devices without changing input coordinates.
   const ratio = Math.min(2, window.devicePixelRatio || 1);
   if (canvas.width !== W * ratio || canvas.height !== H * ratio) {
@@ -1526,6 +1607,7 @@ function render() {
   else if (state.mode === "level-complete") drawComplete();
   else drawFinale();
   if (pendingLoad) drawPendingLoad();
+  drawLevelTransition();
 }
 
 function canvasPoint(event) {
@@ -1564,10 +1646,11 @@ function paintControl(id, rect, paint) {
   ctx.restore();
 }
 function activeControls() {
+  if (dialogMotionBusy() || levelTransition) return [];
   if (!artReady || performance.now() < state.navigationUntil) return [];
   if (pendingLoad) return [{ id: "loading.cancel", ...LOAD_UI.cancel }, ...(pendingLoad.error ? [{ id: "loading.retry", ...LOAD_UI.retry }] : [])];
   const group = (prefix, rects) => Object.entries(rects).map(([key, rect]) => ({ id: `${prefix}.${key}`, ...rect }));
-  if (state.toolModal) return group("tool", TOOL_MODAL_UI).filter(b => b.id !== "tool.action" || !toolUnavailable(state.toolModal));
+  if (state.toolModal) return toolAdPending ? [] : group("tool", TOOL_MODAL_UI).filter(b => b.id !== "tool.action" || !toolUnavailable(state.toolModal));
   if (state.mode === "home") return state.pauseOpen ? group("settings", HOME_SETTINGS_UI)
     : group("home", HOME_UI).filter(b => b.id !== "home.start" || !homeProgress().complete);
   if (state.mode === "level-complete") return group("complete", COMPLETE_UI);
@@ -1603,6 +1686,7 @@ window.addEventListener("blur", cancelPointerGesture);
 
 canvas.addEventListener("pointerup", (event) => {
   event.preventDefault();
+  if (dialogMotionBusy() || levelTransition) { cancelPointerGesture(); return; }
   if (pointerGesture?.pointerId !== event.pointerId) return;
   const pressed = pointerGesture.button;
   const released = activeControls().find(b => pointInRect(canvasPoint(event), b));
@@ -1627,8 +1711,10 @@ canvas.addEventListener("pointerup", (event) => {
     return;
   }
   if (state.toolModal) {
-    if (pointInRect(point, TOOL_MODAL_UI.close)) state.toolModal = null;
+    if (toolAdPending) return;
+    if (pointInRect(point, TOOL_MODAL_UI.close)) closeDialogMotion(() => { state.toolModal = null; });
     else if (pointInRect(point, TOOL_MODAL_UI.action)) confirmTool();
+    else if (pointInRect(point, TOOL_MODAL_UI.ad)) void watchToolAd();
     render();
     return;
   }
@@ -1641,7 +1727,7 @@ canvas.addEventListener("pointerup", (event) => {
   if (state.mode === "level-complete") {
     if (pointInRect(point, COMPLETE_UI.home)) {
       state.navigationUntil = performance.now() + 350;
-      exitLevel();
+      closeDialogMotion(exitLevel);
     } else if (pointInRect(point, COMPLETE_UI.next)) advanceAfterComplete();
     return;
   }
@@ -1674,18 +1760,52 @@ canvas.addEventListener("pointerup", (event) => {
 });
 
 function advanceAfterComplete() {
-  if (state.mode !== "level-complete") return;
-  state.navigationUntil = performance.now() + 350;
-  if (state.levelIndex === LEVEL_SPECS.length - 1) {
-    state.mode = "finale";
-  } else {
-    state.levelIndex += 1;
-    startLevel(state.levelIndex);
+  if (state.mode !== "level-complete" || levelTransition || dialogMotionBusy()) return;
+  closeDialogMotion(() => {
+    levelTransition = { elapsed: 0, switched: false, next: state.levelIndex + 1 };
+  });
+}
+
+let levelTransition = null;
+function updateLevelTransition(ms) {
+  const transition = levelTransition;
+  transition.elapsed += ms;
+  if (!transition.switched && transition.elapsed >= 300) {
+    transition.switched = true;
+    if (transition.next >= LEVEL_SPECS.length) state.mode = "finale";
+    else startLevel(transition.next);
   }
+  if (transition.elapsed >= 760) levelTransition = null;
+}
+function drawLevelTransition() {
+  if (!levelTransition) return;
+  const { elapsed, next } = levelTransition;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const cover = Math.min(1, elapsed / 300);
+  const reveal = Math.max(0, Math.min(1, (elapsed - 400) / 360));
+  const smooth = t => t * t * (3 - 2 * t);
+  ctx.save();
+  ctx.fillStyle = '#f8e9ef';
+  if (reduced) {
+    ctx.globalAlpha = cover * (1 - reveal);
+    ctx.fillRect(0, 0, W, H);
+  } else {
+    ctx.beginPath();
+    if (elapsed < 400) ctx.arc(W / 2, H / 2, 560 * smooth(cover), 0, Math.PI * 2);
+    else {
+      ctx.rect(0, 0, W, H);
+      ctx.arc(W / 2, H / 2, 560 * smooth(reveal), 0, Math.PI * 2);
+    }
+    ctx.fill('evenodd');
+  }
+  ctx.globalAlpha = Math.max(0, Math.min(1, (elapsed - 160) / 100)) * (1 - Math.min(1, reveal * 3));
+  artText(next < LEVEL_SPECS.length ? `第 ${next + 1} 关` : '晚安，玩具屋', W / 2, H / 2, 32, '#9c718a', 360, 700);
+  ctx.restore();
 }
 
 document.addEventListener("keydown", (event) => {
   const key = event.key.toLowerCase();
+  if (dialogMotionBusy() || levelTransition) { event.preventDefault(); return; }
   if (!artReady) return;
   if (pendingLoad) {
     if (key === "escape") { pendingLoad = null; if (state.mode === "level-complete") exitLevel(); render(); }
@@ -1699,7 +1819,8 @@ document.addEventListener("keydown", (event) => {
     return;
   }
   if (state.toolModal) {
-    if (key === "escape") state.toolModal = null;
+    if (toolAdPending) { event.preventDefault(); return; }
+    if (key === "escape") closeDialogMotion(() => { state.toolModal = null; });
     else if (key === "enter" || key === " ") confirmTool();
     event.preventDefault();
     render();
@@ -1751,7 +1872,7 @@ function renderGameToText() {
       rewards: state.completionRewards, rewardLayout: completionRewardLayout(state.completionRewards),
       art: completeArtStatus(), isLastLevel: state.levelIndex === LEVEL_SPECS.length - 1,
     } : null,
-    toolDialog: state.toolModal ? { id: state.toolModal, action: profile.inventory[state.toolModal] > 0 ? "use" : "buy", disabledReason: toolUnavailable(state.toolModal) } : null,
+    toolDialog: state.toolModal ? { id: state.toolModal, action: profile.inventory[state.toolModal] > 0 ? "use" : "buy", disabledReason: toolUnavailable(state.toolModal), adPending: toolAdPending, adMessage: toolAdMessage, adReward: 1 } : null,
     uiHitAreas: { pause: PAUSE_BUTTON, tools: TOOL_BUTTONS, pauseMenu: PAUSE_UI, toolModal: TOOL_MODAL_UI, completion: COMPLETE_UI },
     coordinateSystem: "12x18 grid; origin top-left; x right; y down; each toy x/y is top-left occupied cell",
     board: { ...BOARD },
@@ -1804,7 +1925,10 @@ function autoClearForQa() {
   }
 }
 
-window.render_game_to_text = renderGameToText;
+function uiMotionStatus() {
+  return { dialog: { key: dialogMotion.key, elapsed: dialogMotion.elapsed, closing: dialogMotion.closing }, transition: levelTransition && { ...levelTransition }, busy: dialogMotionBusy() || Boolean(levelTransition) };
+}
+window.render_game_to_text = () => JSON.stringify({ ...JSON.parse(renderGameToText()), uiMotion: uiMotionStatus() });
 window.toyhouseRewards = Object.freeze({ grant: grantReward });
 window.__toyhouse_art_ready = loadArt();
 window.advanceTime = (ms) => {
@@ -1813,6 +1937,7 @@ window.advanceTime = (ms) => {
   render();
 };
 window.__toyhouse_debug = {
+  uiMotion: uiMotionStatus,
   toyAnimationPose,
   grantReward,
   openToolModal,

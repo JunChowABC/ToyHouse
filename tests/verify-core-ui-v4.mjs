@@ -1,12 +1,16 @@
 import assert from 'node:assert/strict';
-import { mkdir } from 'node:fs/promises';
+import { mkdir, readFile } from 'node:fs/promises';
 import { chromium } from '../scripts/playwright_system_chrome.mjs';
 import ART from '../src/art-manifest.js';
 assert.ok(!Object.keys(ART.assets).some(id => id.startsWith('board_') || id === 'art_combo_value_5'));
+for (const id of Object.keys(ART.comboArt.assets)) {
+  const asset = ART.assets[id];
+  assert.deepEqual(await readFile(`${asset.directory}/${asset.file}`), await readFile(`docs/${asset.directory}/${asset.file}`));
+}
 await mkdir('test-output/core-ui-v4', { recursive: true });
 const browser = await chromium.launch({ headless: true });
 try {
-  for (const [entry, width, height] of [['/',540,960], ['/docs/',390,844]]) {
+  for (const [entry, width, height] of [['/',540,960], ['/docs/',390,844], ['/docs/',1024,768]]) {
     const page = await browser.newPage({ viewport: { width, height } });
     const errors = [];
     page.on('pageerror', e => errors.push(String(e)));
@@ -16,7 +20,7 @@ try {
       const p = CanvasRenderingContext2D.prototype, draw = p.drawImage, clear = p.clearRect;
       window.__uiDraws = [];
       p.clearRect = function(...args) { window.__uiDraws=[]; return clear.apply(this,args); };
-      p.drawImage = function(im,...args) { window.__uiDraws.push({file:im.src?.split('/').pop(),scale:this.getTransform().a}); return draw.call(this,im,...args); };
+      p.drawImage = function(im,...args) { window.__uiDraws.push({file:im.src?.split('/').pop(),src:im.src,args,scale:this.getTransform().a}); return draw.call(this,im,...args); };
     });
     await page.goto('http://127.0.0.1:4173'+entry+'?qa', {waitUntil:'networkidle'});
     // This test freezes RAF; boot completion now includes an asynchronous minimum display time.
@@ -41,11 +45,15 @@ try {
       assert.equal((await read()).toolDialog,null);
       await hit(button);
       assert.equal((await read()).toolDialog.id,button.id);
+      await page.evaluate(()=>window.advanceTime(320));
       await page.keyboard.press('Escape');
+      await page.evaluate(()=>window.advanceTime(200));
     }
     await hit(s.uiHitAreas.pause);
     assert.equal((await read()).paused,true);
+    await page.evaluate(()=>window.advanceTime(320));
     await page.keyboard.press('Escape');
+    await page.evaluate(()=>window.advanceTime(200));
     assert.equal((await read()).paused,false);
     // Use real toy exits to build a two-digit combo, never a mocked counter.
     await page.evaluate(() => {
@@ -57,13 +65,23 @@ try {
       }
     });
     s=await read(); assert.equal(s.combo,12);
-    const files=(await trace()).map(d=>d.file);
+    const fullDraws=await trace();
+    const files=fullDraws.map(d=>d.file);
+    const comboDraws=fullDraws.filter(d=>d.file?.startsWith('combo_'));
+    assert.equal(comboDraws.length,11);
+    assert.ok(comboDraws.every(d=>d.src.includes('/assets/combo-login-v1/')));
+    assert.ok(!files.some(f=>/combo_sparkle|ui_sparkle|fx_loading|ui_star_/.test(f||'')));
+    const fullCursor=comboDraws.find(d=>d.file==='combo_star.png').args;
     for(const file of ['art_combo_label.png','digit_1.png','digit_2.png','combo_fill.png','level_star_1.png']) assert.ok(files.includes(file),file);
     for(const name of ['remove','shuffle','flip']) assert.ok(!files.includes(`${name}_label.png`));
     assert.ok(!files.some(f=>f?.startsWith('board_')));
     await page.screenshot({path:`test-output/core-ui-v4/${width}-combo12.png`});
     await page.evaluate(()=>window.advanceTime(3900));
-    await page.screenshot({path:`test-output/core-ui-v4/${width}-cream-track-half.png`});
+    const halfDraws=await trace();
+    const halfCursor=halfDraws.find(d=>d.file==='combo_star.png').args;
+    assert.ok(halfCursor[0]<fullCursor[0]-50,'cursor must follow the shrinking Combo window');
+    assert.deepEqual(halfDraws.find(d=>d.file==='combo_track.png').args,fullDraws.find(d=>d.file==='combo_track.png').args);
+    await page.screenshot({path:`test-output/core-ui-v4/${width}-login-track-half.png`});
     await hit(s.uiHitAreas.pause);
     const remaining=(await read()).comboRemainingMs;
     await page.evaluate(()=>window.advanceTime(2000));
@@ -72,6 +90,9 @@ try {
     await page.evaluate(()=>window.advanceTime(8001));
     assert.equal((await read()).combo,0);
     assert.ok(!(await trace()).some(d=>d.file==='art_combo_label.png'));
+    assert.ok(!(await trace()).some(d=>d.file?.startsWith('combo_')));
+    await page.evaluate(()=>{window.__toyhouse_debug.restartLevel(); window.__toyhouse_debug.clickToy(window.__toyhouse_debug.availableIds()[0]);window.advanceTime(0);});
+    assert.equal((await read()).combo,1);
     assert.deepEqual(errors,[]);
     console.log(entry+' new UI, tool hit areas/press/cancel, pause and dynamic Combo 12 PASS');
     await page.close();

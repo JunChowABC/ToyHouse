@@ -5,7 +5,7 @@ sys.path.insert(0,str(root/'output/maker-port/test-deps'))
 from lupa.lua54 import LuaRuntime
 lua=LuaRuntime(unpack_returned_tuples=True)
 maker=pathlib.Path(r'D:\AI游戏\晚安，玩具屋-Maker/scripts')
-for name in ('Data','UiData','Game','View'):
+for name in ('Data','UiData','Game','UiMotion','View'):
     lua.globals().package.preload[name]=lua.eval('function(s,n) return assert(load(s,n)) end')((maker/f'{name}.lua').read_text(encoding='utf-8-sig'),name)
 pose=lua.eval("require('View').toyPose")
 samples=json.loads((root/'test-output/toy-motion/pose-samples.json').read_text())

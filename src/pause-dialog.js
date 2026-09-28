@@ -1,4 +1,5 @@
 import { loadImage } from "./image-loader.js";
+import { paintDialogBackdrop } from "./ui-motion.js";
 import PAUSE_ART from "./pause-art-manifest.js";
 import SHARED_DIALOG_ART from "./shared-dialog-art-manifest.js";
 import TOOL_ART from "./tool-art-manifest.js";
@@ -25,7 +26,8 @@ export const PAUSE_UI = Object.freeze({
 
 export const TOOL_MODAL_UI = Object.freeze({
   close: toolRect(TOOL_ART.assets.close_base.bounds),
-  action: toolRect(TOOL_ART.assets.purchase_base.bounds),
+  action: toolRect([204, 1122, 254, 143]),
+  ad: toolRect([479, 1122, 254, 143]),
 });
 
 const HOME_SETTINGS_SHIFT_Y = 180;
@@ -61,7 +63,7 @@ export async function loadPauseArt() {
   const toolsReady = Promise.all(Object.entries(TOOL_ART.assets).map(async ([id, spec]) => {
     toolImages.set(id, await loadImage(`${TOOL_ART.directory}/${spec.file}`));
   }));
-  const toolButtonsReady = Promise.all(["ui_tool_close_v1", "ui_tool_purchase_disabled_v1"].map(async id => {
+  const toolButtonsReady = Promise.all(["ui_tool_close_v1", "ui_tool_purchase_disabled_v1", "ui_rewarded_ad_v3", "ui_tool_buy_yellow_v3", "ui_tool_ad_pink_v3"].map(async id => {
     const image = await loadImage(`assets/tool-dialog-v1/${id}.png`);
     toolButtonImages.set(id, image);
   }));
@@ -102,8 +104,7 @@ function paintPauseText(ctx, spec, text = spec.text, bounds = spec.delivery_boun
 
 export function drawPauseDialog(ctx, settings, feedback = (id, rect, paint) => paint()) {
   ctx.save();
-  ctx.fillStyle = "rgba(100,64,85,.48)";
-  ctx.fillRect(0, 0, 540, 960);
+  paintDialogBackdrop(ctx, "rgba(100,64,85,.48)");
   ctx.translate(0, PAUSE_OFFSET_Y);
   ctx.scale(PAUSE_SCALE, PAUSE_SCALE);
   const image = (id, bounds = PAUSE_ART.assets[id].bounds) => {
@@ -131,8 +132,7 @@ export function drawPauseDialog(ctx, settings, feedback = (id, rect, paint) => p
 // Reuse the current pause artwork, with a shorter frame for the three settings.
 export function drawHomeSettings(ctx, settings, feedback = (id, rect, paint) => paint()) {
   ctx.save();
-  ctx.fillStyle = "rgba(100,64,85,.48)";
-  ctx.fillRect(0, 0, 540, 960);
+  paintDialogBackdrop(ctx, "rgba(100,64,85,.48)");
   ctx.translate(0, PAUSE_OFFSET_Y);
   ctx.scale(PAUSE_SCALE, PAUSE_SCALE);
   const image = (id, bounds = PAUSE_ART.assets[id].bounds) => ctx.drawImage(pauseImages.get(id), ...homeSettingsBounds(bounds));
@@ -167,10 +167,9 @@ export function drawHomeSettings(ctx, settings, feedback = (id, rect, paint) => 
 }
 
 // Shared frame and geometry come from the approved eliminate popup PSD.
-export function drawToolDialog(ctx, { toolId, lines, buying, price, reason }, paintArt, feedback = (id, rect, paint) => paint()) {
+export function drawToolDialog(ctx, { toolId, lines, buying, price, reason, adPending, adMessage }, paintArt, feedback = (id, rect, paint) => paint()) {
   ctx.save();
-  ctx.fillStyle = "rgba(100,64,85,.48)";
-  ctx.fillRect(0, 0, 540, 960);
+  paintDialogBackdrop(ctx, "rgba(100,64,85,.48)");
   ctx.translate(0, TOOL_OFFSET_Y);
   ctx.scale(TOOL_SCALE, TOOL_SCALE);
   const image = id => ctx.drawImage(toolImages.get(id), ...TOOL_ART.assets[id].bounds);
@@ -187,15 +186,28 @@ export function drawToolDialog(ctx, { toolId, lines, buying, price, reason }, pa
 
   feedback("tool.action", TOOL_MODAL_UI.action, () => {
     ctx.save();
-    if (reason) { ctx.filter = "grayscale(1)"; ctx.globalAlpha = .75; }
-    if (buying) TOOL_ART.purchase.forEach(image);
-    else image("use_base");
-    const purchaseSpec = TOOL_ART.textLayers.find(t => t.name === "txt_purchase");
+    if (reason || adPending) { ctx.filter = "grayscale(1)"; ctx.globalAlpha *= .75; }
+    ctx.drawImage(toolButtonImages.get("ui_tool_buy_yellow_v3"), 204, 1122, 254, 143);
+    const label = { ...bodySpec, font_size: 33, color: "#AC77AE", stroke: { color: "#FFFCF5", width: 1.5 } };
     if (buying) {
-      paintPauseText(ctx, purchaseSpec);
-      paintPauseText(ctx, TOOL_ART.textLayers.find(t => t.name === "txt_price"), String(price));
-    } else paintPauseText(ctx, { ...purchaseSpec, color: "#FFFDFB", stroke: { color: "#D75587", width: 2 } }, "使用", [360, 1158, 220, 65]);
+      paintPauseText(ctx, label, "购买", [240, 1148, 180, 43]);
+      ctx.drawImage(toolImages.get("purchase_coin"), 270, 1196, 35, 36);
+      paintPauseText(ctx, { ...label, font_size: 28 }, String(price), [310, 1193, 80, 40]);
+    } else paintPauseText(ctx, label, "使用", [240, 1159, 180, 65]);
     ctx.restore();
   });
+  feedback("tool.ad", TOOL_MODAL_UI.ad, () => {
+    ctx.save();
+    ctx.filter = adPending ? "grayscale(1)" : "none";
+    ctx.globalAlpha *= adPending ? .75 : 1;
+    ctx.drawImage(toolButtonImages.get("ui_tool_ad_pink_v3"), 479, 1122, 254, 143);
+    ctx.filter = "none";
+    ctx.drawImage(toolButtonImages.get("ui_rewarded_ad_v3"), 498, 1152, 72, 72);
+    const label = { ...bodySpec, color: "#B575A1", font_size: 32, stroke: { color: "#FFF8FC", width: 1.5 } };
+    paintPauseText(ctx, label, adPending ? "观看中" : "看广告", [571, 1147, 138, 45]);
+    paintPauseText(ctx, { ...label, font_size: 24 }, "获得 1 个", [565, 1195, 150, 35]);
+    ctx.restore();
+  });
+  if (adMessage) paintPauseText(ctx, { ...bodySpec, font_size: 21, color: "#98669F" }, adMessage, [205, 1274, 531, 30]);
   ctx.restore();
 }

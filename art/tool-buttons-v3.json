@@ -1,0 +1,30 @@
+{
+  "source": "output\\imagegen\\tool-buttons-v3.png",
+  "method": "center trim then uniform resize",
+  "buttons": [
+    {
+      "file": "assets\\tool-dialog-v1\\ui_tool_buy_yellow_v3.png",
+      "sourceSize": [
+        1047,
+        369
+      ],
+      "trimmedCenterWidth": 392,
+      "size": [
+        508,
+        286
+      ]
+    },
+    {
+      "file": "assets\\tool-dialog-v1\\ui_tool_ad_pink_v3.png",
+      "sourceSize": [
+        1047,
+        368
+      ],
+      "trimmedCenterWidth": 393,
+      "size": [
+        508,
+        286
+      ]
+    }
+  ]
+}

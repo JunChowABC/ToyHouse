@@ -1,0 +1,95 @@
+import assert from 'node:assert/strict';
+import { mkdir, writeFile } from 'node:fs/promises';
+import { chromium } from '../scripts/playwright_system_chrome.mjs';
+
+const out = 'test-output/ui-motion';
+await mkdir(out, { recursive: true });
+const browser = await chromium.launch({ headless: true });
+const errors = [], checks = [];
+try {
+  for (const [entry, width, height, reducedMotion] of [['/',540,960,'no-preference'], ['/docs/',390,844,'no-preference'], ['/docs/',1024,768,'no-preference'], ['/',390,844,'reduce']]) {
+    const page = await browser.newPage({ viewport: { width, height }, reducedMotion });
+    page.on('pageerror', e => errors.push(String(e)));
+    page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
+    await page.addInitScript(() => { window.requestAnimationFrame = () => 0; });
+    await page.goto(`http://127.0.0.1:4181${entry}`, { waitUntil: 'networkidle' });
+    await page.evaluate(() => window.__toyhouse_art_ready);
+    await page.waitForFunction(() => Boolean(window.__toyhouse_background_ready));
+    await page.evaluate(() => window.__toyhouse_background_ready);
+    const step = ms => page.evaluate(ms => window.advanceTime(ms), ms);
+    const state = () => page.evaluate(() => JSON.parse(window.render_game_to_text()));
+    const motion = () => page.evaluate(() => window.__toyhouse_debug.uiMotion());
+    const click = async r => {
+      const b = await page.locator('#game').boundingBox();
+      await page.mouse.click(b.x + (r.x+r.w/2)*b.width/540, b.y + (r.y+r.h/2)*b.height/960);
+    };
+    const shot = name => page.screenshot({path:`${out}/${width}-${reducedMotion}-${name}.png`});
+    await click((await state()).uiHitAreas.home.settings);
+    assert.equal((await motion()).busy, true);
+    await step(120); await shot('settings-opening');
+    await step(250);
+    await page.keyboard.press('Escape');
+    assert.equal((await motion()).dialog.closing, true);
+    await step(200); assert.equal((await state()).settingsOpen, false);
+    await page.keyboard.press('Enter');
+    await step(1000);
+    await page.keyboard.press('p'); await step(350);
+    const before = await state();
+    await step(1500); assert.equal((await state()).combo, before.combo);
+    await click((await state()).uiHitAreas.pauseMenu.resume);
+    await step(90); await shot('pause-closing');
+    await step(150); assert.equal((await state()).paused, false);
+    await page.keyboard.press('p'); await step(350);
+    await click((await state()).uiHitAreas.pauseMenu.restart);
+    assert.equal((await motion()).dialog.closing,true);
+    await step(220);
+    assert.equal((await state()).paused,false);
+    assert.equal((await state()).levelNo,1);
+    await page.keyboard.press('p'); await step(350);
+    await click((await state()).uiHitAreas.pauseMenu.exit); await step(220);
+    assert.equal((await state()).mode,'home');
+    await page.keyboard.press('Enter'); await step(1000);
+    await page.evaluate(() => window.__toyhouse_debug.grantReward({id:'motion-tools',source:'task',tools:{remove:1,shuffle:1,flip:1}}));
+    for (const [key,id] of [['1','remove'],['2','shuffle'],['3','flip']]) {
+      await page.keyboard.press(key); await step(120); await shot(`${id}-opening`);
+      await page.keyboard.press('Enter');
+      assert.equal((await state()).toolDialog.id,id, 'opening blocks activation');
+      await step(220); await shot(`${id}-open`);
+      await page.keyboard.press('Escape');
+      await page.keyboard.press('Enter');
+      assert.equal((await state()).toolDialog.id,id, 'closing blocks activation');
+      await step(200); assert.equal((await state()).toolDialog,null);
+      assert.equal((await state()).economy.inventory[id],1);
+    }
+    await page.keyboard.press('1'); await step(350); await page.keyboard.press('Enter'); await step(200);
+    assert.equal((await state()).toolDialog,null);
+    await page.keyboard.press('Escape');
+    await page.evaluate(() => window.__toyhouse_debug.clearCurrentLevel());
+    await step(4000); await step(350);
+    assert.equal((await state()).mode,'level-complete');
+    const coins = (await state()).economy.coins;
+    const next = (await state()).uiHitAreas.completion.next;
+    await click(next); await click(next);
+    await step(200);
+    assert.ok((await motion()).transition);
+    await step(150); await shot('transition-cover');
+    await click(next); await page.keyboard.press('Enter');
+    await step(180); await shot('transition-covered');
+    assert.equal((await state()).levelNo,2);
+    await step(180); await shot('transition-reveal');
+    await step(350); await shot('next-level');
+    assert.equal((await motion()).busy,false);
+    assert.equal((await state()).levelNo,2);
+    assert.equal((await state()).economy.coins,coins);
+    await page.evaluate(() => window.__toyhouse_debug.startLevel(19));
+    await page.evaluate(() => window.__toyhouse_debug.clearCurrentLevel());
+    await step(4000); await step(350);
+    await page.keyboard.press('Enter'); await step(1100);
+    assert.equal((await state()).mode,'night-complete');
+    checks.push({entry,width,height,reducedMotion,status:'PASS'});
+    await page.close();
+  }
+  assert.deepEqual(errors,[]);
+  await writeFile(`${out}/report.json`,JSON.stringify({checks,errors},null,2));
+  console.log('PASS: dialog lifecycle, input lock, next level, rewards and finale across 4 viewport/motion scenarios');
+} finally { await browser.close(); }

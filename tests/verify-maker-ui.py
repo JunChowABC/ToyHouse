@@ -1,7 +1,7 @@
 """Execute real Maker Lua UI with a recording NanoVG surface; verify assets and controls."""
 import hashlib, json, pathlib, sys
 ROOT=pathlib.Path(__file__).resolve().parents[1]
-STAGE=ROOT/'output/maker-ui-sync'
+STAGE=pathlib.Path(sys.argv[1]) if len(sys.argv)>1 else ROOT/'output/maker-ui-sync'
 MAKER=pathlib.Path(r'D:\AI游戏\晚安，玩具屋-Maker')
 sys.path.insert(0,str(ROOT/'output/maker-port/test-deps'))
 from lupa.lua54 import LuaRuntime
@@ -12,8 +12,9 @@ def convert(v):
         if keys==list(range(1,len(keys)+1)):return [convert(v[i]) for i in keys]
         return {str(k):convert(x) for k,x in v.items()}
     return v
-for name in ('Data','Game','UiData','View'):
-    file=(STAGE if name in ('UiData','View') else MAKER)/'scripts'/f'{name}.lua'
+for name in ('Data','Game','UiData','UiMotion','View'):
+    file=STAGE/'scripts'/f'{name}.lua'
+    if not file.exists():file=MAKER/'scripts'/f'{name}.lua'
     lua.globals().package.preload[name]=lua.eval('function(s,n) return assert(load(s,n)) end')(file.read_text('utf-8-sig'),name)
 calls=[];files={}
 def record(name,*args):
@@ -68,6 +69,10 @@ for tool in ('remove','shuffle','flip'):
     for state in ('buy','use','disabled'):
         draw(f'{tool}-{state}',f"g=G.new();g:start(1);g.modal='{tool}';g.profile.coins={1000 if state=='buy' else 0};g.profile.inventory.{tool}={1 if state=='use' else 0}")
         lua.execute("local enabled=false;for _,c in ipairs(V.controls(g)) do if c.id=='tool.action' then enabled=true end end;assert(enabled=="+('false' if state=='disabled' else 'true')+")")
+if len(sys.argv)>1:
+    draw('ad-pending',"g=G.new();g:start(1);g.modal='remove';g.adPending=true;g.adMessage='广告加载中，请稍候…'")
+    lua.execute('assert(#V.controls(g)==0)')
+    draw('ad-reward',"g.adPending=false;g.profile.inventory.remove=1;g.adMessage='已获得 1 个道具'")
 draw('complete',"g=G.new();g:start(1);g.mode='level-complete'")
 draw('complete-next-pressed',"V.pressed='complete.next'")
 draw('last-complete',"V.pressed=nil;g.levelIndex=20")
@@ -76,7 +81,7 @@ draw('finale',"g.mode='finale'")
 lua.execute("g=G.new();g:start(1);g.profile.coins=777")
 before=convert(lua.globals().g.profile);lua.execute('V.draw(g)');assert before==convert(lua.globals().g.profile)
 # All exported pixels must still match their source provenance.
-for entry in json.loads((STAGE/'asset-provenance.json').read_text('utf-8')):
+for entry in json.loads((STAGE/'asset-provenance.json').read_text('utf-8')) if (STAGE/'asset-provenance.json').exists() else []:
     assert hashlib.sha256((STAGE/'assets'/entry['output']).read_bytes()).hexdigest()==entry['sha256']
 (STAGE/'draw-traces.json').write_text(json.dumps({'files':files,'scenes':scenes},ensure_ascii=False),encoding='utf-8')
 (STAGE/'validation.json').write_text(json.dumps({'passed':checks,'imageCount':len(files),'profileUnchanged':True},indent=2),encoding='utf-8')

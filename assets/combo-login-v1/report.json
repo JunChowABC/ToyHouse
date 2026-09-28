@@ -1,0 +1,18 @@
+{
+  "version": "login-screen-bar-v1",
+  "sourcePsd": "outputs/login-screen-layered-v1/login-screen-layered-v1.psd",
+  "assets": {
+    "combo_base": "ui_loading_frame",
+    "combo_track": "ui_loading_track",
+    "combo_fill": "ui_loading_fill",
+    "combo_star": "ui_loading_cursor",
+    "combo_inner_star_01": "ui_loading_star_01",
+    "combo_inner_star_02": "ui_loading_star_02",
+    "combo_inner_star_03": "ui_loading_star_03",
+    "combo_inner_star_04": "ui_loading_star_04",
+    "combo_inner_star_05": "ui_loading_star_05",
+    "combo_inner_star_06": "ui_loading_star_06",
+    "combo_inner_star_07": "ui_loading_star_07"
+  },
+  "excluded": "外围星星、光点、粒子轨迹、粉色发光装饰、云朵、月牙、兔头和Loading文字不属于Combo条。"
+}

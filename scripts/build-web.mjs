@@ -6,6 +6,7 @@ import { createHash } from "node:crypto";
 // Optional CLI path lets the offline workstation reuse its cached Terser.
 const { minify } = await import(process.argv[2] ? pathToFileURL(process.argv[2]).href : "terser");
 const source = await readFile(new URL("../src/game.js", import.meta.url), "utf8");
+const motionCode = (await readFile(new URL("../src/ui-motion.js", import.meta.url), "utf8")).replace(/^export /gm, "");
 const config = await readFile(new URL("../src/level-config.js", import.meta.url), "utf8");
 const art = await readFile(new URL("../src/art-manifest.js", import.meta.url), "utf8");
 const pauseArt = await readFile(new URL("../src/pause-art-manifest.js", import.meta.url), "utf8");
@@ -39,12 +40,15 @@ const bundled = source.replace('import { loadImage, imageLoadStatus } from "./im
   .replace('import { COMPLETE_UI, loadCompleteArt, drawCompleteDialog, completeArtStatus, completionRewardLayout } from "./complete-dialog.js";', completeCode)
   .replace('import { HOME_UI, loadHomeArt, drawHomeScreen, homeArtStatus } from "./home-screen.js";', homeCode)
   .replace('import { loadLoadingArt, drawLoadingScreen, loadingArtStatus } from "./loading-screen.js";', loadingCode)
-  .replaceAll('import { loadImage } from "./image-loader.js";', '');
+  .replaceAll('import { loadImage } from "./image-loader.js";', '')
+  .replace('import { dialogMotion, syncDialogMotion, closeDialogMotion, tickDialogMotion, dialogMotionBusy } from "./ui-motion.js";', motionCode)
+  .replaceAll('import { paintDialogBackdrop } from "./ui-motion.js";', '');
 const result = await minify(bundled, { module: true, compress: true, mangle: true });
 await writeFile(new URL("../docs/game.js", import.meta.url), result.code);
 await mkdir(new URL("../docs/assets/", import.meta.url), { recursive: true });
 await cp(new URL("../assets/loading-v1/", import.meta.url), new URL("../docs/assets/loading-v1/", import.meta.url), { recursive: true });
 await cp(new URL("../assets/core-ui-v4/", import.meta.url), new URL("../docs/assets/core-ui-v4/", import.meta.url), { recursive: true });
+await cp(new URL("../assets/combo-login-v1/", import.meta.url), new URL("../docs/assets/combo-login-v1/", import.meta.url), { recursive: true });
 await cp(new URL("../assets/runtime-ui/", import.meta.url), new URL("../docs/assets/runtime-ui/", import.meta.url), { recursive: true });
 await cp(new URL("../assets/toyhouse-ui-v3/", import.meta.url), new URL("../docs/assets/toyhouse-ui-v3/", import.meta.url), { recursive: true });
 await cp(new URL("../assets/pause-dialog-v2/", import.meta.url), new URL("../docs/assets/pause-dialog-v2/", import.meta.url), { recursive: true });

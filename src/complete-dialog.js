@@ -1,4 +1,5 @@
 import { loadImage } from "./image-loader.js";
+import { paintDialogBackdrop } from "./ui-motion.js";
 import COMPLETE_ART from "./complete-art-manifest.js";
 
 const COMPLETE_SCALE = Math.min(540 / COMPLETE_ART.canvas.width, 960 / COMPLETE_ART.canvas.height);
@@ -73,8 +74,7 @@ function paintCompleteText(ctx, spec, text = spec.text, bounds = spec.delivery_b
 
 export function drawCompleteDialog(ctx, { levelNo, title, rewards, isLastLevel }, feedback = (id, rect, paint) => paint()) {
   ctx.save();
-  ctx.fillStyle = "rgba(100,64,85,.48)";
-  ctx.fillRect(0, 0, 540, 960);
+  paintDialogBackdrop(ctx, "rgba(100,64,85,.48)");
   ctx.translate(0, COMPLETE_OFFSET_Y);
   ctx.scale(COMPLETE_SCALE, COMPLETE_SCALE);
   const image = (id, bounds = COMPLETE_ART.assets[id].bounds) => ctx.drawImage(completeImages.get(id), ...bounds);

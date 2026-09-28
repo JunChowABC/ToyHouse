@@ -3,19 +3,30 @@ import { loadImage } from "./image-loader.js";
 
 const loadingImages = new Map();
 let loadingPromise = null;
+const fullLoadingImages = new Set();
+const inlineLoadingReady = Promise.all(["background", "atlas"].map(key => new Promise(resolve => {
+  const image = new Image();
+  image.onload = () => {
+    if (!fullLoadingImages.has(key)) loadingImages.set(key, image);
+    resolve();
+  };
+  image.onerror = resolve;
+  image.src = LOADING_ART[key === "background" ? "fallbackBackground" : "fallbackAtlas"];
+})));
 const LOADING_SCALE = Math.min(540 / LOADING_ART.canvas[0], 960 / LOADING_ART.canvas[1]);
 const LOADING_OFFSET_Y = (960 - LOADING_ART.canvas[1] * LOADING_SCALE) / 2;
 
 export function loadLoadingArt() {
-  if (loadingPromise) return loadingPromise;
+  if (loadingPromise) return inlineLoadingReady;
   loadingPromise = Promise.all(["background", "atlas"].map(async key => {
     loadingImages.set(key, await loadImage(`${LOADING_ART.directory}/${LOADING_ART[key]}`));
+    fullLoadingImages.add(key);
   })).catch(() => { loadingPromise = null; }); // Decorative loading art never blocks the room.
-  return loadingPromise;
+  return inlineLoadingReady;
 }
 
 export function loadingArtStatus() {
-  return { loaded: loadingImages.size, expected: 2, version: LOADING_ART.version };
+  return { loaded: loadingImages.size, expected: 2, fullResolutionLoaded: fullLoadingImages.size, version: LOADING_ART.version };
 }
 
 export function drawLoadingScreen(ctx, { progress = 0, error = false } = {}) {
