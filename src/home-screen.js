@@ -5,10 +5,7 @@ const HOME_SCALE = Math.min(540 / HOME_ART.canvas.width, 960 / HOME_ART.canvas.h
 const HOME_OFFSET_Y = (960 - HOME_ART.canvas.height * HOME_SCALE) / 2;
 const homeImages = new Map();
 const homeRect = ([x, y, w, h]) => ({ x: x * HOME_SCALE, y: y * HOME_SCALE + HOME_OFFSET_Y, w: w * HOME_SCALE, h: h * HOME_SCALE });
-export const HOME_UI = Object.freeze({
-  start: homeRect(HOME_ART.assets.ui_sleep_outer.bounds),
-  settings: homeRect([18, 40, 96, 118]),
-});
+export const HOME_UI = Object.freeze(Object.fromEntries(Object.entries(HOME_ART.controls).map(([key, bounds]) => [key, homeRect(bounds)])));
 
 export async function loadHomeArt() {
   await Promise.all(Object.entries(HOME_ART.assets).map(async ([id, spec]) => {
@@ -24,7 +21,7 @@ export function homeArtStatus() {
 function paintHomeText(ctx, spec, text) {
   const [x, y, w, h] = spec.delivery_bounds;
   const family = spec.font_family === "SimSun" ? 'SimSun, "Songti SC", "Noto Serif CJK SC", serif'
-    : spec.font_family === "Georgia" ? "Georgia, serif" : "Arial, sans-serif";
+    : spec.font_family === "Georgia" ? "Georgia, serif" : '"Microsoft YaHei", "PingFang SC", Arial, sans-serif';
   ctx.save();
   ctx.translate(x + w / 2, y + h / 2);
   ctx.rotate((spec.rotation || 0) * Math.PI / 180);
@@ -53,8 +50,9 @@ export function drawHomeScreen(ctx, { progressLabel, complete }, feedback = (id,
   for (const id of HOME_ART.layers) {
     if (!homeImages.has(id)) continue;
     const spec = HOME_ART.assets[id];
-    ctx.globalAlpha = spec.opacity * (complete && id.startsWith("ui_sleep_") ? .68 : 1);
-    const control = id.startsWith("ui_sleep_") ? "start" : id.startsWith("ui_settings_") ? "settings" : null;
+    if (complete && id === 'art_start_title') continue;
+    ctx.globalAlpha = spec.opacity * (complete && spec.control === 'start' ? .68 : 1);
+    const control = spec.control;
     const paint = () => ctx.drawImage(homeImages.get(id), ...spec.bounds);
     if (control) feedback(`home.${control}`, HOME_UI[control], paint);
     else paint();
@@ -64,8 +62,12 @@ export function drawHomeScreen(ctx, { progressLabel, complete }, feedback = (id,
     const text = spec.name === "txt_date" ? progressLabel
       : spec.name === "txt_sleep" && complete ? "今晚好梦" : spec.text;
     const paint = () => paintHomeText(ctx, spec, text);
-    if (spec.name === "txt_sleep") feedback("home.start", HOME_UI.start, paint);
+    if (spec.control) feedback(`home.${spec.control}`, HOME_UI[spec.control], paint);
     else paint();
+  }
+  if (complete) {
+    paintHomeText(ctx, { delivery_bounds: [307, 1280, 313, 70], font_size: 55, font_weight: 700, color: '#FFF5BC', stroke: {color:'#EE70A5',width:3} }, '今晚好梦');
+    paintHomeText(ctx, { delivery_bounds: [300, 1445, 350, 42], font_size: 25, font_weight: 700, color: '#914963' }, progressLabel);
   }
   ctx.restore();
 }

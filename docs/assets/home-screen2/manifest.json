@@ -1,0 +1,1109 @@
+{
+  "version": "home-screen2-v1",
+  "directory": "assets/home-screen2",
+  "canvas": {
+    "width": 941,
+    "height": 1672
+  },
+  "source": "outputs/home-screen2-layered-v1/home-screen2-layered-v1.psd",
+  "assets": {
+    "bg_room_complete": {
+      "file": "bg_room_complete.png",
+      "bounds": [
+        0,
+        0,
+        941,
+        1672
+      ],
+      "opacity": 1,
+      "sha256": "4a34cf2363bec2b5164afaf56511695d187447b68216b5365a87a349f6bd5da2",
+      "control": null
+    },
+    "ui_task_base": {
+      "file": "ui_task_base.png",
+      "bounds": [
+        24,
+        230,
+        109,
+        111
+      ],
+      "opacity": 1,
+      "sha256": "e1c887e1951340ec13f62418299971c4f95a61dc53ed44e85e6970bae53870da",
+      "control": "task"
+    },
+    "icon_task": {
+      "file": "icon_task.png",
+      "bounds": [
+        41,
+        234,
+        78,
+        80
+      ],
+      "opacity": 1,
+      "sha256": "7a40fd7c49bffb54bb4752a79dc786dea0322ea11b8fd84ce7a7664a99478d99",
+      "control": "task"
+    },
+    "ui_task_label": {
+      "file": "ui_album_label.png",
+      "bounds": [
+        16,
+        298,
+        127,
+        45
+      ],
+      "opacity": 1,
+      "sha256": "30d16f1f8e3a4c57395e98f0bc32a0badbf340aa37527a5785303d2b100f7ebb",
+      "control": "task"
+    },
+    "ui_event_base": {
+      "file": "ui_event_base.png",
+      "bounds": [
+        22,
+        368,
+        114,
+        112
+      ],
+      "opacity": 1,
+      "sha256": "531d4f163466cebff8a1e324365c90ec735fa5e08f7ff1abd545a1d797afa5c2",
+      "control": "event"
+    },
+    "icon_event": {
+      "file": "icon_event.png",
+      "bounds": [
+        33,
+        362,
+        95,
+        91
+      ],
+      "opacity": 1,
+      "sha256": "0ab6db2f77a576c4c2188ab09a01995a695cc4a97b7ebf693a6f2c7ef17dcb3f",
+      "control": "event"
+    },
+    "ui_event_label": {
+      "file": "ui_album_label.png",
+      "bounds": [
+        16,
+        436,
+        127,
+        45
+      ],
+      "opacity": 1,
+      "sha256": "30d16f1f8e3a4c57395e98f0bc32a0badbf340aa37527a5785303d2b100f7ebb",
+      "control": "event"
+    },
+    "ui_mail_base": {
+      "file": "ui_mail_base.png",
+      "bounds": [
+        22,
+        493,
+        114,
+        116
+      ],
+      "opacity": 1,
+      "sha256": "bb98ae30364b8fd42e2c9eca2f642436aa29106a9418449d34e3432417138c00",
+      "control": "mail"
+    },
+    "icon_mail": {
+      "file": "icon_mail.png",
+      "bounds": [
+        36,
+        505,
+        88,
+        80
+      ],
+      "opacity": 1,
+      "sha256": "6f138571b5c43b1fb10f42ae9bd986d1856426c005ddef76bf945f4a563ec5e3",
+      "control": "mail"
+    },
+    "ui_mail_label": {
+      "file": "ui_album_label.png",
+      "bounds": [
+        16.5,
+        566,
+        127,
+        45
+      ],
+      "opacity": 1,
+      "sha256": "30d16f1f8e3a4c57395e98f0bc32a0badbf340aa37527a5785303d2b100f7ebb",
+      "control": "mail"
+    },
+    "ui_settings_base": {
+      "file": "ui_settings_base.png",
+      "bounds": [
+        23,
+        626,
+        114,
+        117
+      ],
+      "opacity": 1,
+      "sha256": "b1bf0af512f1d72446709a1d0eb1c7462a66c6531bfeafa1f0bdfd7657f56ee9",
+      "control": "settings"
+    },
+    "icon_settings": {
+      "file": "icon_settings.png",
+      "bounds": [
+        40,
+        638,
+        78,
+        77
+      ],
+      "opacity": 1,
+      "sha256": "6844576dae3f657b2d62aba4eb99c028d81b1e9e2ae406b68cdb80169823b7b8",
+      "control": "settings"
+    },
+    "ui_settings_label": {
+      "file": "ui_album_label.png",
+      "bounds": [
+        16.5,
+        697,
+        127,
+        45
+      ],
+      "opacity": 1,
+      "sha256": "30d16f1f8e3a4c57395e98f0bc32a0badbf340aa37527a5785303d2b100f7ebb",
+      "control": "settings"
+    },
+    "ui_signin_base": {
+      "file": "ui_signin_base.png",
+      "bounds": [
+        793,
+        241,
+        119,
+        109
+      ],
+      "opacity": 1,
+      "sha256": "ebe0a330bebc87567a28c271799e94d8ea7997654dcd72761ea9fc3cdea0b29d",
+      "control": "signin"
+    },
+    "icon_signin": {
+      "file": "icon_signin.png",
+      "bounds": [
+        804,
+        242,
+        100,
+        73
+      ],
+      "opacity": 1,
+      "sha256": "5cde55be39cbee341a8ec1060bd56cbbae006f90f9dcfc8db1b3e63bd3b7a0ef",
+      "control": "signin"
+    },
+    "ui_signin_label": {
+      "file": "ui_album_label.png",
+      "bounds": [
+        787,
+        305,
+        127,
+        45
+      ],
+      "opacity": 1,
+      "sha256": "30d16f1f8e3a4c57395e98f0bc32a0badbf340aa37527a5785303d2b100f7ebb",
+      "control": "signin"
+    },
+    "ui_album_base": {
+      "file": "ui_album_base.png",
+      "bounds": [
+        794,
+        379,
+        123,
+        112
+      ],
+      "opacity": 1,
+      "sha256": "f905088a625ce47baddb80b81a1a22bcd0c368720de4990826841faafc6f8d12",
+      "control": "album"
+    },
+    "icon_album": {
+      "file": "icon_album.png",
+      "bounds": [
+        797,
+        370,
+        111,
+        88
+      ],
+      "opacity": 1,
+      "sha256": "a0d5be3a532c68f4f3024216aa3a52c980a334148ae6c90ad3f87ac73bad1194",
+      "control": "album"
+    },
+    "ui_album_label": {
+      "file": "ui_album_label.png",
+      "bounds": [
+        790,
+        444,
+        127,
+        45
+      ],
+      "opacity": 1,
+      "sha256": "30d16f1f8e3a4c57395e98f0bc32a0badbf340aa37527a5785303d2b100f7ebb",
+      "control": "album"
+    },
+    "ui_dress_base": {
+      "file": "ui_dress_base.png",
+      "bounds": [
+        797,
+        516,
+        118,
+        113
+      ],
+      "opacity": 1,
+      "sha256": "8c700138d23ac78a0d97cb5d99377615434418d59da3d47c6d1b1628a9e33924",
+      "control": "dress"
+    },
+    "icon_dress": {
+      "file": "icon_dress.png",
+      "bounds": [
+        804,
+        505,
+        110,
+        85
+      ],
+      "opacity": 1,
+      "sha256": "b97bb9e2d175610ea1e1d99a7ceff397a862d3e9d9660eef642ac3805a344419",
+      "control": "dress"
+    },
+    "ui_dress_label": {
+      "file": "ui_album_label.png",
+      "bounds": [
+        791.5,
+        582,
+        127,
+        45
+      ],
+      "opacity": 1,
+      "sha256": "30d16f1f8e3a4c57395e98f0bc32a0badbf340aa37527a5785303d2b100f7ebb",
+      "control": "dress"
+    },
+    "art_signin_bunny": {
+      "file": "art_signin_bunny.png",
+      "bounds": [
+        827,
+        206,
+        68,
+        61
+      ],
+      "opacity": 1,
+      "sha256": "447e38695807469b5ad9f23110d88a07859a7ee34b6026d2321ce84a93f6dd80",
+      "control": "signin"
+    },
+    "fx_signin_sparkle": {
+      "file": "fx_signin_sparkle.png",
+      "bounds": [
+        808,
+        192,
+        35,
+        41
+      ],
+      "opacity": 1,
+      "sha256": "bf38b5696d6d76ff0051778f314c24211e3f565f4d12a50daafa0026a03d572a",
+      "control": "signin"
+    },
+    "ui_task_notification": {
+      "file": "ui_task_notification.png",
+      "bounds": [
+        92,
+        210,
+        44,
+        46
+      ],
+      "opacity": 1,
+      "sha256": "5e6a69685b5f60260a48b7e8d5349b0608792648a75bb7aa882c7dbb7709c933",
+      "control": "task"
+    },
+    "ui_signin_notification": {
+      "file": "ui_task_notification.png",
+      "bounds": [
+        881,
+        214,
+        44,
+        46
+      ],
+      "opacity": 1,
+      "sha256": "5e6a69685b5f60260a48b7e8d5349b0608792648a75bb7aa882c7dbb7709c933",
+      "control": "signin"
+    },
+    "art_start_ribbons": {
+      "file": "art_start_ribbons.png",
+      "bounds": [
+        265,
+        1359,
+        411,
+        78
+      ],
+      "opacity": 1,
+      "sha256": "36d61769348004185ad2c920fb9e1e7129bd4300322927135ba05795f9aed0e5",
+      "control": "start"
+    },
+    "art_start_heart_left": {
+      "file": "art_start_heart_left.png",
+      "bounds": [
+        235,
+        1230,
+        70,
+        77
+      ],
+      "opacity": 1,
+      "sha256": "2c6a96829bd46dfe2d1745929a879b619d9048627661f1b40141a5ec1c56a7db",
+      "control": "start"
+    },
+    "art_start_heart_right": {
+      "file": "art_start_heart_right.png",
+      "bounds": [
+        613,
+        1227,
+        85,
+        58
+      ],
+      "opacity": 1,
+      "sha256": "1131ae2cb4d969be45c88a57af752c2096e89268ec4f8e38d16bd4e4302e2585",
+      "control": "start"
+    },
+    "art_start_pink_back": {
+      "file": "art_start_pink_back.png",
+      "bounds": [
+        280,
+        1205,
+        358,
+        72
+      ],
+      "opacity": 1,
+      "sha256": "3b62b15d68c3cf1fc4f3c943ee3b36c2bc04b05744a0d855dcaa8feaea3eb56d",
+      "control": "start"
+    },
+    "ui_start_plate": {
+      "file": "ui_start_plate.png",
+      "bounds": [
+        234,
+        1236,
+        502,
+        168
+      ],
+      "opacity": 1,
+      "sha256": "721fdbc5287f32b00b614b02d11a4984ceaf29f46a60f399b6c4655b911951f1",
+      "control": "start"
+    },
+    "art_start_bunny": {
+      "file": "art_start_bunny.png",
+      "bounds": [
+        379,
+        1103,
+        184,
+        151
+      ],
+      "opacity": 1,
+      "sha256": "85e7f81198a66ea5d8a2e2324f44c8bb2d70a364e15f534bbdb734e5be583713",
+      "control": "start"
+    },
+    "art_start_top_bow": {
+      "file": "art_start_top_bow.png",
+      "bounds": [
+        424,
+        1214,
+        92,
+        51
+      ],
+      "opacity": 1,
+      "sha256": "b3fe3dafbabd8bdd5fc0fcb74b1cdb3d166948edc730c808947f52743982f205",
+      "control": "start"
+    },
+    "art_start_bottom_bow": {
+      "file": "art_start_bottom_bow.png",
+      "bounds": [
+        420,
+        1361,
+        115,
+        69
+      ],
+      "opacity": 1,
+      "sha256": "93166dbb84fac47524d292aaa1796da7e18e659e7cfcd72886eb42671a52dd7d",
+      "control": "start"
+    },
+    "art_start_title": {
+      "file": "art_start_title.png",
+      "bounds": [
+        305,
+        1270,
+        317,
+        92
+      ],
+      "opacity": 1,
+      "sha256": "f4708e93ccbdc4d95807d06638a8094dd5e0849d6be14a84d11b3720a16fc4ae",
+      "control": "start"
+    },
+    "icon_start_arrow": {
+      "file": "icon_start_arrow.png",
+      "bounds": [
+        628,
+        1283,
+        53,
+        71
+      ],
+      "opacity": 1,
+      "sha256": "9245f79054250e893626be7b52782584c4965c1bef8c342e4a684b69f8c9d950",
+      "control": "start"
+    },
+    "art_start_star_01": {
+      "file": "art_start_star_01.png",
+      "bounds": [
+        335,
+        1193,
+        51,
+        48
+      ],
+      "opacity": 1,
+      "sha256": "c30726e35f0971dc12f4f71b35a4299f01d8c1c384f0a9b2c2998a0cd0e871c2",
+      "control": "start"
+    },
+    "art_start_star_02": {
+      "file": "art_start_star_02.png",
+      "bounds": [
+        221,
+        1288,
+        66,
+        69
+      ],
+      "opacity": 1,
+      "sha256": "172a8a61598ff052359ed092f681a57f3218110a5710c26ab8814ed64b5a4d52",
+      "control": "start"
+    },
+    "art_start_star_03": {
+      "file": "art_start_star_03.png",
+      "bounds": [
+        566,
+        1197,
+        51,
+        50
+      ],
+      "opacity": 1,
+      "sha256": "158e1d0ffd1bcde93ef264058b9070da71028268092a14bb9c6fe85b2ed70967",
+      "control": "start"
+    },
+    "art_start_star_04": {
+      "file": "art_start_star_04.png",
+      "bounds": [
+        692,
+        1254,
+        52,
+        48
+      ],
+      "opacity": 1,
+      "sha256": "c132343b32ad8d43f102c5547df957684444590cef7fca225aa96c7b06bcc3fc",
+      "control": "start"
+    },
+    "fx_start_sparkle_01": {
+      "file": "fx_start_sparkle_01.png",
+      "bounds": [
+        378,
+        1141,
+        34,
+        44
+      ],
+      "opacity": 1,
+      "sha256": "f1e43854f94a547a0df284512d1e067d688529618eb9598d54930d1a53f7c4d1",
+      "control": "start"
+    },
+    "fx_start_sparkle_02": {
+      "file": "fx_start_sparkle_02.png",
+      "bounds": [
+        559,
+        1153,
+        33,
+        43
+      ],
+      "opacity": 1,
+      "sha256": "445ee170a0e6de172ff92794d8e3355698e1f947454b4541dd99a4d0c82dd8e0",
+      "control": "start"
+    },
+    "fx_start_sparkle_03": {
+      "file": "fx_start_sparkle_03.png",
+      "bounds": [
+        242,
+        1386,
+        33,
+        39
+      ],
+      "opacity": 1,
+      "sha256": "2076eea5bc3f1684fa41b717e8860833f5a841f378f64cfb6c7daeed2a2dc76e",
+      "control": "start"
+    },
+    "fx_start_sparkle_04": {
+      "file": "fx_start_sparkle_04.png",
+      "bounds": [
+        683,
+        1308,
+        22,
+        26
+      ],
+      "opacity": 1,
+      "sha256": "8a53c072e523822ac25d841dc95def381add22ff880979dbddc908d180482e5d",
+      "control": "start"
+    },
+    "fx_start_sparkle_05": {
+      "file": "fx_start_sparkle_05.png",
+      "bounds": [
+        617,
+        1229,
+        34,
+        32
+      ],
+      "opacity": 1,
+      "sha256": "93665720ad580494a9477d1e555e53121d0bce19d8403338a3bdc611c610b5e5",
+      "control": "start"
+    },
+    "fx_start_sparkle_06": {
+      "file": "fx_start_sparkle_06.png",
+      "bounds": [
+        681,
+        1387,
+        30,
+        39
+      ],
+      "opacity": 1,
+      "sha256": "1927fd7e6254aa29d8f2841d73a29fd2dc5a5ef7ea78f21b6d7ac667f212b7c5",
+      "control": "start"
+    },
+    "ui_hint_plate": {
+      "file": "ui_hint_plate.png",
+      "bounds": [
+        677,
+        1122,
+        227,
+        123
+      ],
+      "opacity": 1,
+      "sha256": "f3fc168830cacebc1cd9261ea7633d11c0207d6d4aaafc7df8eaa8fc7f196ca4",
+      "control": null
+    },
+    "icon_hint_heart": {
+      "file": "icon_hint_heart.png",
+      "bounds": [
+        856,
+        1142,
+        28,
+        29
+      ],
+      "opacity": 1,
+      "sha256": "3aab90db385b568ca0b933c8cd50078f2bd92eadff535bc987595ae9b3969915",
+      "control": null
+    },
+    "art_hint_bunny": {
+      "file": "art_hint_bunny.png",
+      "bounds": [
+        837,
+        1181,
+        92,
+        97
+      ],
+      "opacity": 1,
+      "sha256": "6c826543033c891f316a5de464ed881fa40fa5b04efeaa57b9e597f6e44d8f09",
+      "control": null
+    }
+  },
+  "layers": [
+    "bg_room_complete",
+    "ui_task_base",
+    "icon_task",
+    "ui_task_label",
+    "ui_event_base",
+    "icon_event",
+    "ui_event_label",
+    "ui_mail_base",
+    "icon_mail",
+    "ui_mail_label",
+    "ui_settings_base",
+    "icon_settings",
+    "ui_settings_label",
+    "ui_signin_base",
+    "icon_signin",
+    "ui_signin_label",
+    "ui_album_base",
+    "icon_album",
+    "ui_album_label",
+    "ui_dress_base",
+    "icon_dress",
+    "ui_dress_label",
+    "art_signin_bunny",
+    "fx_signin_sparkle",
+    "ui_task_notification",
+    "ui_signin_notification",
+    "art_start_ribbons",
+    "art_start_heart_left",
+    "art_start_heart_right",
+    "art_start_pink_back",
+    "ui_start_plate",
+    "art_start_bunny",
+    "art_start_top_bow",
+    "art_start_bottom_bow",
+    "art_start_title",
+    "icon_start_arrow",
+    "art_start_star_01",
+    "art_start_star_02",
+    "art_start_star_03",
+    "art_start_star_04",
+    "fx_start_sparkle_01",
+    "fx_start_sparkle_02",
+    "fx_start_sparkle_03",
+    "fx_start_sparkle_04",
+    "fx_start_sparkle_05",
+    "fx_start_sparkle_06",
+    "ui_hint_plate",
+    "icon_hint_heart",
+    "art_hint_bunny"
+  ],
+  "textLayers": [
+    {
+      "name": "txt_task",
+      "text": "任务",
+      "group": "07_EDITABLE_TEXT",
+      "display_name": "任务",
+      "usage": "独立可编辑文字",
+      "region": "03_NAVIGATION",
+      "anchor": "center",
+      "z": 1004,
+      "state": "default",
+      "parent": "ui_task_label",
+      "default_visible": true,
+      "font_family": "Microsoft YaHei",
+      "font_postscript_name": "MicrosoftYaHei-Bold",
+      "font_size": 24,
+      "font_weight": 700,
+      "color": "#914963",
+      "alignment": "center",
+      "delivery_bounds": [
+        32,
+        305,
+        95,
+        29
+      ],
+      "logical_bounds": [
+        32,
+        305,
+        95,
+        29
+      ],
+      "runtime_rendering": "localized",
+      "font_match_status": "fallback",
+      "fallback_reason": "原图未提供字体文件，使用本机可编辑近似粗体",
+      "rotation": 0,
+      "control": "task"
+    },
+    {
+      "name": "txt_event",
+      "text": "活动",
+      "group": "07_EDITABLE_TEXT",
+      "display_name": "活动",
+      "usage": "独立可编辑文字",
+      "region": "03_NAVIGATION",
+      "anchor": "center",
+      "z": 1005,
+      "state": "default",
+      "parent": "ui_event_label",
+      "default_visible": true,
+      "font_family": "Microsoft YaHei",
+      "font_postscript_name": "MicrosoftYaHei-Bold",
+      "font_size": 24,
+      "font_weight": 700,
+      "color": "#914963",
+      "alignment": "center",
+      "delivery_bounds": [
+        32,
+        443,
+        95,
+        29
+      ],
+      "logical_bounds": [
+        32,
+        443,
+        95,
+        29
+      ],
+      "runtime_rendering": "localized",
+      "font_match_status": "fallback",
+      "fallback_reason": "原图未提供字体文件，使用本机可编辑近似粗体",
+      "rotation": 0,
+      "control": "event"
+    },
+    {
+      "name": "txt_mail",
+      "text": "邮箱",
+      "group": "07_EDITABLE_TEXT",
+      "display_name": "邮箱",
+      "usage": "独立可编辑文字",
+      "region": "03_NAVIGATION",
+      "anchor": "center",
+      "z": 1006,
+      "state": "default",
+      "parent": "ui_mail_label",
+      "default_visible": true,
+      "font_family": "Microsoft YaHei",
+      "font_postscript_name": "MicrosoftYaHei-Bold",
+      "font_size": 24,
+      "font_weight": 700,
+      "color": "#914963",
+      "alignment": "center",
+      "delivery_bounds": [
+        32,
+        573,
+        96,
+        29
+      ],
+      "logical_bounds": [
+        32,
+        573,
+        96,
+        29
+      ],
+      "runtime_rendering": "localized",
+      "font_match_status": "fallback",
+      "fallback_reason": "原图未提供字体文件，使用本机可编辑近似粗体",
+      "rotation": 0,
+      "control": "mail"
+    },
+    {
+      "name": "txt_settings",
+      "text": "设置",
+      "group": "07_EDITABLE_TEXT",
+      "display_name": "设置",
+      "usage": "独立可编辑文字",
+      "region": "03_NAVIGATION",
+      "anchor": "center",
+      "z": 1007,
+      "state": "default",
+      "parent": "ui_settings_label",
+      "default_visible": true,
+      "font_family": "Microsoft YaHei",
+      "font_postscript_name": "MicrosoftYaHei-Bold",
+      "font_size": 24,
+      "font_weight": 700,
+      "color": "#914963",
+      "alignment": "center",
+      "delivery_bounds": [
+        32,
+        704,
+        96,
+        29
+      ],
+      "logical_bounds": [
+        32,
+        704,
+        96,
+        29
+      ],
+      "runtime_rendering": "localized",
+      "font_match_status": "fallback",
+      "fallback_reason": "原图未提供字体文件，使用本机可编辑近似粗体",
+      "rotation": 0,
+      "control": "settings"
+    },
+    {
+      "name": "txt_signin",
+      "text": "七日签到",
+      "group": "07_EDITABLE_TEXT",
+      "display_name": "七日签到",
+      "usage": "独立可编辑文字",
+      "region": "03_NAVIGATION",
+      "anchor": "center",
+      "z": 1008,
+      "state": "default",
+      "parent": "ui_signin_label",
+      "default_visible": true,
+      "font_family": "Microsoft YaHei",
+      "font_postscript_name": "MicrosoftYaHei-Bold",
+      "font_size": 23,
+      "font_weight": 700,
+      "color": "#914963",
+      "alignment": "center",
+      "delivery_bounds": [
+        791,
+        312,
+        119,
+        29
+      ],
+      "logical_bounds": [
+        791,
+        312,
+        119,
+        29
+      ],
+      "runtime_rendering": "localized",
+      "font_match_status": "fallback",
+      "fallback_reason": "原图未提供字体文件，使用本机可编辑近似粗体",
+      "rotation": 0,
+      "control": "signin"
+    },
+    {
+      "name": "txt_album",
+      "text": "图鉴",
+      "group": "07_EDITABLE_TEXT",
+      "display_name": "图鉴",
+      "usage": "独立可编辑文字",
+      "region": "03_NAVIGATION",
+      "anchor": "center",
+      "z": 1009,
+      "state": "default",
+      "parent": "ui_album_label",
+      "default_visible": true,
+      "font_family": "Microsoft YaHei",
+      "font_postscript_name": "MicrosoftYaHei-Bold",
+      "font_size": 24,
+      "font_weight": 700,
+      "color": "#914963",
+      "alignment": "center",
+      "delivery_bounds": [
+        798,
+        451,
+        111,
+        29
+      ],
+      "logical_bounds": [
+        798,
+        451,
+        111,
+        29
+      ],
+      "runtime_rendering": "localized",
+      "font_match_status": "fallback",
+      "fallback_reason": "原图未提供字体文件，使用本机可编辑近似粗体",
+      "rotation": 0,
+      "control": "album"
+    },
+    {
+      "name": "txt_dress",
+      "text": "装扮",
+      "group": "07_EDITABLE_TEXT",
+      "display_name": "装扮",
+      "usage": "独立可编辑文字",
+      "region": "03_NAVIGATION",
+      "anchor": "center",
+      "z": 1010,
+      "state": "default",
+      "parent": "ui_dress_label",
+      "default_visible": true,
+      "font_family": "Microsoft YaHei",
+      "font_postscript_name": "MicrosoftYaHei-Bold",
+      "font_size": 24,
+      "font_weight": 700,
+      "color": "#914963",
+      "alignment": "center",
+      "delivery_bounds": [
+        799,
+        589,
+        112,
+        29
+      ],
+      "logical_bounds": [
+        799,
+        589,
+        112,
+        29
+      ],
+      "runtime_rendering": "localized",
+      "font_match_status": "fallback",
+      "fallback_reason": "原图未提供字体文件，使用本机可编辑近似粗体",
+      "rotation": 0,
+      "control": "dress"
+    },
+    {
+      "name": "txt_task_notification",
+      "text": "!",
+      "group": "07_EDITABLE_TEXT",
+      "display_name": "!",
+      "usage": "独立可编辑文字",
+      "region": "04_BADGES",
+      "anchor": "center",
+      "z": 1011,
+      "state": "default",
+      "parent": "ui_task_notification",
+      "default_visible": true,
+      "font_family": "Microsoft YaHei",
+      "font_postscript_name": "MicrosoftYaHei-Bold",
+      "font_size": 27,
+      "font_weight": 700,
+      "color": "#FFFFFF",
+      "alignment": "center",
+      "delivery_bounds": [
+        104,
+        215,
+        20,
+        32
+      ],
+      "logical_bounds": [
+        104,
+        215,
+        20,
+        32
+      ],
+      "runtime_rendering": "localized",
+      "font_match_status": "fallback",
+      "fallback_reason": "原图未提供字体文件，使用本机可编辑近似粗体",
+      "rotation": 0,
+      "control": "task"
+    },
+    {
+      "name": "txt_signin_notification",
+      "text": "!",
+      "group": "07_EDITABLE_TEXT",
+      "display_name": "!",
+      "usage": "独立可编辑文字",
+      "region": "04_BADGES",
+      "anchor": "center",
+      "z": 1012,
+      "state": "default",
+      "parent": "ui_signin_notification",
+      "default_visible": true,
+      "font_family": "Microsoft YaHei",
+      "font_postscript_name": "MicrosoftYaHei-Bold",
+      "font_size": 27,
+      "font_weight": 700,
+      "color": "#FFFFFF",
+      "alignment": "center",
+      "delivery_bounds": [
+        893,
+        219,
+        20,
+        32
+      ],
+      "logical_bounds": [
+        893,
+        219,
+        20,
+        32
+      ],
+      "runtime_rendering": "localized",
+      "font_match_status": "fallback",
+      "fallback_reason": "原图未提供字体文件，使用本机可编辑近似粗体",
+      "rotation": 0,
+      "control": "signin"
+    },
+    {
+      "name": "txt_hint_line1",
+      "text": "一起把玩具",
+      "group": "07_EDITABLE_TEXT",
+      "display_name": "一起把玩具",
+      "usage": "独立可编辑文字",
+      "region": "06_HINT",
+      "anchor": "center",
+      "z": 1013,
+      "state": "default",
+      "parent": "ui_hint_plate",
+      "default_visible": true,
+      "font_family": "Microsoft YaHei",
+      "font_postscript_name": "MicrosoftYaHei-Bold",
+      "font_size": 23,
+      "font_weight": 700,
+      "color": "#C379BE",
+      "alignment": "center",
+      "delivery_bounds": [
+        704,
+        1151,
+        151,
+        32
+      ],
+      "logical_bounds": [
+        704,
+        1151,
+        151,
+        32
+      ],
+      "runtime_rendering": "localized",
+      "font_match_status": "fallback",
+      "fallback_reason": "原图未提供字体文件，使用本机可编辑近似粗体",
+      "rotation": -17,
+      "control": null
+    },
+    {
+      "name": "txt_hint_line2",
+      "text": "整理好吧~",
+      "group": "07_EDITABLE_TEXT",
+      "display_name": "整理好吧~",
+      "usage": "独立可编辑文字",
+      "region": "06_HINT",
+      "anchor": "center",
+      "z": 1014,
+      "state": "default",
+      "parent": "ui_hint_plate",
+      "default_visible": true,
+      "font_family": "Microsoft YaHei",
+      "font_postscript_name": "MicrosoftYaHei-Bold",
+      "font_size": 23,
+      "font_weight": 700,
+      "color": "#C379BE",
+      "alignment": "center",
+      "delivery_bounds": [
+        737,
+        1180,
+        132,
+        31
+      ],
+      "logical_bounds": [
+        737,
+        1180,
+        132,
+        31
+      ],
+      "runtime_rendering": "localized",
+      "font_match_status": "fallback",
+      "fallback_reason": "原图未提供字体文件，使用本机可编辑近似粗体",
+      "rotation": -17,
+      "control": null
+    }
+  ],
+  "controls": {
+    "start": [
+      223,
+      1103,
+      520,
+      333
+    ],
+    "task": [
+      16,
+      210,
+      127,
+      133
+    ],
+    "event": [
+      16,
+      362,
+      127,
+      119
+    ],
+    "mail": [
+      16.5,
+      493,
+      127,
+      118
+    ],
+    "settings": [
+      16.5,
+      626,
+      127,
+      117
+    ],
+    "signin": [
+      787,
+      192,
+      138,
+      158
+    ],
+    "album": [
+      790,
+      370,
+      127,
+      121
+    ],
+    "dress": [
+      791.5,
+      505,
+      127,
+      124
+    ]
+  },
+  "currencySource": "core-ui-v4/06_RESOURCES",
+  "excludedAssets": [
+    "ui_star_bar",
+    "icon_star",
+    "ui_star_plus_base",
+    "ui_coin_bar",
+    "icon_coin",
+    "ui_coin_plus_base"
+  ],
+  "sharedTitlePlate": "ui_album_label.png",
+  "sharedNotification": "ui_task_notification.png"
+}

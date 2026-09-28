@@ -1057,11 +1057,16 @@ function drawHeader(title, subtitle) {
   ctx.fillText(subtitle, W / 2, 88);
 }
 
+let homeNotice = null;
 function drawHome() {
   ctx.fillStyle = "#fbe6e7";
   ctx.fillRect(0, 0, W, H);
   drawHomeScreen(ctx, homeProgress(), paintControl);
-  drawCurrencyHud(false);
+  drawCurrencyHud();
+  if (homeNotice && performance.now() < homeNotice.until) {
+    fillRoundRect(125, 587, 290, 36, 16, 'rgba(255,247,240,.96)');
+    artText(homeNotice.text, 270, 605, 15, '#914963');
+  }
   if (!homeAssetsComplete()) {
     fillRoundRect(140, 3, 260, 27, 12, "rgba(255,247,240,.92)");
     artText("少量图片正在补载…", 270, 17, 13);
@@ -1618,6 +1623,11 @@ canvas.addEventListener("pointerup", (event) => {
     if (state.pauseOpen) handleHomeSettings(point);
     else if (pointInRect(point, HOME_UI.settings)) { requestSystems(["settings"], () => { state.pauseOpen = true; render(); }); }
     else if (pointInRect(point, HOME_UI.start)) startFromHome();
+    else {
+      const labels = { task: '任务', event: '活动', mail: '邮箱', signin: '七日签到', album: '图鉴', dress: '装扮' };
+      const key = Object.keys(labels).find(key => pointInRect(point, HOME_UI[key]));
+      if (key) { homeNotice = { text: `${labels[key]}功能敬请期待`, until: performance.now() + 2200 }; render(); }
+    }
     return;
   }
   if (state.mode === "level-complete") {
@@ -1708,7 +1718,8 @@ function renderGameToText() {
   if (state.mode === "home") {
     const progress = homeProgress();
     return JSON.stringify({ mode: "home", art, homeArt: homeArtStatus(), economy, title: "晚安，玩具屋",
-      action: progress.complete ? "今晚好梦；更多夜晚准备中" : "click 准备睡觉 or press Enter",
+      action: progress.complete ? "今晚好梦；更多夜晚准备中" : "click 开始整理 or press Enter",
+      message: homeNotice && performance.now() < homeNotice.until ? homeNotice.text : null,
       ...progress, settingsOpen: state.pauseOpen,
       settings: { musicEnabled: state.musicEnabled, audioEnabled: state.audioEnabled, vibrationEnabled: state.vibrationEnabled },
       uiHitAreas: { home: HOME_UI, settings: HOME_SETTINGS_UI },

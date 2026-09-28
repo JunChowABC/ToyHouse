@@ -28,11 +28,33 @@ export const TOOL_MODAL_UI = Object.freeze({
   action: toolRect(TOOL_ART.assets.purchase_base.bounds),
 });
 
+const HOME_SETTINGS_SHIFT_Y = 180;
+const HOME_SETTINGS_FRAME_HEIGHT = 610;
+let homeSettingsFrame = null;
+function compactSettingsFrame() {
+  if (homeSettingsFrame) return homeSettingsFrame;
+  const frame = pauseImages.get('panel_base');
+  const [,, width, height] = PAUSE_ART.assets.panel_base.bounds;
+  const result = document.createElement('canvas');
+  result.width = width;
+  result.height = HOME_SETTINGS_FRAME_HEIGHT;
+  const painter = result.getContext('2d');
+  const top = 160, bottom = 150;
+  // Assemble at integer pixel boundaries before scaling the completed frame.
+  // Separate screen-space draws can leave fractional-pixel alpha seams.
+  for (const [sy, sh, dy, dh] of [[0, top, 0, top], [top, height-top-bottom, top, result.height-top-bottom], [height-bottom, bottom, result.height-bottom, bottom]]) {
+    painter.drawImage(frame, 0, sy, width, sh, 0, dy, width, dh);
+  }
+  result.src = frame.src;
+  homeSettingsFrame = result;
+  return result;
+}
+const homeSettingsBounds = ([x, y, w, h]) => [x, y + HOME_SETTINGS_SHIFT_Y, w, h];
 export const HOME_SETTINGS_UI = Object.freeze({
-  close: pauseRect([726, 478, 78, 78]),
-  music: pauseRect([180, 656, 582, 90]),
-  audio: pauseRect([180, 806, 582, 90]),
-  vibration: pauseRect([180, 956, 582, 90]),
+  close: pauseRect(homeSettingsBounds(TOOL_ART.assets.close_base.bounds)),
+  music: pauseRect(homeSettingsBounds([248, 594, 449, 73])),
+  audio: pauseRect(homeSettingsBounds([248, 700, 449, 73])),
+  vibration: pauseRect(homeSettingsBounds([248, 807, 449, 73])),
 });
 
 export async function loadPauseArt() {
@@ -106,36 +128,41 @@ export function drawPauseDialog(ctx, settings, feedback = (id, rect, paint) => p
   ctx.restore();
 }
 
-// Home settings shares the same art and saved choices, without in-level actions.
+// Reuse the current pause artwork, with a shorter frame for the three settings.
 export function drawHomeSettings(ctx, settings, feedback = (id, rect, paint) => paint()) {
-  const PAUSE_ART = SHARED_DIALOG_ART;
   ctx.save();
   ctx.fillStyle = "rgba(100,64,85,.48)";
   ctx.fillRect(0, 0, 540, 960);
   ctx.translate(0, PAUSE_OFFSET_Y);
   ctx.scale(PAUSE_SCALE, PAUSE_SCALE);
-  const image = (id, bounds = PAUSE_ART.assets[id].bounds) => ctx.drawImage(pauseImages.get(id), ...bounds);
-  image("ui_pause_panel_base");
+  const image = (id, bounds = PAUSE_ART.assets[id].bounds) => ctx.drawImage(pauseImages.get(id), ...homeSettingsBounds(bounds));
+  // Preserve the frame's top/bottom corners; only shorten its neutral middle.
+  const [fx, fy, fw, fh] = PAUSE_ART.assets.panel_base.bounds;
+  const height = HOME_SETTINGS_FRAME_HEIGHT;
+  ctx.drawImage(compactSettingsFrame(), fx, fy+HOME_SETTINGS_SHIFT_Y, fw, height);
+  const rowParts = /^(music|sound|vibration)_icon$/;
   for (const id of PAUSE_ART.staticLayers) {
-    if (/^ui_pause_(header_|frame_star_|balloon_|hanging_star_|bottom_|sparkle_)/.test(id)) image(id);
+    if (id === 'panel_base' || rowParts.test(id) || /^(arttext_|restart_|continue_|exit_)/.test(id)) continue;
+    const bounds = [...PAUSE_ART.assets[id].bounds];
+    if (id.startsWith('star_bottom_')) bounds[1] += height - fh;
+    image(id, bounds);
   }
-  paintPauseText(ctx, PAUSE_ART.textLayers.find(t => t.name === "txt_pause_title"), "设置");
-  feedback("settings.close", HOME_SETTINGS_UI.close, () => ctx.drawImage(toolButtonImages.get("ui_tool_close_v1"), 726, 478, 78, 78));
-  const rows = [
-    ["ui_pause_music_icon", "音乐"], ["ui_pause_sound_icon", "音效"], ["ui_pause_vibration_icon", "震动"],
-  ];
-  PAUSE_ART.controls.forEach((control, index) => {
-    const key = ["music", "audio", "vibration"][index];
-    feedback(`settings.${key}`, HOME_SETTINGS_UI[key], () => {
-    const y = 670 + index * 150;
-    const enabled = settings[control.setting];
-    image(rows[index][0], [220, y, 56, 58]);
-    paintPauseText(ctx, { font_family: "SimSun", font_weight: 700, font_size: 38, color: "#A4675C" }, rows[index][1], [298, y, 140, 60]);
-    image(enabled ? control.onTrack : "ui_pause_vibration_track", [586, y + 4, 120, 66]);
-    image(control.knob, [enabled ? 647 : 591, y + 8, 55, 57]);
-    paintPauseText(ctx, { ...control.label, font_size: 30 }, enabled ? "开" : "关", [enabled ? 599 : 655, y + 20, 37, 35], !enabled);
-    });
+  paintPauseText(ctx, { font_family: 'Microsoft YaHei', font_weight: 700, font_size: 66, color: '#B47BC4', stroke: { color: '#FFF9FE', width: 3 } }, '设置', homeSettingsBounds([384, 416, 178, 79]));
+  feedback('settings.close', HOME_SETTINGS_UI.close, () => {
+    TOOL_ART.close.forEach(id => ctx.drawImage(toolImages.get(id), ...homeSettingsBounds(TOOL_ART.assets[id].bounds)));
   });
+  for (const control of PAUSE_ART.controls) {
+    const key = control.id === 'sound' ? 'audio' : control.id;
+    feedback(`settings.${key}`, HOME_SETTINGS_UI[key], () => {
+      image(`${control.id}_icon`);
+      const label = PAUSE_ART.textLayers.find(t => t.name === `txt_${control.id}`);
+      paintPauseText(ctx, label, label.text, homeSettingsBounds(label.delivery_bounds));
+      const enabled = settings[control.setting];
+      image(enabled ? control.onTrack : control.offTrack, control.trackBounds);
+      image(enabled ? control.onThumb : control.offThumb, enabled ? control.onThumbBounds : control.offThumbBounds);
+      image(enabled ? control.onStar : control.offStar, enabled ? control.onStarBounds : control.offStarBounds);
+    });
+  }
   ctx.restore();
 }
 

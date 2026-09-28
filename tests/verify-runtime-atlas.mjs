@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {chromium} from '../scripts/playwright_system_chrome.mjs';
+import HOME from '../src/home-runtime-manifest.js';
 const report=JSON.parse(await readFile('assets/runtime-ui/report.json','utf8'));
 const browser=await chromium.launch({headless:true});
 try{for(const entry of ['/', '/docs/']){
@@ -14,9 +15,10 @@ try{for(const entry of ['/', '/docs/']){
  assert.equal(images.length,report.runtimeImages);
  assert.equal(new Set(images).size,report.runtimeImages);
  assert.ok(images.every(p=>p.includes('/runtime-ui/')&&p.endsWith('.webp')));
- assert.equal(images.filter(p=>/\/(home-|currency-)/.test(p)).length,5);
- assert.equal(await page.evaluate(()=>JSON.parse(window.render_game_to_text()).homeArt.loaded),16);
+ const homeImageCount=report.staticHomeLayers.length+report.atlasPages.filter(p=>/\/(home-|currency-)/.test(p)).length;
+ assert.equal(images.filter(p=>/\/(home-|currency-)/.test(p)).length,homeImageCount);
+ assert.equal(await page.evaluate(()=>JSON.parse(window.render_game_to_text()).homeArt.loaded),HOME.layers.length);
  await page.keyboard.press('Enter');
  assert.equal(await page.evaluate(()=>JSON.parse(window.render_game_to_text()).mode),'play');
- assert.deepEqual(errors,[]);await page.close();console.log(entry+` ${report.runtimeImages} runtime images, 5 homepage images, no source PNG requests PASS`);
+ assert.deepEqual(errors,[]);await page.close();console.log(entry+` ${report.runtimeImages} runtime images, ${homeImageCount} homepage images, no source PNG requests PASS`);
 }}finally{await browser.close();}

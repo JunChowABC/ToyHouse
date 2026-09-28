@@ -32,17 +32,17 @@ def flush():
     assets[id]={'file':Path(path).name,'bounds':[box[0],box[1],im.width,im.height],'opacity':1}
     layers.append(id);static.append({'id':id,'sources':list(batch),'path':path});batch.clear()
 for id in home['layers']:
-    if id.startswith(('ui_sleep_','ui_settings_')):
-        flush(); assets[id]=dict(home['assets'][id]);assets[id]['file']='../home-v2/'+assets[id]['file'];layers.append(id)
+    if home['assets'][id].get('control'):
+        flush(); assets[id]=dict(home['assets'][id]);assets[id]['file']='../'+Path(original_home['directory']).name+'/'+assets[id]['file'];layers.append(id)
     else:batch.append(id)
 flush()
-home['directory']='assets/runtime-ui';home['assets']=assets;home['layers']=layers;home['version']='home-runtime-atlas-v1'
+home['directory']='assets/runtime-ui';home['assets']=assets;home['layers']=layers;home['version']=original_home['version']+'-atlas'
 write_module('home-runtime-manifest.js',home)
 
 aliases=read('image-aliases.js')
 groups={k:[] for k in ['home-controls','currency','play','settings','complete']}
 for id in original_home['layers']:
-    if id.startswith(('ui_sleep_','ui_settings_')):groups['home-controls'].append(original_home['directory']+'/'+original_home['assets'][id]['file'])
+    if original_home['assets'][id].get('control'):groups['home-controls'].append(original_home['directory']+'/'+original_home['assets'][id]['file'])
 core=read('art-manifest.js')
 for spec in core['assets'].values():groups['currency' if spec.get('group')=='06_RESOURCES' else 'play'].append(spec.get('directory',core['directory'])+'/'+spec['file'])
 for name,group in [('pause-art-manifest.js','settings'),('shared-dialog-art-manifest.js','settings'),('tool-art-manifest.js','settings'),('complete-art-manifest.js','complete')]:

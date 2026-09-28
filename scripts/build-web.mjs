@@ -46,6 +46,7 @@ await cp(new URL("../assets/tool-popup2-v1/", import.meta.url), new URL("../docs
 await cp(new URL("../assets/tool-dialog-v1/", import.meta.url), new URL("../docs/assets/tool-dialog-v1/", import.meta.url), { recursive: true });
 await cp(new URL("../assets/level-complete-popup2-v1/", import.meta.url), new URL("../docs/assets/level-complete-popup2-v1/", import.meta.url), { recursive: true });
 await cp(new URL("../assets/home-v2/", import.meta.url), new URL("../docs/assets/home-v2/", import.meta.url), { recursive: true });
+await cp(new URL("../assets/home-screen2/", import.meta.url), new URL("../docs/assets/home-screen2/", import.meta.url), { recursive: true });
 await cp(new URL("../styles.css", import.meta.url), new URL("../docs/styles.css", import.meta.url));
 const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
 const bundleVersion = createHash("sha256").update(result.code).digest("hex").slice(0, 12);
