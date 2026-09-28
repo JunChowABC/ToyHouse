@@ -1301,7 +1301,7 @@ function toyArtLayout(toy) {
   const rabbit = toy.archetypeId === "ORDINARY", duck = toy.archetypeId === "AUTO_EXIT";
   // Keep the approved toy artwork size independent of layout spacing.
   const inset = TOY_VISUAL_GAP;
-  const scale = TOY_DISPLAY_SCALE * (rabbit ? 0.9 : 1);
+  const scale = TOY_DISPLAY_SCALE * (rabbit ? 0.9 : duck ? 0.9 : 0.76);
   const displayWidth = (width - inset) * scale;
   const displayHeight = (height - inset) * scale;
   const id = rabbit ? "toy_rabbit_white_a" : duck ? "toy_duck_yellow_a" : "toy_whale_blue_a";
