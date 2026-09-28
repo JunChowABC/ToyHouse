@@ -171,10 +171,10 @@ const Mechanics = (() => {
     for (const e of [...board.toys, ...board.entities]) {
       if (!e.id || ids.has(e.id)) errors.push(`DUPLICATE_ID:${e.id}`); ids.add(e.id);
       if (!e.cells.length || e.cells.some(c => !Number.isInteger(c.x) || !Number.isInteger(c.y) || !inside(board, c))) errors.push(`INVALID_CELLS:${e.id}`);
-      for (const c of e.cells) { const k = key(c.x, c.y); if (occ.has(k)) errors.push(`OVERLAP:${e.id}`); occ.add(k); }
+      if (active(e) && e.kind !== 'PORTAL') for (const c of e.cells) { const k = key(c.x, c.y); if (occ.has(k)) errors.push(`OVERLAP:${e.id}`); occ.add(k); }
       if (e.kind && !['BOX', 'SPRING', 'LOCK_BOX', 'PORTAL'].includes(e.kind)) errors.push(`UNKNOWN_MECHANIC:${e.id}`);
       if (['BOX', 'SPRING', 'PORTAL'].includes(e.kind) && e.cells.length !== 1) errors.push(`INVALID_FOOTPRINT:${e.id}`);
-      if (e.kind === 'BOX' && (!Number.isInteger(e.hp) || e.hp < 1 || e.hp > 3)) errors.push(`INVALID_HP:${e.id}`);
+      if (e.kind === 'BOX' && active(e) && (!Number.isInteger(e.hp) || e.hp < 1 || e.hp > 3)) errors.push(`INVALID_HP:${e.id}`);
       if (e.kind === 'LOCK_BOX' && (!e.keyId || !board.toys.some(t => t.keyId === e.keyId))) errors.push(`MISSING_KEY:${e.id}`);
       if (e.kind === 'PORTAL' && (!e.pairId || board.entities.filter(p => p.kind === 'PORTAL' && p.pairId === e.pairId).length !== 2)) errors.push(`INVALID_PORTAL_PAIR:${e.id}`);
       if (e.archetypeId) {

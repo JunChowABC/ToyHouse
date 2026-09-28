@@ -1,0 +1,44 @@
+import assert from 'node:assert/strict';
+import M from '../src/mechanics.js';
+const toy = (id, x, y, dir = 'RIGHT', length = 2, extra = {}) => ({ id, x, y, direction: length === 1 ? null : dir,
+  archetypeId: length === 1 ? 'AUTO_EXIT' : length === 3 ? 'LARGE' : 'ORDINARY', state: 'IDLE',
+  cells: Array.from({ length }, (_, i) => ({ x: x + (['LEFT', 'RIGHT'].includes(dir) ? i : 0), y: y + (['UP', 'DOWN'].includes(dir) ? i : 0) })), ...extra });
+const entity = (id, kind, x, y, extra = {}) => ({ id, kind, x, y, state: 'IDLE', cells: [{ x, y }], ...extra });
+const board = (toys, entities = [], cols = 8, rows = 8) => ({ toys, entities, cols, rows });
+let b = board([toy('r', 0, 3)], [entity('box', 'BOX', 2, 3, { hp: 2 })]);
+let r = M.click(b, 'r');
+assert.equal(b.entities[0].hp, 1); assert.equal(r.scan.emptySteps, 0); assert.equal(b.toys[0].state, 'IDLE');
+M.click(b, 'r'); assert.equal(b.entities[0].state, 'DESTROYED'); assert.equal(b.toys[0].state, 'IDLE');
+M.click(b, 'r'); assert.equal(b.toys[0].state, 'EXITING');
+b = board([toy('r', 0, 3)], [entity('s', 'SPRING', 3, 3)]);
+r = M.click(b, 'r'); assert.equal(b.toys[0].x, 1); assert.equal(b.entities[0].x, 4); assert(r.events.some(e => e.type === 'ON_PUSH'));
+b.entities[0].x = 7; b.entities[0].cells = [{ x: 7, y: 3 }];
+M.click(b, 'r'); assert.equal(b.entities[0].x, 7, 'spring never exits');
+b = board([toy('r', 0, 3), toy('block', 3, 3, 'UP')], [entity('s', 'SPRING', 2, 3)]);
+r = M.click(b, 'r'); assert.equal(r.changed, false); assert.equal(b.entities[0].x, 2);
+b = board([toy('a', 0, 0), toy('sleep', 0, 2, 'RIGHT', 2, { sleeping: true, wakeSource: 'a' })]);
+assert.equal(M.click(b, 'sleep').changed, false); M.click(b, 'a'); assert.equal(b.toys[1].sleeping, false); assert.equal(b.toys[1].direction, 'RIGHT');
+b = board([toy('a', 0, 0, 'RIGHT', 2, { pairId: 'pink' }), toy('hug', 0, 2, 'RIGHT', 2, { hugLocked: true, hugSource: 'a', pairId: 'pink' })]);
+assert.deepEqual(M.validate(b), []); assert.equal(M.click(b, 'hug').changed, false); M.click(b, 'a'); assert.equal(b.toys[1].hugLocked, false);
+b = board([toy('key', 0, 0, 'RIGHT', 2, { keyId: 'gold' })], [entity('lock1', 'LOCK_BOX', 2, 2, { keyId: 'gold' }), entity('lock2', 'LOCK_BOX', 5, 2, { keyId: 'gold' })]);
+M.click(b, 'key'); assert(b.entities.every(e => e.state === 'DESTROYED'));
+b = board([toy('r', 0, 1)], [entity('p1', 'PORTAL', 3, 1, { pairId: 'p' }), entity('p2', 'PORTAL', 5, 5, { pairId: 'p' })]);
+r = M.click(b, 'r'); assert(r.events.some(e => e.type === 'TELEPORT')); assert.equal(b.toys[0].state, 'EXITING'); assert.equal(b.toys[0].y, 5);
+b = board([toy('w', 0, 1, 'RIGHT', 3)], [entity('p1', 'PORTAL', 3, 1, { pairId: 'p' }), entity('p2', 'PORTAL', 1, 5, { pairId: 'p' })]);
+r = M.click(b, 'w'); assert.equal(r.changed, false, 'whole whale must fit at destination');
+b = board([toy('r', 0, 1), toy('block', 4, 5, 'DOWN')], [entity('p1', 'PORTAL', 3, 1, { pairId: 'p' }), entity('p2', 'PORTAL', 5, 5, { pairId: 'p' })]);
+r = M.click(b, 'r'); assert.equal(b.toys[0].y, 1); assert.equal(b.toys[0].x, 1, 'blocked portal stops before entrance');
+b = board([toy('r', 0, 1)], [entity('p1', 'PORTAL', 4, 1, { pairId: 'p' }), entity('p2', 'PORTAL', 2, 1, { pairId: 'p' })]);
+// reverse placement makes a genuine forward cycle.
+b.entities[0].x = 3; b.entities[0].cells = [{ x: 3, y: 1 }]; b.entities[1].x = 2; b.toys[0] = toy('r', 1, 1);
+r = M.click(b, 'r'); assert(r.scan.loop); assert.equal(r.changed, false);
+b = board([toy('duck', 0, 0, 'RIGHT', 1), toy('sleep', 2, 2, 'RIGHT', 2, { sleeping: true, wakeSource: 'duck' })]);
+r = M.settle(b); assert.equal(b.toys[1].sleeping, false); assert(r.findIndex(e => e.type === 'ON_EXIT') < r.findIndex(e => e.type === 'ON_WAKE'));
+b = board([toy('a', 0, 0, 'RIGHT', 2, { sleeping: true, wakeSource: 'b' }), toy('b', 0, 2, 'RIGHT', 2, { sleeping: true, wakeSource: 'a' })]);
+assert.equal(M.solve(b).status, 'DEADLOCK'); b.toys[0].wakeSource = 'missing'; assert.equal(M.solve(b).status, 'INVALID');
+b = board([toy('r', 0, 3)], [entity('box', 'BOX', 2, 3, { hp: 2 })]);
+r = M.solve(b); assert.equal(r.status, 'SOLVED'); assert.deepEqual(r.actions, ['r', 'r', 'r']);
+assert.equal(M.solve(b, { maxNodes: 1 }).status, 'UNKNOWN');
+assert(M.replay(b, r.actions).board.toys.every(t => t.state === 'EXITING'));
+assert.equal(M.hash(b), M.hash(M.copy(b))); assert.notEqual(M.hash(b), M.hash(M.replay(b, ['r']).board));
+console.log('Mechanics: collision, wake, hug, locks, portals, duck triggers, validation and solver PASS');
