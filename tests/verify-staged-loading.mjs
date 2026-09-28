@@ -1,4 +1,5 @@
 import HOME_ART from "../src/home-runtime-manifest.js";
+import CORE_ART from "../src/art-manifest.js";
 import assert from 'node:assert/strict';
 import { chromium } from '../scripts/playwright_system_chrome.mjs';
 import { mkdir } from 'node:fs/promises';
@@ -23,7 +24,8 @@ for (const entry of ['/', '/docs/']) {
  await page.waitForFunction(async()=>await window.__toyhouse_art_ready===true);
  const read=()=>page.evaluate(()=>JSON.parse(window.render_game_to_text()));
  let state=await read();
- assert.equal(state.homeArt.loaded,HOME_ART.layers.length);assert.equal(state.art.loaded,4);
+ assert.equal(state.homeArt.loaded,HOME_ART.layers.length);
+ assert.equal(state.art.loaded,Object.values(CORE_ART.assets).filter(s=>s.group==='06_RESOURCES').length);
  assert.equal(state.art.systems.play,false);assert.equal(state.art.systems.complete,false);
  assert.equal(premature,false);
  await page.screenshot({path:'test-output/staged-loading/'+(entry==='/'?'source':'built')+'-home-first.png'});
@@ -41,4 +43,7 @@ for (const entry of ['/', '/docs/']) {
  console.log(entry+' home usable with all secondary assets blocked; queued start/cancel/background completion PASS');
  await page.close();
 }
-}finally{await browser.close();}
+}finally{
+ for(const context of browser.contexts()) for(const page of context.pages()) await page.unrouteAll({behavior:'ignoreErrors'});
+ await browser.close();
+}

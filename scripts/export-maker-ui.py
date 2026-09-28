@@ -1,11 +1,12 @@
 """Materialize exactly the web runtime pixels and Lua metadata; no generated art."""
 import hashlib, json, pathlib, posixpath
-from PIL import Image, ImageOps
+from PIL import Image, ImageOps, ImageDraw, ImageChops
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 OUT = ROOT / 'output/maker-ui-sync'
 data = json.loads((OUT / 'web-ui.json').read_text('utf-8'))
 aliases, atlas = data.pop('aliases'), data.pop('atlas')
+loading=data.pop('loading')
 provenance = []
 for group, manifest in data.items():
     manifest['order'] = list(manifest['assets'])
@@ -50,6 +51,31 @@ target='toyhouse-ui-v2/pause/home_settings_frame.png'
 compact.save(OUT / 'assets' / target)
 x,y,w,h=panel['bounds']
 data['pause']['assets']['home_settings_frame']=dict(file=target,size=[width,610],bounds=[x,y+180,w,610])
+
+# Decode the published lossless loading atlas into native Maker images.
+for key,spec in loading['assets'].items():
+    source=loading['directory']+'/'+(loading['background'] if key=='art_loading_background' else loading['atlas'])
+    im=Image.open(ROOT/source).convert('RGBA')
+    if 'rect' in spec:
+        x,y,w,h=spec['rect'];im=im.crop((x,y,x+w,y+h))
+    target=f'toyhouse-ui-v2/loading/{key}.png'
+    dest=OUT/'assets'/target;dest.parent.mkdir(parents=True,exist_ok=True);im.save(dest)
+    spec.update(file=target,size=list(im.size))
+    provenance.append(dict(source=source,output=target,sha256=hashlib.sha256(dest.read_bytes()).hexdigest()))
+# Fit/tile the slanted fill once, and pre-mask its rounded ends before fraction clipping.
+track=loading['assets']['ui_progress_track']['bounds']
+fill=loading['assets']['ui_progress_fill']
+original=Image.open(OUT/'assets'/fill['file']).convert('RGBA');sw,sh=original.size
+width,height=track[2]-4,track[3]-4
+strip=Image.new('RGBA',(width,height))
+strip.paste(original.crop((2,2,sw-2,sh-2)).resize((sw-4,height)),(0,0))
+tile=original.crop((34,2,sw-2,sh-2)).resize((sw-36,height))
+for x in range(sw-4,width,sw-36):strip.paste(tile,(x,0))
+mask=Image.new('L',strip.size);ImageDraw.Draw(mask).rounded_rectangle((0,0,width-1,height-1),radius=height/2,fill=255)
+strip.putalpha(ImageChops.multiply(strip.getchannel('A'),mask))
+target='toyhouse-ui-v2/loading/progress_fitted.png';strip.save(OUT/'assets'/target)
+loading['assets']['progress_fitted']=dict(file=target,size=[width,height],bounds=[track[0]+2,track[1]+2,width,height])
+data['loading']=loading
 
 def lua(value):
     if value is None: return 'nil'

@@ -6,7 +6,7 @@ export default {
     941,
     1672
   ],
-  "revision": "preserved-pink-rim-pastel-lettering-v7",
+  "revision": "preserved-pink-rim-programmatic-tool-labels-v8",
   "text": {
     "txt_gem": {
       "name": "txt_gem",
@@ -380,7 +380,7 @@ export default {
         941,
         1672
       ],
-      "sha256": "f78df2947baa055630c68f00b4ada054a6d1178867f124782fe3b2c5c6a0ac97",
+      "sha256": "01f6dbef84894ba2a0144fd97936767f6be73d0f993e527984f5308faefc9fd9",
       "bounds": [
         0,
         0,
@@ -389,8 +389,8 @@ export default {
       ],
       "opacity": 1,
       "role": "original-art",
-      "source": "原画资源/背景2.png",
-      "sourceSha256": "4a6db2fa7ce21fc327b94f4bcaaa12608bd2460962ead4b823a54f6588465d3d",
+      "source": "原画资源/背景3.png",
+      "sourceSha256": "261fa0b80798a91599c1e5aa0667a2b190e1bfb0199c03798708f1b8e3489d31",
       "originalSize": [
         941,
         1672
@@ -1203,57 +1203,6 @@ export default {
       "opacity": 1,
       "role": "ui",
       "group": "COMBO_GLYPHS"
-    },
-    "remove_label": {
-      "file": "remove_label.png",
-      "size": [
-        267,
-        132
-      ],
-      "sha256": "ce8fbe915bf89b311da6c2808533c6178de856b163df8f966466ff4519e58736",
-      "bounds": [
-        147.5,
-        1592,
-        236.5,
-        1636
-      ],
-      "opacity": 1,
-      "role": "ui",
-      "group": "TOOL_LETTERING"
-    },
-    "shuffle_label": {
-      "file": "shuffle_label.png",
-      "size": [
-        288,
-        132
-      ],
-      "sha256": "10eed4ca7fed74c42dfb1a41570cfcf563d81f35cbac450852c15be14775eb08",
-      "bounds": [
-        420.0,
-        1592,
-        516.0,
-        1636
-      ],
-      "opacity": 1,
-      "role": "ui",
-      "group": "TOOL_LETTERING"
-    },
-    "flip_label": {
-      "file": "flip_label.png",
-      "size": [
-        291,
-        132
-      ],
-      "sha256": "df39b0d7c3f0115f2a755c2aa9803351c16a164331897e430196aff07bb12295",
-      "bounds": [
-        698.5,
-        1592,
-        795.5,
-        1636
-      ],
-      "opacity": 1,
-      "role": "ui",
-      "group": "TOOL_LETTERING"
     }
   }
 };

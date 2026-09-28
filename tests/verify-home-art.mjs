@@ -5,6 +5,19 @@ import { chromium } from "../scripts/playwright_system_chrome.mjs";
 import HOME_ART from "../src/home-runtime-manifest.js";
 import CORE_ART from "../src/art-manifest.js";
 import LEVELS from "../src/level-config.js";
+import { HOME_UI, homeEntryOffsets } from '../src/home-screen.js';
+const visibleAssets = Object.fromEntries(Object.entries(HOME_ART.assets).filter(([, a]) => !a.control || ['start', 'settings'].includes(a.control)).map(([id, a]) => [id, { ...a, bounds: [...a.bounds] }]));
+const scale = 540/941, offsetY = (960-1672*scale)/2;
+for (const asset of Object.values(visibleAssets)) {
+  if (!asset.control) continue;
+  const original = HOME_ART.controls[asset.control], target = HOME_UI[asset.control];
+  asset.bounds = [asset.bounds[0]+target.x/scale-original[0], asset.bounds[1]+(target.y-offsetY)/scale-original[1], ...asset.bounds.slice(2)];
+}
+const settingsLabelY = keys => HOME_ART.assets.ui_settings_label.bounds[1] + homeEntryOffsets(new Set(keys)).settings[1];
+assert.equal(settingsLabelY(['settings']), HOME_ART.assets.ui_task_label.bounds[1]);
+assert.equal(settingsLabelY(['event','settings']), HOME_ART.assets.ui_task_label.bounds[1]+134);
+assert.equal(settingsLabelY(['task','mail','settings']), HOME_ART.assets.ui_task_label.bounds[1]+268);
+assert.equal(homeEntryOffsets(new Set(['dress'])).dress[1]+HOME_ART.assets.ui_dress_label.bounds[1], HOME_ART.assets.ui_signin_label.bounds[1]);
 
 const out = new URL("../test-output/home-screen2/", import.meta.url);
 await mkdir(out, { recursive: true });
@@ -59,10 +72,11 @@ try {
     assert.equal(state.homeArt.loaded, HOME_ART.layers.length); assert.equal(state.economy.coins, 0);
     const homeTrace = await trace();
     const homeImages = homeTrace.images.filter(i => Object.values(HOME_ART.assets).some(a => a.file.split("/").pop() === i.file));
-    assert.equal(homeImages.length, HOME_ART.layers.length);
-    for (const [id, asset] of Object.entries(HOME_ART.assets)) {
-      const drawn = homeImages.find(i => i.file === asset.file.split("/").pop() && JSON.stringify(i.bounds) === JSON.stringify(asset.bounds));
-      assert.ok(drawn, id); assert.deepEqual(drawn.bounds, asset.bounds);
+    assert.deepEqual(Object.keys(state.uiHitAreas.home).sort(), ['settings', 'start']);
+    assert.equal(homeImages.length, Object.keys(visibleAssets).length);
+    for (const [id, asset] of Object.entries(visibleAssets)) {
+      const drawn = homeImages.find(i => i.file === asset.file.split("/").pop() && i.bounds.every((v,j) => Math.abs(v-asset.bounds[j])<1e-6));
+      assert.ok(drawn, id);
       assert.ok(Math.abs(drawn.transform[0] - drawn.transform[3]) < 1e-8);
     }
     const runtimeReport = JSON.parse(await readFile(new URL("../assets/runtime-ui/report.json", import.meta.url), "utf8"));
@@ -73,13 +87,13 @@ try {
     }
     assert.ok(homeImages.some(i => i.file === 'art_start_title.png'));
     const plates = homeImages.filter(i => i.file === 'ui_album_label.png');
-    assert.equal(plates.length, 7);
+    assert.equal(plates.length, 1);
     assert.equal(new Set(plates.map(i => i.id)).size, 1, 'all title plates share one loaded image');
     const badges = homeImages.filter(i => i.file === 'ui_task_notification.png');
-    assert.equal(badges.length, 2);
-    assert.equal(new Set(badges.map(i => i.id)).size, 1, 'notifications share one loaded image');
+    assert.equal(badges.length, 0);
+    for (const label of ['任务','活动','邮箱','七日签到','图鉴','装扮','!','+']) assert.ok(!homeTrace.texts.includes(label));
     assert.ok(!homeTrace.texts.some(t => /每个玩具|第4天|^120$/.test(t)));
-    const currencyFiles = Object.entries(CORE_ART.assets).filter(([, v]) => v.group === "06_RESOURCES").map(([, v]) => v.file);
+    const currencyFiles = Object.entries(CORE_ART.assets).filter(([id, v]) => v.group === "06_RESOURCES" && !id.endsWith('plus_base')).map(([, v]) => v.file);
     const currencies = homeTrace.images.filter(i => currencyFiles.includes(i.file));
     assert.equal(currencies.length, currencyFiles.length);
     await capture("home");
@@ -93,8 +107,8 @@ try {
       await page.mouse.down(); await page.waitForTimeout(100);
       await page.evaluate(() => window.advanceTime(0));
       const held = await trace();
-      for (const asset of Object.values(HOME_ART.assets)) {
-        const find = t => t.images.find(i => i.file === asset.file.split('/').pop() && JSON.stringify(i.bounds) === JSON.stringify(asset.bounds));
+      for (const asset of Object.values(visibleAssets)) {
+        const find = t => t.images.find(i => i.file === asset.file.split('/').pop() && i.bounds.every((v,j) => Math.abs(v-asset.bounds[j])<1e-6));
         const a = find(before), b = find(held);
         const expected = asset.control === key ? .92 : 1;
         assert.ok(Math.abs(b.transform[0]/a.transform[0]-expected)<.001, `${key}: ${asset.file} press transform`);
@@ -107,8 +121,12 @@ try {
       assert.equal((await read()).message, null);
     }
     for (const [key, label] of Object.entries({task:'任务',event:'活动',mail:'邮箱',signin:'七日签到',album:'图鉴',dress:'装扮'})) {
-      await click(state.uiHitAreas.home[key]);
-      assert.equal((await read()).message, `${label}功能敬请期待`);
+      const [x,y,w,h] = HOME_ART.controls[key];
+      const scale = 540 / 941;
+      const cx=(x+w/2)*scale, cy=(y+h/2)*scale+(960-1672*scale)/2;
+      if (Object.values(state.uiHitAreas.home).some(r=>cx>=r.x&&cx<=r.x+r.w&&cy>=r.y&&cy<=r.y+r.h)) continue;
+      await click({x:x*scale,y:y*scale+(960-1672*scale)/2,w:w*scale,h:h*scale});
+      assert.equal((await read()).message, null, `${label} hidden area must not respond`);
       assert.equal((await read()).mode, 'home');
       assert.equal((await read()).economy.coins, 0);
     }
@@ -176,7 +194,7 @@ try {
     await click(state.uiHitAreas.home.settings); assert.equal((await read()).settingsOpen, true);
     await page.keyboard.press("Escape"); assert.equal((await read()).settingsOpen, false);
     assert.equal(await page.evaluate(() => document.documentElement.scrollHeight > innerHeight || document.documentElement.scrollWidth > innerWidth), false);
-    reports.push({ entry, width, height, dpr, homeAssets: HOME_ART.layers.length, sharedCurrencyImageObjects: currencyFiles.length, sharedTitlePlates: 7, sharedBadges: 2, settings: "pass", progressionAndSave: "pass" });
+    reports.push({ entry, width, height, dpr, homeAssets: HOME_ART.layers.length, sharedCurrencyImageObjects: currencyFiles.length, visibleTitlePlates: 1, visibleBadges: 0, hiddenEntries: 6, settings: "pass", progressionAndSave: "pass" });
     await page.close();
   }
   assert.deepEqual(errors, []); assert.deepEqual(badRequests, []);

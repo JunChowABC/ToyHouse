@@ -4,6 +4,7 @@ import ART_MANIFEST from "./art-manifest.js";
 import { PAUSE_UI, TOOL_MODAL_UI, HOME_SETTINGS_UI, loadPauseArt, drawPauseDialog, drawToolDialog, drawHomeSettings, pauseArtStatus } from "./pause-dialog.js";
 import { COMPLETE_UI, loadCompleteArt, drawCompleteDialog, completeArtStatus, completionRewardLayout } from "./complete-dialog.js";
 import { HOME_UI, loadHomeArt, drawHomeScreen, homeArtStatus } from "./home-screen.js";
+import { loadLoadingArt, drawLoadingScreen, loadingArtStatus } from "./loading-screen.js";
 
 const canvas = document.querySelector("#game");
 const ctx = canvas.getContext("2d");
@@ -321,7 +322,20 @@ const systemAssets = {
   complete: { ready: false, promise: null },
 };
 let pendingLoad = null;
-const LOAD_UI = { retry: { x: 170, y: 520, w: 200, h: 52 }, cancel: { x: 170, y: 586, w: 200, h: 46 } };
+let bootAssetsReady = false;
+const LOAD_UI = { retry: { x: 170, y: 520, w: 200, h: 52 }, cancel: { x: 170, y: 900, w: 200, h: 40 } };
+function loadingProgress() {
+  if (pendingLoad) {
+    if (pendingLoad.complete) return 1;
+    const status = imageLoadStatus();
+    const total = status.total - pendingLoad.loadedAtStart;
+    return total > 0 ? Math.max(0, Math.min(.98, (status.loaded - pendingLoad.loadedAtStart) / total)) : 0;
+  }
+  if (bootAssetsReady) return 1;
+  const home = homeArtStatus();
+  const currencies = CURRENCY_LAYERS.filter(id => artImages.has(id)).length;
+  return Math.min(.98, (home.loaded + currencies) / (home.expected + CURRENCY_LAYERS.length));
+}
 async function loadCoreAssets(ids) {
   await Promise.all(ids.map(async id => {
     const asset = ART_MANIFEST.assets[id];
@@ -341,10 +355,17 @@ function ensureSystem(key) {
 }
 function requestSystems(keys, action) {
   if (keys.every(key => systemAssets[key].ready)) { action(); return; }
-  const request = pendingLoad = { keys, action, error: false };
+  const request = pendingLoad = { keys, action, error: false, complete: false, loadedAtStart: imageLoadStatus().loaded };
+  loadLoadingArt();
   Promise.all(keys.map(ensureSystem)).then(results => {
     if (pendingLoad !== request) return;
-    if (results.every(Boolean)) { pendingLoad = null; action(); }
+    if (results.every(Boolean)) {
+      request.complete = true;
+      setTimeout(() => {
+        if (pendingLoad !== request) return;
+        pendingLoad = null; action(); render();
+      }, 180);
+    }
     else request.error = true;
     render();
   });
@@ -363,6 +384,8 @@ function recoverHomeAssets() {
 }
 function loadArt() {
   artError = "";
+  bootAssetsReady = false;
+  loadLoadingArt();
   return new Promise(resolve => {
     let opened = false;
     const start = performance.now();
@@ -370,12 +393,16 @@ function loadArt() {
       if (opened) return;
       opened = true;
       clearInterval(progressCheck);
-      artReady = true;
+      bootAssetsReady = true;
       render();
-      resolve(true);
       setTimeout(() => {
-        window.__toyhouse_background_ready = Promise.all([ensureSystem("play"), ensureSystem("settings"), ensureSystem("complete")]);
-      }, 0);
+        artReady = true;
+        render();
+        resolve(true);
+        setTimeout(() => {
+          window.__toyhouse_background_ready = Promise.all([ensureSystem("play"), ensureSystem("settings"), ensureSystem("complete")]);
+        }, 0);
+      }, Math.max(180, 650 - (performance.now() - start)));
     };
     // A slow decoration or background must not indefinitely block the whole room.
     const progressCheck = setInterval(() => {
@@ -395,19 +422,14 @@ function loadArt() {
 }
 
 function drawPendingLoad() {
-  ctx.fillStyle = "rgba(70,40,65,.55)";
-  ctx.fillRect(0, 0, W, H);
-  fillRoundRect(90, 385, 360, 260, 24, "#fff1eb");
-  artText(pendingLoad.error ? "图片加载未完成" : "正在准备，请稍候…", 270, 440, 22);
-  const progress = imageLoadStatus();
-  artText(`图片 ${progress.loaded} / ${progress.total}`, 270, 482, 16);
+  drawLoadingScreen(ctx, { progress: loadingProgress(), error: pendingLoad.error });
   if (pendingLoad.error) paintControl("loading.retry", LOAD_UI.retry, () => {
     fillRoundRect(170, 520, 200, 52, 20, "#f5b8cd");
     artText("重试", 270, 546, 20);
   });
   paintControl("loading.cancel", LOAD_UI.cancel, () => {
-    fillRoundRect(170, 586, 200, 46, 20, "#eadcec");
-    artText("返回", 270, 609, 18);
+    fillRoundRect(LOAD_UI.cancel.x, LOAD_UI.cancel.y, LOAD_UI.cancel.w, LOAD_UI.cancel.h, 20, "#fff1eb");
+    artText("返回", 270, LOAD_UI.cancel.y + LOAD_UI.cancel.h / 2, 18);
   });
 }
 
@@ -1057,16 +1079,11 @@ function drawHeader(title, subtitle) {
   ctx.fillText(subtitle, W / 2, 88);
 }
 
-let homeNotice = null;
 function drawHome() {
   ctx.fillStyle = "#fbe6e7";
   ctx.fillRect(0, 0, W, H);
   drawHomeScreen(ctx, homeProgress(), paintControl);
-  drawCurrencyHud();
-  if (homeNotice && performance.now() < homeNotice.until) {
-    fillRoundRect(125, 587, 290, 36, 16, 'rgba(255,247,240,.96)');
-    artText(homeNotice.text, 270, 605, 15, '#914963');
-  }
+  drawCurrencyHud(false);
   if (!homeAssetsComplete()) {
     fillRoundRect(140, 3, 260, 27, 12, "rgba(255,247,240,.92)");
     artText("少量图片正在补载…", 270, 17, 13);
@@ -1244,7 +1261,7 @@ function drawToolButton(button) {
   const badge = artRect(`${button.id}_badge`);
   drawArt(`${button.id}_badge`);
   artText(profile.inventory[button.id], badge.x + badge.w / 2, badge.y + badge.h / 2, 14, "#fff", badge.w - 4);
-  drawArt(`${button.id}_label`);
+  sourceText(`txt_${button.id}`, button.label);
   ctx.restore();
   });
 }
@@ -1493,11 +1510,7 @@ function render() {
   ctx.imageSmoothingQuality = "high";
   ctx.clearRect(0, 0, W, H);
   if (!artReady) {
-    ctx.fillStyle = "#fae7e4";
-    ctx.fillRect(0, 0, W, H);
-    const progress = imageLoadStatus();
-    artText(artError || "正在布置玩具屋…", W / 2, H / 2 - 25, 21);
-    artText(`图片 ${progress.loaded} / ${progress.total}`, W / 2, H / 2 + 10, 16);
+    drawLoadingScreen(ctx, { progress: loadingProgress(), error: Boolean(artError) });
     if (artError) {
       fillRoundRect(170, 520, 200, 52, 20, "#f5b8cd");
       artText("点击重试", 270, 546, 20);
@@ -1623,11 +1636,6 @@ canvas.addEventListener("pointerup", (event) => {
     if (state.pauseOpen) handleHomeSettings(point);
     else if (pointInRect(point, HOME_UI.settings)) { requestSystems(["settings"], () => { state.pauseOpen = true; render(); }); }
     else if (pointInRect(point, HOME_UI.start)) startFromHome();
-    else {
-      const labels = { task: '任务', event: '活动', mail: '邮箱', signin: '七日签到', album: '图鉴', dress: '装扮' };
-      const key = Object.keys(labels).find(key => pointInRect(point, HOME_UI[key]));
-      if (key) { homeNotice = { text: `${labels[key]}功能敬请期待`, until: performance.now() + 2200 }; render(); }
-    }
     return;
   }
   if (state.mode === "level-complete") {
@@ -1714,12 +1722,12 @@ document.addEventListener("keydown", (event) => {
 
 function renderGameToText() {
   const economy = { coins: profile.coins, inventory: { ...profile.inventory }, price: TOOL_PRICE, perLevelLimit: TOOL_LIMIT };
-  const art = { loading: imageLoadStatus(), systems: Object.fromEntries(Object.entries(systemAssets).map(([key, value]) => [key, value.ready])), waiting: pendingLoad ? { systems: pendingLoad.keys, error: pendingLoad.error } : null, version: ART_MANIFEST.version, ready: artReady, loaded: artImages.size, expected: Object.keys(ART_MANIFEST.assets).length, error: artError || null, rabbitPose: "head-follows-direction", rug: { visible: false }, currencies: "coins", toolStock: "persistent-inventory" };
+  const art = { loading: imageLoadStatus(), loadingScreen: { ...loadingArtStatus(), visible: !artReady || Boolean(pendingLoad), progress: loadingProgress(), retry: LOAD_UI.retry, cancel: pendingLoad ? LOAD_UI.cancel : null }, systems: Object.fromEntries(Object.entries(systemAssets).map(([key, value]) => [key, value.ready])), waiting: pendingLoad ? { systems: pendingLoad.keys, error: pendingLoad.error } : null, version: ART_MANIFEST.version, ready: artReady, loaded: artImages.size, expected: Object.keys(ART_MANIFEST.assets).length, error: artError || null, rabbitPose: "head-follows-direction", rug: { visible: false }, currencies: "coins", toolStock: "persistent-inventory" };
   if (state.mode === "home") {
     const progress = homeProgress();
     return JSON.stringify({ mode: "home", art, homeArt: homeArtStatus(), economy, title: "晚安，玩具屋",
       action: progress.complete ? "今晚好梦；更多夜晚准备中" : "click 开始整理 or press Enter",
-      message: homeNotice && performance.now() < homeNotice.until ? homeNotice.text : null,
+      message: null,
       ...progress, settingsOpen: state.pauseOpen,
       settings: { musicEnabled: state.musicEnabled, audioEnabled: state.audioEnabled, vibrationEnabled: state.vibrationEnabled },
       uiHitAreas: { home: HOME_UI, settings: HOME_SETTINGS_UI },

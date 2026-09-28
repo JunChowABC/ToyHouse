@@ -5,6 +5,7 @@ import pause from '../src/pause-art-manifest.js';
 import complete from '../src/complete-art-manifest.js';
 import tool from '../src/tool-art-manifest.js';
 import home from '../src/home-runtime-manifest.js';
+import loading from '../src/loading-art-manifest.js';
 import aliases from '../src/image-aliases.js';
 import atlas from '../src/runtime-atlas-manifest.js';
 import { chromium } from './playwright_system_chrome.mjs';
@@ -29,4 +30,13 @@ try {
 } finally { await browser.close(); }
 tool.assets.title_remove={file:'title_remove.png',directory:'output/maker-ui-sync',bounds:title.delivery_bounds};
 tool.titles.remove='title_remove';
-await writeFile('output/maker-ui-sync/web-ui.json', JSON.stringify({ core, pause, complete, tool, home, aliases, atlas }));
+// Match enabled entries and compact placement in home-screen.js.
+const enabled=new Set(['start','settings']);
+const first=home.assets.ui_task_label.bounds, settings=home.assets.ui_settings_label.bounds;
+const dx=first[0]+first[2]/2-settings[0]-settings[2]/2, dy=first[1]-settings[1];
+const placed=(b,key)=>key==='settings'?[b[0]+dx,b[1]+dy,b[2],b[3]]:b;
+home.assets=Object.fromEntries(Object.entries(home.assets).filter(([,a])=>!a.control||enabled.has(a.control)).map(([id,a])=>[id,{...a,bounds:placed(a.bounds,a.control)}]));
+home.layers=home.layers.filter(id=>home.assets[id]);
+home.textLayers=home.textLayers.filter(s=>!s.control||enabled.has(s.control)).map(s=>({...s,delivery_bounds:placed(s.delivery_bounds,s.control)}));
+home.controls=Object.fromEntries(Object.entries(home.controls).filter(([key])=>enabled.has(key)).map(([key,b])=>[key,placed(b,key)]));
+await writeFile('output/maker-ui-sync/web-ui.json', JSON.stringify({ core, pause, complete, tool, home, loading, aliases, atlas }));

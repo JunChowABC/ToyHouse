@@ -19,7 +19,8 @@ try {
       p.drawImage = function(im,...args) { window.__uiDraws.push({file:im.src?.split('/').pop(),scale:this.getTransform().a}); return draw.call(this,im,...args); };
     });
     await page.goto('http://127.0.0.1:4173'+entry+'?qa', {waitUntil:'networkidle'});
-    await page.waitForFunction(() => Boolean(window.__toyhouse_background_ready));
+    // This test freezes RAF; boot completion now includes an asynchronous minimum display time.
+    await page.waitForFunction(() => Boolean(window.__toyhouse_background_ready), null, { polling: 100 });
     await page.evaluate(() => window.__toyhouse_background_ready);
     await page.evaluate(() => window.__toyhouse_debug.startLevel(0));
     const read = () => page.evaluate(() => JSON.parse(window.render_game_to_text()));
@@ -57,8 +58,8 @@ try {
     });
     s=await read(); assert.equal(s.combo,12);
     const files=(await trace()).map(d=>d.file);
-    for(const file of ['art_combo_label.png','digit_1.png','digit_2.png','combo_fill.png','level_star_1.png',
-      'remove_label.png','shuffle_label.png','flip_label.png']) assert.ok(files.includes(file),file);
+    for(const file of ['art_combo_label.png','digit_1.png','digit_2.png','combo_fill.png','level_star_1.png']) assert.ok(files.includes(file),file);
+    for(const name of ['remove','shuffle','flip']) assert.ok(!files.includes(`${name}_label.png`));
     assert.ok(!files.some(f=>f?.startsWith('board_')));
     await page.screenshot({path:`test-output/core-ui-v4/${width}-combo12.png`});
     await page.evaluate(()=>window.advanceTime(3900));

@@ -13,3 +13,10 @@
 - Maker：远程构建 38 秒成功，preview-refresh HTTP 200；日志 watcher 无失败。回传运行日志早于本次构建，不能作为新版手机运行验收。
 - 本地 Runtime 未安装、预览未运行；没有启动或安装本地 Runtime。浏览器连接工具因 Codex auth token unavailable 无法读取远程预览页面。
 - 尚未完成：新版手机实机视觉与触摸验收。
+
+## 2026-09-28 更新
+
+- Maker提交 `0d0de55`，已确认与远程main一致。同步首页精简/设置补位、隐藏货币加号、道具程序标签、背景3和分层Loading；支持按页面下载、真实进度、取消、失败重试及加载装饰失败兜底。
+- Web导出器仍负责资源与UiData；一次性迁移脚本 `scripts/patch-maker-loading.py`，可复用模块 `scripts/maker/Loading.lua`。
+- 28组UI/Loading绘制检查、异步加载回归、4500组动作对照通过；Lua LSP 0错误。
+- 远程构建工具300秒超时；代码推送已独立确认，构建与新版预览未确认成功，手机验收未完成。

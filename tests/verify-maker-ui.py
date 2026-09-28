@@ -50,16 +50,13 @@ draw('home',"g=G.new();g.profile.coins=1234")
 draw('home-settings',"g.pause=true")
 draw('home-settings-pressed',"V.pressed='settings.music'")
 draw('home-settings-toggled',"V.pressed=nil;g.profile.settings={musicEnabled=false,audioEnabled=false,vibrationEnabled=true}")
-main=(STAGE/'scripts/main.lua').read_text('utf-8-sig')
-action=main[main.index('local function action(id)'):main.index('local function pointerDown')]
-lua.execute('View=V;Save={mark=function() end};elapsed=0;navUntil=0;'+action.replace('local function action(id)','function action(id)',1))
-for key in ('task','event','mail','signin','album','dress'):
-    draw('home-'+key, "g=G.new();game=g;V.pressed='home."+key+"';action('home."+key+"')")
-    texts=[args[2] for op,args in calls if op=='nvgText']
-    assert any('功能敬请期待' in str(t) for t in texts),key
-lua.execute('V.updateNotice(2.3);V.pressed=nil')
-draw('home-notice-expired',"g=G.new()")
-assert not any('功能敬请期待' in str(args[2]) for op,args in calls if op=='nvgText')
+draw('home-compact',"g=G.new();V.pressed=nil")
+lua.execute("assert(#V.controls(g)==2);for _,c in ipairs(V.controls(g)) do assert(c.id=='home.start' or c.id=='home.settings');if c.id=='home.settings' then assert(c.bounds[2]<200,'settings must occupy first slot') end end")
+assert not any(str(args[2]) in ('任务','活动','邮箱','七日签到','图鉴','装扮','+') for op,args in calls if op=='nvgText')
+for fraction in (0,.6,1):
+    calls.clear();lua.execute(f'V.loading({fraction},false)');scenes[f'loading-{fraction}']=list(calls)
+calls.clear();lua.execute('V.images={};V.loading(.6,true)');scenes['loading-fallback']=list(calls)
+lua.execute('V.loadImages()')
 draw('home-all-complete',"g=G.new();for _,l in ipairs(require('Data').levels.levels) do g.profile.completedLevels[l.level_id]=true end")
 lua.execute("for _,c in ipairs(V.controls(g)) do assert(c.id~='home.start') end")
 draw('game-combo12',"g=G.new();g:start(1);g.combo=12;g.comboUntil=4000;g.profile.coins=1234;g.profile.inventory={remove=2,shuffle=3,flip=4}")

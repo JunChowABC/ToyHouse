@@ -21,6 +21,10 @@ const completeCode = (await readFile(new URL("../src/complete-dialog.js", import
   .replace('import COMPLETE_ART from "./complete-art-manifest.js";', completeArt.replace("export default", "const COMPLETE_ART ="))
   .replace(/^export /gm, "");
 const homeArt = await readFile(new URL("../src/home-runtime-manifest.js", import.meta.url), "utf8");
+const loadingArt = await readFile(new URL("../src/loading-art-manifest.js", import.meta.url), "utf8");
+const loadingCode = (await readFile(new URL("../src/loading-screen.js", import.meta.url), "utf8"))
+  .replace('import LOADING_ART from "./loading-art-manifest.js";', loadingArt.replace("export default", "const LOADING_ART ="))
+  .replace(/^export /gm, "");
 const homeCode = (await readFile(new URL("../src/home-screen.js", import.meta.url), "utf8"))
   .replace('import HOME_ART from "./home-runtime-manifest.js";', homeArt.replace("export default", "const HOME_ART ="))
   .replace(/^export /gm, "");
@@ -33,10 +37,13 @@ const bundled = source.replace('import { loadImage, imageLoadStatus } from "./im
   .replace('import ART_MANIFEST from "./art-manifest.js";', art.replace("export default", "const ART_MANIFEST ="))
   .replace('import { PAUSE_UI, TOOL_MODAL_UI, HOME_SETTINGS_UI, loadPauseArt, drawPauseDialog, drawToolDialog, drawHomeSettings, pauseArtStatus } from "./pause-dialog.js";', pauseCode)
   .replace('import { COMPLETE_UI, loadCompleteArt, drawCompleteDialog, completeArtStatus, completionRewardLayout } from "./complete-dialog.js";', completeCode)
-  .replace('import { HOME_UI, loadHomeArt, drawHomeScreen, homeArtStatus } from "./home-screen.js";', homeCode).replaceAll('import { loadImage } from "./image-loader.js";', '');
+  .replace('import { HOME_UI, loadHomeArt, drawHomeScreen, homeArtStatus } from "./home-screen.js";', homeCode)
+  .replace('import { loadLoadingArt, drawLoadingScreen, loadingArtStatus } from "./loading-screen.js";', loadingCode)
+  .replaceAll('import { loadImage } from "./image-loader.js";', '');
 const result = await minify(bundled, { module: true, compress: true, mangle: true });
 await writeFile(new URL("../docs/game.js", import.meta.url), result.code);
 await mkdir(new URL("../docs/assets/", import.meta.url), { recursive: true });
+await cp(new URL("../assets/loading-v1/", import.meta.url), new URL("../docs/assets/loading-v1/", import.meta.url), { recursive: true });
 await cp(new URL("../assets/core-ui-v4/", import.meta.url), new URL("../docs/assets/core-ui-v4/", import.meta.url), { recursive: true });
 await cp(new URL("../assets/runtime-ui/", import.meta.url), new URL("../docs/assets/runtime-ui/", import.meta.url), { recursive: true });
 await cp(new URL("../assets/toyhouse-ui-v3/", import.meta.url), new URL("../docs/assets/toyhouse-ui-v3/", import.meta.url), { recursive: true });

@@ -1,6 +1,9 @@
 import HOME_ART from "../src/home-runtime-manifest.js";
 import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
 import {chromium} from '../scripts/playwright_system_chrome.mjs';
+const atlasReport=JSON.parse(await readFile('assets/runtime-ui/report.json','utf8'));
+const homeRequestCount=atlasReport.staticHomeLayers.length+atlasReport.atlasPages.filter(p=>/\/home-/.test(p)).length;
 const browser=await chromium.launch({headless:true});
 try {
  for(const entry of ['/', '/docs/']) {
@@ -20,7 +23,7 @@ try {
  await failed.route('**/runtime-ui/home-*.webp*',async route=>{failures++;await route.abort();});
  await failed.goto('http://127.0.0.1:4173'+entry,{waitUntil:'networkidle'});
  assert.equal(await failed.evaluate(()=>window.__toyhouse_art_ready),false);
- assert.equal(failures,4*3);
+ assert.equal(failures,homeRequestCount*3);
  await failed.unroute('**/runtime-ui/home-*.webp*');
  await failed.mouse.click(270,546);
  await failed.waitForFunction(async()=>await window.__toyhouse_art_ready===true,null,{timeout:90000});
