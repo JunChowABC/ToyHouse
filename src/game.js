@@ -360,7 +360,7 @@ function drawCurrencyHud(showAcquisition = true) {
 function drawArtHud(spec) {
   HUD_LAYERS.forEach(id => drawArt(id));
   sourceText("txt_level", `第${String(spec.levelNo).padStart(2, "0")}关 / ${spec.title}`);
-  drawCurrencyHud();
+  drawCurrencyHud(false);
   drawPauseButton();
   if (state.combo <= 0) return;
   drawArt("combo_track");
