@@ -1,11 +1,13 @@
 import "./build-level-config.mjs";
 import { readFile, writeFile, cp, mkdir } from "node:fs/promises";
-import { pathToFileURL } from "node:url";
+import { pathToFileURL, fileURLToPath } from "node:url";
 import { createHash } from "node:crypto";
 
 // Optional CLI path lets the offline workstation reuse its cached Terser.
 const { minify } = await import(process.argv[2] ? pathToFileURL(process.argv[2]).href : "terser");
-const source = await readFile(new URL("../src/game.js", import.meta.url), "utf8");
+const rawSource = await readFile(new URL("../src/game.js", import.meta.url), "utf8");
+const source = rawSource.replace(/window\.__toyhouse_debug = \{[\s\S]*?\n\};/, '');
+if (source.includes('__toyhouse_debug')) throw new Error('Development interface removal failed');
 const motionCode = (await readFile(new URL("../src/ui-motion.js", import.meta.url), "utf8")).replace(/^export /gm, "");
 const config = await readFile(new URL("../src/level-config.js", import.meta.url), "utf8");
 const art = await readFile(new URL("../src/art-manifest.js", import.meta.url), "utf8");
@@ -34,6 +36,7 @@ const atlasCode = (await readFile(new URL("../src/runtime-atlas-manifest.js", im
 const loaderCode = (await readFile(new URL("../src/image-loader.js", import.meta.url), "utf8"))
   .replace('import IMAGE_ALIASES from "./image-aliases.js";', aliasesCode)
   .replace('import RUNTIME_ATLAS from "./runtime-atlas-manifest.js";', atlasCode).replace(/^export /gm, "");
+const viewportCode = (await readFile(new URL("../src/viewport.js", import.meta.url), "utf8")).replace(/^export /gm, "");
 const bundled = source.replace('import { loadImage, imageLoadStatus } from "./image-loader.js";', loaderCode).replace('import LEVEL_CONFIG from "./level-config.js";', config.replace("export default", "const LEVEL_CONFIG ="))
   .replace('import ART_MANIFEST from "./art-manifest.js";', art.replace("export default", "const ART_MANIFEST ="))
   .replace('import { PAUSE_UI, TOOL_MODAL_UI, HOME_SETTINGS_UI, loadPauseArt, drawPauseDialog, drawToolDialog, drawHomeSettings, pauseArtStatus } from "./pause-dialog.js";', pauseCode)
@@ -42,8 +45,9 @@ const bundled = source.replace('import { loadImage, imageLoadStatus } from "./im
   .replace('import { loadLoadingArt, drawLoadingScreen, loadingArtStatus } from "./loading-screen.js";', loadingCode)
   .replaceAll('import { loadImage } from "./image-loader.js";', '')
   .replace('import { dialogMotion, syncDialogMotion, closeDialogMotion, tickDialogMotion, dialogMotionBusy } from "./ui-motion.js";', motionCode)
-  .replaceAll('import { paintDialogBackdrop } from "./ui-motion.js";', '');
-const result = await minify(bundled, { module: true, compress: true, mangle: true });
+  .replaceAll('import { paintDialogBackdrop } from "./ui-motion.js";', '')
+  .replace(/^import \{[^}]*\} from "\.\/viewport\.js";\r?$/gm, '');
+const result = await minify(viewportCode + "\n" + bundled, { module: true, compress: true, mangle: true });
 await writeFile(new URL("../docs/game.js", import.meta.url), result.code);
 await mkdir(new URL("../docs/assets/", import.meta.url), { recursive: true });
 await cp(new URL("../assets/loading-v1/", import.meta.url), new URL("../docs/assets/loading-v1/", import.meta.url), { recursive: true });
@@ -63,3 +67,6 @@ const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
 const bundleVersion = createHash("sha256").update(result.code).digest("hex").slice(0, 12);
 await writeFile(new URL("../docs/index.html", import.meta.url), html.replace('src="src/game.js"', `src="game.js?v=${bundleVersion}"`));
 console.log("Updated docs/ with v1.3 levels, core UI v4 and supplied original art, styles and entry point");
+
+const { verifyRelease } = await import("./verify-release-no-gm.mjs");
+await verifyRelease(fileURLToPath(new URL("../docs/", import.meta.url)));

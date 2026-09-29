@@ -1,3 +1,4 @@
+import { fillViewport, drawRoomBackground } from "./viewport.js";
 import LOADING_ART from "./loading-art-manifest.js";
 import { loadImage } from "./image-loader.js";
 
@@ -19,7 +20,7 @@ const LOADING_OFFSET_Y = (960 - LOADING_ART.canvas[1] * LOADING_SCALE) / 2;
 export function loadLoadingArt() {
   if (loadingPromise) return inlineLoadingReady;
   loadingPromise = Promise.all(["background", "atlas"].map(async key => {
-    loadingImages.set(key, await loadImage(`${LOADING_ART.directory}/${LOADING_ART[key]}`));
+    loadingImages.set(key, await loadImage(key === "background" ? "assets/runtime-ui/tall-loading-v1.webp" : `${LOADING_ART.directory}/${LOADING_ART[key]}`));
     fullLoadingImages.add(key);
   })).catch(() => { loadingPromise = null; }); // Decorative loading art never blocks the room.
   return inlineLoadingReady;
@@ -32,13 +33,13 @@ export function loadingArtStatus() {
 export function drawLoadingScreen(ctx, { progress = 0, error = false } = {}) {
   const fraction = Math.max(0, Math.min(1, progress));
   ctx.fillStyle = "#fae7e4";
-  ctx.fillRect(0, 0, 540, 960);
+  fillViewport(ctx);
+  drawRoomBackground(ctx, loadingImages.get("background"));
   ctx.save();
   ctx.translate(0, LOADING_OFFSET_Y);
   ctx.scale(LOADING_SCALE, LOADING_SCALE);
   const atlas = loadingImages.get("atlas");
-  const bg = loadingImages.get("background");
-  if (bg) ctx.drawImage(bg, 0, 0, ...LOADING_ART.canvas);
+  // Background covers the viewport independently of the foreground artwork.
   const draw = (id, bounds = LOADING_ART.assets[id].bounds) => {
     if (atlas) ctx.drawImage(atlas, ...LOADING_ART.assets[id].rect, ...bounds);
   };

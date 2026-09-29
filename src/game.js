@@ -1,3 +1,4 @@
+import { viewport, resizeViewport, controlOffset, atOffset, fillViewport, drawRoomBackground } from "./viewport.js";
 import { loadImage, imageLoadStatus } from "./image-loader.js";
 import LEVEL_CONFIG from "./level-config.js";
 import ART_MANIFEST from "./art-manifest.js";
@@ -431,7 +432,7 @@ function loadingProgress() {
 async function loadCoreAssets(ids) {
   await Promise.all(ids.map(async id => {
     const asset = ART_MANIFEST.assets[id];
-    const image = await loadImage(`${asset.directory || ART_MANIFEST.directory}/${asset.file}`);
+    const image = await loadImage(id === "art_bedroom_bg_01" ? "assets/runtime-ui/tall-play-v1.webp" : `${asset.directory || ART_MANIFEST.directory}/${asset.file}`);
     artImages.set(id, image);
   }));
 }
@@ -1164,9 +1165,7 @@ function fillRoundRect(x, y, w, h, r, fill, stroke = null, lineWidth = 1) {
 }
 
 function drawBackground() {
-  const [width, height] = ART_MANIFEST.assets.art_bedroom_bg_01.size;
-  const scale = Math.max(W / width, H / height);
-  drawArt("art_bedroom_bg_01", { x: (W - width * scale) / 2, y: (H - height * scale) / 2, w: width * scale, h: height * scale });
+  drawRoomBackground(ctx, artImages.get("art_bedroom_bg_01"));
 }
 
 function drawHeader(title, subtitle) {
@@ -1181,9 +1180,9 @@ function drawHeader(title, subtitle) {
 
 function drawHome() {
   ctx.fillStyle = "#fbe6e7";
-  ctx.fillRect(0, 0, W, H);
+  fillViewport(ctx);
   drawHomeScreen(ctx, homeProgress(), paintControl);
-  drawCurrencyHud(false);
+  atOffset(ctx, viewport.top, () => drawCurrencyHud(false));
   if (!homeAssetsComplete()) {
     fillRoundRect(140, 3, 260, 27, 12, "rgba(255,247,240,.92)");
     artText("少量图片正在补载…", 270, 17, 13);
@@ -1342,9 +1341,9 @@ function drawGame() {
   });
   drawEffects();
 
-  drawArtHud(spec);
+  atOffset(ctx, viewport.top, () => drawArtHud(spec));
   if (state.toolMode) drawTargetSelection();
-  else { TOOL_BUTTONS.forEach(drawToolButton); drawDeadlockHint(); }
+  else { atOffset(ctx, viewport.bottom, () => TOOL_BUTTONS.forEach(drawToolButton)); drawDeadlockHint(); }
 }
 
 let targetArrowImage = null;
@@ -1375,7 +1374,7 @@ function drawDeadlockHint() {
   artText(hint.message, 270, 303, 22, "#B46A91", 418, 700, "#FFF9F4");
   if (hint.tool && deadlockHandImage) {
     const button = TOOL_BUTTONS.find(b => b.id === hint.tool);
-    const y = button.y - 66 + Math.sin(state.time / 230) * 5;
+    const y = button.y + viewport.bottom - 66 + Math.sin(state.time / 230) * 5;
     ctx.drawImage(deadlockHandImage, button.x + button.w / 2 - 34, y, 68, 68);
   }
   ctx.restore();
@@ -1387,14 +1386,14 @@ function targetSelectionPrompt() {
 function drawTargetSelection() {
   ctx.save();
   ctx.fillStyle = "rgba(43, 30, 65, .60)";
-  ctx.fillRect(0, 0, 540, 960);
+  fillViewport(ctx);
   state.toys.filter(toy => toy.state === "IDLE").forEach(toy => {
     const offset = toyMotionOffset(toy);
     drawToy(toy, offset.x, offset.y, toy.archetypeId === "AUTO_EXIT" && state.toolMode === "flip" ? .38 : 1);
   });
-  const y = 855 + Math.sin(state.time / 280) * 4;
+  const y = 855 + viewport.bottom + Math.sin(state.time / 280) * 4;
   if (targetArrowImage) ctx.drawImage(targetArrowImage, 242, y - 28, 56, 56);
-  artText(targetSelectionPrompt(), 270, 916, 25, "#FFF7EF", 480, 700, "#704F78");
+  artText(targetSelectionPrompt(), 270, 916 + viewport.bottom, 25, "#FFF7EF", 480, 700, "#704F78");
   ctx.restore();
 }
 
@@ -1627,7 +1626,7 @@ function drawFinale() {
   night.addColorStop(0, "rgba(92,91,144,.05)");
   night.addColorStop(1, "rgba(25,23,58,.72)");
   ctx.fillStyle = night;
-  ctx.fillRect(0, 0, W, H);
+  fillViewport(ctx);
   ctx.textAlign = "center";
   ctx.fillStyle = "#ffe9a9";
   ctx.beginPath(); ctx.arc(270, 190, 68, 0, Math.PI * 2); ctx.fill();
@@ -1656,15 +1655,17 @@ function lighten(hex, amount) {
 function render() {
   syncDialogMotion(!artReady || pendingLoad || levelTransition ? null : state.toolModal ? `tool.${state.toolModal}` : state.pauseOpen ? `${state.mode}.settings` : state.mode === "level-complete" ? "complete" : null);
   // Keep source-resolution detail on high-DPI devices without changing input coordinates.
+  resizeViewport(canvas);
   const ratio = Math.min(2, window.devicePixelRatio || 1);
-  if (canvas.width !== W * ratio || canvas.height !== H * ratio) {
+  const pixelHeight = Math.round(viewport.height * ratio);
+  if (canvas.width !== W * ratio || canvas.height !== pixelHeight) {
     canvas.width = W * ratio;
-    canvas.height = H * ratio;
+    canvas.height = pixelHeight;
   }
-  ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+  ctx.setTransform(ratio, 0, 0, ratio, 0, viewport.y * ratio);
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = "high";
-  ctx.clearRect(0, 0, W, H);
+  ctx.clearRect(0, -viewport.y, W, viewport.height);
   if (!artReady) {
     drawLoadingScreen(ctx, { progress: loadingProgress(), error: Boolean(artError) });
     if (artError) {
@@ -1687,7 +1688,7 @@ function render() {
 
 function canvasPoint(event) {
   const rect = canvas.getBoundingClientRect();
-  return { x: ((event.clientX - rect.left) / rect.width) * W, y: ((event.clientY - rect.top) / rect.height) * H };
+  return { x: ((event.clientX - rect.left) / rect.width) * W, y: ((event.clientY - rect.top) / rect.height) * viewport.height - viewport.y };
 }
 
 function pointInRect(point, rect) {
@@ -1712,15 +1713,17 @@ function paintControl(id, rect, paint) {
   ctx.save();
   const matrix = ctx.getTransform();
   const ratio = canvas.width / W;
-  ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-  ctx.translate(rect.x + rect.w / 2, rect.y + rect.h / 2);
-  ctx.scale(scale, scale);
-  ctx.translate(-rect.x - rect.w / 2, -rect.y - rect.h / 2);
-  ctx.transform(matrix.a / ratio, matrix.b / ratio, matrix.c / ratio, matrix.d / ratio, matrix.e / ratio, matrix.f / ratio);
+  const cx = (rect.x + rect.w / 2) * ratio;
+  const cy = (rect.y + rect.h / 2 + controlOffset(id) + viewport.y) * ratio;
+  ctx.setTransform(matrix.a * scale, matrix.b * scale, matrix.c * scale, matrix.d * scale,
+    cx + (matrix.e - cx) * scale, cy + (matrix.f - cy) * scale);
   paint();
   ctx.restore();
 }
 function activeControls() {
+  return baseActiveControls().map(b => ({ ...b, y: b.y + controlOffset(b.id) }));
+}
+function baseActiveControls() {
   if (state.toolMode) return [];
   if (dialogMotionBusy() || levelTransition) return [];
   if (!artReady || performance.now() < state.navigationUntil) return [];
@@ -1780,6 +1783,7 @@ canvas.addEventListener("pointerup", (event) => {
   }
   if (performance.now() < state.navigationUntil) return;
   const point = canvasPoint(event);
+  if (released) point.y -= controlOffset(released.id);
   if (pendingLoad) {
     if (pendingLoad.error && pointInRect(point, LOAD_UI.retry)) requestSystems(pendingLoad.keys, pendingLoad.action);
     else if (pointInRect(point, LOAD_UI.cancel)) {
@@ -1799,8 +1803,8 @@ canvas.addEventListener("pointerup", (event) => {
   }
   if (state.mode === "home") {
     if (state.pauseOpen) handleHomeSettings(point);
-    else if (pointInRect(point, HOME_UI.settings)) { requestSystems(["settings"], () => { state.pauseOpen = true; render(); }); }
-    else if (pointInRect(point, HOME_UI.start)) startFromHome();
+    else if (released?.id === "home.settings") { requestSystems(["settings"], () => { state.pauseOpen = true; render(); }); }
+    else if (released?.id === "home.start") startFromHome();
     return;
   }
   if (state.mode === "level-complete") {
@@ -1820,11 +1824,11 @@ canvas.addEventListener("pointerup", (event) => {
     handlePausePointer(point);
     return;
   }
-  if (!state.toolMode && pointInRect(point, PAUSE_BUTTON)) {
+  if (!state.toolMode && released?.id === "play.pause") {
     openPause();
     return;
   }
-  const toolButton = TOOL_BUTTONS.find((button) => pointInRect(point, button));
+  const toolButton = TOOL_BUTTONS.find((button) => released?.id === `play.${button.id}`);
   if (toolButton && !state.toolMode) {
     openToolModal(toolButton.id);
     return;
@@ -1867,13 +1871,13 @@ function drawLevelTransition() {
   ctx.fillStyle = '#f8e9ef';
   if (reduced) {
     ctx.globalAlpha = cover * (1 - reveal);
-    ctx.fillRect(0, 0, W, H);
+    fillViewport(ctx);
   } else {
     ctx.beginPath();
-    if (elapsed < 400) ctx.arc(W / 2, H / 2, 560 * smooth(cover), 0, Math.PI * 2);
+    if (elapsed < 400) ctx.arc(W / 2, H / 2, Math.hypot(W / 2, Math.max(480 + viewport.y, viewport.height - viewport.y - 480)) * smooth(cover), 0, Math.PI * 2);
     else {
-      ctx.rect(0, 0, W, H);
-      ctx.arc(W / 2, H / 2, 560 * smooth(reveal), 0, Math.PI * 2);
+      ctx.rect(0, -viewport.y, W, viewport.height);
+      ctx.arc(W / 2, H / 2, Math.hypot(W / 2, Math.max(480 + viewport.y, viewport.height - viewport.y - 480)) * smooth(reveal), 0, Math.PI * 2);
     }
     ctx.fill('evenodd');
   }
@@ -1923,7 +1927,7 @@ document.addEventListener("keydown", (event) => {
 
 function renderGameToText() {
   const economy = { coins: profile.coins, inventory: { ...profile.inventory }, price: TOOL_PRICE, perLevelLimit: TOOL_LIMIT };
-  const art = { loading: imageLoadStatus(), loadingScreen: { ...loadingArtStatus(), visible: !artReady || Boolean(pendingLoad), progress: loadingProgress(), retry: LOAD_UI.retry, cancel: pendingLoad ? LOAD_UI.cancel : null }, systems: Object.fromEntries(Object.entries(systemAssets).map(([key, value]) => [key, value.ready])), waiting: pendingLoad ? { systems: pendingLoad.keys, error: pendingLoad.error } : null, version: ART_MANIFEST.version, ready: artReady, loaded: artImages.size, expected: Object.keys(ART_MANIFEST.assets).length, error: artError || null, rabbitPose: "head-follows-direction", rug: { visible: false }, currencies: "coins", toolStock: "persistent-inventory" };
+  const art = { viewport: { ...viewport, controls: activeControls() }, loading: imageLoadStatus(), loadingScreen: { ...loadingArtStatus(), visible: !artReady || Boolean(pendingLoad), progress: loadingProgress(), retry: LOAD_UI.retry, cancel: pendingLoad ? LOAD_UI.cancel : null }, systems: Object.fromEntries(Object.entries(systemAssets).map(([key, value]) => [key, value.ready])), waiting: pendingLoad ? { systems: pendingLoad.keys, error: pendingLoad.error } : null, version: ART_MANIFEST.version, ready: artReady, loaded: artImages.size, expected: Object.keys(ART_MANIFEST.assets).length, error: artError || null, rabbitPose: "head-follows-direction", rug: { visible: false }, currencies: "coins", toolStock: "persistent-inventory" };
   if (state.mode === "home") {
     const progress = homeProgress();
     return JSON.stringify({ mode: "home", art, homeArt: homeArtStatus(), economy, title: "晚安，玩具屋",
@@ -1932,7 +1936,7 @@ function renderGameToText() {
       ...progress, settingsOpen: state.pauseOpen,
       settings: { musicEnabled: state.musicEnabled, audioEnabled: state.audioEnabled, vibrationEnabled: state.vibrationEnabled },
       uiHitAreas: { home: HOME_UI, settings: HOME_SETTINGS_UI },
-      currencyAssets: CURRENCY_LAYERS, coordinateSystem: "540x960 canvas; origin top-left; x right, y down" });
+      currencyAssets: CURRENCY_LAYERS, coordinateSystem: "540-wide design coordinates; screen y = design y + art.viewport.y; x right, y down" });
   }
   if (state.mode === "finale") {
     return JSON.stringify({ mode: "night-complete", chapter: LEVEL_SPECS[state.levelIndex].chapterId, completedLevels: LEVEL_SPECS.length, action: "click 回到玩具屋" });

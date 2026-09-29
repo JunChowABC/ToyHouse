@@ -6,3 +6,5 @@ outputs/
 .imagegen-deps/
 __pycache__/
 _site/
+
+.local-gm/

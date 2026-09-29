@@ -1,4 +1,6 @@
 :root {
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
   color-scheme: light;
   font-family: "Microsoft YaHei UI", "PingFang SC", system-ui, sans-serif;
   background: #48333f;
@@ -26,8 +28,8 @@ body {
 
 .game-shell {
   position: relative;
-  width: min(100vw, calc(100vh * 0.5625));
-  height: min(100vh, calc(100vw * 1.7777778));
+  width: min(100vw, calc(100dvh * 0.5625));
+  height: 100dvh;
   filter: drop-shadow(0 22px 45px rgb(10 8 32 / 45%));
 }
 
