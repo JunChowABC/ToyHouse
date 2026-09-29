@@ -28,7 +28,7 @@ def record(name,*args):
     if name=='nvgRGBA':return list(args)
     if name=='nvgImagePattern':return {'image':args[6],'bounds':args[1:5],'alpha':args[7]}
     calls.append([name,args[1:]])
-for name in ('CreateImage','TextBounds','RGBA','ImagePattern','BeginPath','Rect','RoundedRect','FillColor','FillPaint','Fill','Save','Restore','Translate','Scale','Rotate','FontFace','FontSize','TextAlign','Text','Ellipse','Circle','IntersectScissor','GlobalAlpha','StrokeColor','StrokeWidth','Stroke'):
+for name in ('CreateImage','TextBounds','RGBA','ImagePattern','BeginPath','MoveTo','LineTo','ClosePath','Rect','RoundedRect','FillColor','FillPaint','Fill','Save','Restore','Translate','Scale','Rotate','FontFace','FontSize','TextAlign','Text','Ellipse','Circle','IntersectScissor','GlobalAlpha','StrokeColor','StrokeWidth','Stroke'):
     lua.globals()['nvg'+name]=lambda *args,n='nvg'+name:record(n,*args)
 lua.execute('NVG_ALIGN_CENTER=1;NVG_ALIGN_MIDDLE=2; V=require("View");G=require("Game");N=require("UiData"); V.init(1);V.loadImages();g=G.new()')
 scenes={};checks=[]
@@ -73,6 +73,15 @@ if len(sys.argv)>1:
     draw('ad-pending',"g=G.new();g:start(1);g.modal='remove';g.adPending=true;g.adMessage='广告加载中，请稍候…'")
     lua.execute('assert(#V.controls(g)==0)')
     draw('ad-reward',"g.adPending=false;g.profile.inventory.remove=1;g.adMessage='已获得 1 个道具'")
+draw('select-flip',"g=G.new();g:start(1);g.tool='flip';g.profile.inventory.flip=1")
+lua.execute('assert(#V.controls(g)==0)')
+draw('select-remove-first',"g.tool='remove';g.selected={};g.profile.inventory.remove=1")
+lua.execute('assert(#V.controls(g)==0)')
+draw('select-remove-second',"g.selected={g.toys[1].id}")
+lua.execute('assert(#V.controls(g)==0)')
+if hasattr(lua.globals().G,'updateDeadlock') and lua.globals().G.updateDeadlock:
+    draw('deadlock-hint',"g=G.new();g:start(1);g.toys={{id='a',archetypeId='ORDINARY',state='IDLE',direction='RIGHT',x=4,y=5,length=2,cells={{x=4,y=5},{x=5,y=5}}},{id='b',archetypeId='ORDINARY',state='IDLE',direction='LEFT',x=6,y=5,length=2,cells={{x=6,y=5},{x=7,y=5}}}};for _,t in ipairs(g.toys) do t.blockedAt=-9999;t.impactDx=0;t.impactDy=0;t.numericId=1 end;g:update(.1);g:update(.7)")
+    lua.execute("assert(g:deadlockHint().tool=='shuffle');g.uses.shuffle=3;assert(g:deadlockHint().tool=='remove');g.uses.remove=3;g.uses.flip=3;assert(g:deadlockHint().tool==nil);g.modal='flip';assert(g:deadlockHint()==nil);g.modal=nil;g.tool='flip';assert(g:deadlockHint()==nil);g.tool=nil;g.toys[1].direction='LEFT';g:update(.4);assert(g:deadlockHint()==nil)")
 draw('complete',"g=G.new();g:start(1);g.mode='level-complete'")
 draw('complete-next-pressed',"V.pressed='complete.next'")
 draw('last-complete',"V.pressed=nil;g.levelIndex=20")

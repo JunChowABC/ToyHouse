@@ -1,0 +1,7 @@
+Use case: stylized-concept
+Asset type: one isolated tutorial pointing hand sprite for a cozy pastel toy-room mobile game.
+Input image: style reference only, match its rounded candy UI, soft highlights and pastel outlines.
+Primary request: a simple friendly cartoon glove hand pointing straight DOWN. Index finger extended downward, fingertip clearly at bottom center; other three fingers curled into palm; thumb to the right; short pale pink cuff at the top. Correct readable cartoon hand anatomy. No arrow.
+Style: soft puffy hand-painted casual game UI, creamy ivory glove, thick muted mauve outline, subtle blush pink shading, small cream highlight. Readable at 60 pixels. Front view, no dramatic perspective.
+Composition: single centered hand occupying 70 percent of square; no surrounding circle, button, text or ornaments. Clean transparent background if available, otherwise flat pure white for cutout. No cast background shadow.
+Avoid: photorealistic skin, extra fingers, multiple hands, sparkles, stars, lettering, watermarks, checkered background, neon colors, harsh black contour.

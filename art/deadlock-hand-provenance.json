@@ -1,0 +1,10 @@
+{
+  "model": "gpt-image-2",
+  "quality": "high",
+  "method": "official Imagegen CLI edit, style reference only",
+  "source": "output\\imagegen\\deadlock-hand-v1.png",
+  "sha256": "f0daef3cfbc66070cceb199d8431a72331a172ccd1a696c16574bcf75bdee7f9",
+  "prompt": "art/deadlock-hand-prompt.txt",
+  "reference": "assets/tool-dialog-v1/ui_target_arrow_v1.png",
+  "processing": "Original alpha preserved, cropped and proportionally resized to 256px"
+}

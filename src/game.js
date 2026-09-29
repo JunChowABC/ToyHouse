@@ -163,6 +163,7 @@ function toolUnavailable(id) {
 }
 
 function openToolModal(id) {
+  if (state.toolMode) return;
   if (!TOOL_IDS.includes(id) || state.mode !== "play" || state.pauseOpen || state.levelCompleteAt || state.moving.length || state.exiting.length) return;
   cancelToolMode();
   state.toolModal = id;
@@ -439,7 +440,7 @@ function ensureSystem(key) {
   if (group.ready) return Promise.resolve(true);
   if (group.promise) return group.promise;
   const load = key === "play" ? () => loadCoreAssets(Object.keys(ART_MANIFEST.assets).filter(id => !CURRENCY_LAYERS.includes(id)))
-    : key === "settings" ? loadPauseArt : loadCompleteArt;
+    : key === "settings" ? () => Promise.all([loadPauseArt(), loadImage('assets/runtime-ui/ui_target_arrow_v1.webp').then(image => { targetArrowImage = image; }), loadImage('assets/runtime-ui/ui_deadlock_hand_v1.webp').then(image => { deadlockHandImage = image; }), loadImage('assets/runtime-ui/ui_deadlock_banner_v4.webp').then(image => { deadlockBannerImage = image; })]) : loadCompleteArt;
   group.promise = load().then(() => { group.ready = true; return true; })
     .catch(() => false).finally(() => { group.promise = null; });
   return group.promise;
@@ -734,6 +735,7 @@ function settleCompletionReward() {
 }
 
 function startLevel(index = state.levelIndex) {
+  deadlockState = { signature: null, since: 0, blocked: false, nextCheck: 0 };
   const level = buildLevel(index);
   beginLevelRun(index);
   state.mode = "play";
@@ -765,6 +767,7 @@ function startLevel(index = state.levelIndex) {
 }
 
 function restartLevel() {
+  deadlockState = { signature: null, since: 0, blocked: false, nextCheck: 0 };
   state.toolModal = null;
   beginLevelRun(state.levelIndex);
   const level = buildLevel(state.levelIndex);
@@ -1102,6 +1105,7 @@ function update(dt) {
     effect.vy += 28 * dt;
   });
   state.effects = state.effects.filter((effect) => effect.life > 0);
+  updateDeadlock();
   if (state.combo > 0 && state.time >= state.comboExpiresAt) {
     state.combo = 0;
     state.comboExpiresAt = 0;
@@ -1238,6 +1242,7 @@ function drawToolModal() {
 }
 
 function openPause() {
+  if (state.toolMode) return;
   if (state.toolModal) return;
   if (state.mode !== "play" || state.levelCompleteAt) return;
   cancelToolMode();
@@ -1338,7 +1343,59 @@ function drawGame() {
   drawEffects();
 
   drawArtHud(spec);
-  TOOL_BUTTONS.forEach(drawToolButton);
+  if (state.toolMode) drawTargetSelection();
+  else { TOOL_BUTTONS.forEach(drawToolButton); drawDeadlockHint(); }
+}
+
+let targetArrowImage = null;
+let deadlockHandImage = null;
+let deadlockBannerImage = null;
+let deadlockState = { signature: null, since: 0, blocked: false, nextCheck: 0 };
+function updateDeadlock() {
+  if (state.mode !== "play" || state.toolMode || state.moving.length || state.exiting.length || state.levelCompleteAt) {
+    deadlockState = { signature: null, since: state.time, blocked: false, nextCheck: 0 }; return;
+  }
+  if (state.time < deadlockState.nextCheck) return;
+  deadlockState.nextCheck = state.time + 300;
+  const signature = JSON.stringify([state.levelIndex, state.toys.map(t => [t.id,t.state,t.direction,t.cells])]);
+  if (signature === deadlockState.signature) return;
+  let blocked = state.toys.some(t => t.state === "IDLE");
+  if (blocked) blocked = !state.toys.some(t => t.state === "IDLE" && canMove(t));
+  deadlockState = { signature, blocked, since: state.time, nextCheck: state.time + 300 };
+}
+function deadlockHint() {
+  if (!deadlockState.blocked || state.time - deadlockState.since < 600 || state.mode !== "play" || state.pauseOpen || state.toolModal || state.toolMode || state.levelCompleteAt || pendingLoad || state.moving.length || state.exiting.length) return null;
+  const tool = ["shuffle", "remove", "flip"].find(id => { const reason = toolUnavailable(id); return !reason || reason === "金币不足"; });
+  return { tool: tool || null, message: tool ? "玩具都被堵住啦，试试道具吧" : "道具次数已用完，试试重新开始吧" };
+}
+function drawDeadlockHint() {
+  const hint = deadlockHint(); if (!hint) return;
+  ctx.save();
+  if (deadlockBannerImage) ctx.drawImage(deadlockBannerImage, 49, 270, 442, 52);
+  artText(hint.message, 270, 303, 22, "#B46A91", 418, 700, "#FFF9F4");
+  if (hint.tool && deadlockHandImage) {
+    const button = TOOL_BUTTONS.find(b => b.id === hint.tool);
+    const y = button.y - 66 + Math.sin(state.time / 230) * 5;
+    ctx.drawImage(deadlockHandImage, button.x + button.w / 2 - 34, y, 68, 68);
+  }
+  ctx.restore();
+}
+function targetSelectionPrompt() {
+  return state.toolMode === "flip" ? "请选择1个玩具翻转朝向"
+    : `请选择第${state.toolSelection.length + 1}个玩具移除`;
+}
+function drawTargetSelection() {
+  ctx.save();
+  ctx.fillStyle = "rgba(43, 30, 65, .60)";
+  ctx.fillRect(0, 0, 540, 960);
+  state.toys.filter(toy => toy.state === "IDLE").forEach(toy => {
+    const offset = toyMotionOffset(toy);
+    drawToy(toy, offset.x, offset.y, toy.archetypeId === "AUTO_EXIT" && state.toolMode === "flip" ? .38 : 1);
+  });
+  const y = 855 + Math.sin(state.time / 280) * 4;
+  if (targetArrowImage) ctx.drawImage(targetArrowImage, 242, y - 28, 56, 56);
+  artText(targetSelectionPrompt(), 270, 916, 25, "#FFF7EF", 480, 700, "#704F78");
+  ctx.restore();
 }
 
 function drawToolButton(button) {
@@ -1664,6 +1721,7 @@ function paintControl(id, rect, paint) {
   ctx.restore();
 }
 function activeControls() {
+  if (state.toolMode) return [];
   if (dialogMotionBusy() || levelTransition) return [];
   if (!artReady || performance.now() < state.navigationUntil) return [];
   if (pendingLoad) return [{ id: "loading.cancel", ...LOAD_UI.cancel }, ...(pendingLoad.error ? [{ id: "loading.retry", ...LOAD_UI.retry }] : [])];
@@ -1762,12 +1820,12 @@ canvas.addEventListener("pointerup", (event) => {
     handlePausePointer(point);
     return;
   }
-  if (pointInRect(point, PAUSE_BUTTON)) {
+  if (!state.toolMode && pointInRect(point, PAUSE_BUTTON)) {
     openPause();
     return;
   }
   const toolButton = TOOL_BUTTONS.find((button) => pointInRect(point, button));
-  if (toolButton) {
+  if (toolButton && !state.toolMode) {
     openToolModal(toolButton.id);
     return;
   }
@@ -1847,6 +1905,7 @@ document.addEventListener("keydown", (event) => {
     render();
     return;
   }
+  if (state.toolMode && key !== "f") { event.preventDefault(); return; }
   if (key === "f") {
     if (document.fullscreenElement) document.exitFullscreen();
     else canvas.requestFullscreen?.();
@@ -1918,6 +1977,8 @@ function renderGameToText() {
     movableToyIds: movable.map((toy) => toy.id),
     hintedToyId: state.hintedId,
     toolMode: state.toolMode,
+    deadlockHint: deadlockHint(),
+    targetSelection: state.toolMode ? { prompt: targetSelectionPrompt(), locked: true, toolsVisible: false } : null,
     toolSelection: [...state.toolSelection],
     toolUses: { ...state.toolUses },
     lastToolAction: state.lastToolAction,

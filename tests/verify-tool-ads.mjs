@@ -52,8 +52,15 @@ try {
       assert.equal(state.economy.coins, before.coins);
       assert.equal(state.toolUses[id], id==='shuffle'?1:0);
       if(id==='shuffle') assert.equal(state.toys.filter(t=>beforeState.toys.find(b=>b.id===t.id)?.direction!==t.direction).length,5);
-      else { assert.equal(state.toolMode,id); await page.keyboard.press('Escape'); }
+      else {
+        assert.equal(state.toolMode,id); await page.keyboard.press('Escape');
+        assert.equal((await read()).toolMode,id);
+        const targets=state.toys.filter(t=>id==='remove'||t.archetype!=='AUTO_EXIT').slice(0,id==='remove'?2:1);
+        for(const toy of targets) { const c=toy.cells[0],b=state.board;await click({x:b.x+c.x*b.cell,y:b.y+c.y*b.cell,w:b.cell,h:b.cell}); }
+        state=await read();assert.equal(state.toolMode,null);
+      }
       await page.screenshot({path:`${out}/${width}-${id}-reward.png`});
+      await page.evaluate(() => window.advanceTime(600));
       await open(id);
       await ad();
       await page.evaluate(receiptId => window.__finishAd({status:'completed',receiptId}), `test-${id}`);
@@ -88,7 +95,7 @@ try {
     await page.reload({waitUntil:'networkidle'});
     await page.waitForFunction(() => Boolean(window.__toyhouse_background_ready));
     await page.evaluate(() => window.__toyhouse_background_ready);
-    assert.deepEqual((await read()).economy.inventory,{remove:1,shuffle:0,flip:1});
+    assert.deepEqual((await read()).economy.inventory,{remove:0,shuffle:0,flip:0});
     await page.keyboard.press('Enter'); await page.evaluate(() => window.advanceTime(1500));
     await open('remove');
     await page.waitForFunction(()=>!JSON.parse(window.render_game_to_text()).uiMotion.busy);

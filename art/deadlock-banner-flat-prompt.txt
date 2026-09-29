@@ -1,0 +1,4 @@
+Use case: stylized-concept
+Asset type: one blank horizontal notification background for a pastel toy-room game.
+Primary request: an extremely lightweight FLAT rounded rectangle, about 8.5:1 width to height, uniform very pale blush-white fill. Subtle small rounded corners, not inflated capsule ends. No border, no outline, no bevel, no highlight, no gloss, no shadow, no gradient, no texture, no ornamental details. Quiet minimalist two-dimensional overlay panel. Semi-transparent appearance; export transparency outside and translucent fill if supported. Runtime will apply final opacity.
+Composition: one centered wide thin blank panel with generous transparent margins above and below. No text, letters, objects, icons, sparkles, hands, UI screenshot or checkerboard. The game's scene must remain visible through the final panel.

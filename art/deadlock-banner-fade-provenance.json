@@ -1,0 +1,6 @@
+{
+  "source": "assets\\tool-dialog-v1\\ui_deadlock_banner_v2.png",
+  "source_sha256": "4b502e3aa5fc1a64ba8bec27fb7445646ad995ac64b61c2e7d43fe8e1d6807d1",
+  "asset": "assets\\tool-dialog-v1\\ui_deadlock_banner_v4.png",
+  "processing": "Existing Imagegen artwork: center opacity 82%, 16% width fade at each end, 8px vertical feather, subtle blush tint for contrast on cream background."
+}

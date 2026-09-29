@@ -133,7 +133,19 @@ HandleUpdate(nil,{GetFloat=function() return .1 end});assert(activeGame.modal=='
 HandleFocus(nil,{GetBool=function() return true end})
 for i=1,4 do HandleUpdate(nil,{GetFloat=function() return .1 end}) end
 assert(not activeGame.adPending and activeGame.modal==nil and activeGame.tool=='remove')
-activeGame:cancelTool();key(KEY_2);HandleRender()
+local targets={};for _,t in ipairs(activeGame.toys) do if t.state=='IDLE' then targets[#targets+1]=t end end
+local function choose(t)
+    mx=60+(t.cells[1].x+.5)*35;my=199+(t.cells[1].y+.5)*35
+    local e={GetInt=function() return MOUSEB_LEFT end};HandleMouseDown(nil,e);HandleMouseUp(nil,e)
+end
+choose(targets[1]);assert(#activeGame.selected==1)
+for _,k in ipairs({KEY_ESCAPE,KEY_P,KEY_1,KEY_2,KEY_3}) do key(k) end
+HandleFocus(nil,{GetBool=function() return false end});HandleFocus(nil,{GetBool=function() return true end})
+assert(activeGame.tool=='remove' and #activeGame.selected==1 and not activeGame.pause and activeGame.modal==nil)
+assert(#require('View').controls(activeGame)==0)
+choose(targets[2]);assert(activeGame.tool==nil and activeGame.uses.remove==1 and activeGame.profile.inventory.remove==0)
+for i=1,8 do HandleUpdate(nil,{GetFloat=function() return .1 end}) end
+key(KEY_2);HandleRender()
 for i=1,4 do HandleUpdate(nil,{GetFloat=function() return .1 end}) end
 local dirs={};for _,t in ipairs(activeGame.toys) do dirs[t.id]=t.direction end
 clickAd();sdkCallback({success=true})
@@ -143,7 +155,7 @@ assert(changed==5 and activeGame.uses.shuffle==1 and activeGame.profile.inventor
 sdkCallback({success=true});assert(activeGame.uses.shuffle==1)
 key(KEY_1);HandleRender()
 for i=1,4 do HandleUpdate(nil,{GetFloat=function() return .1 end}) end
-clickAd();Stop();sdkCallback({success=true});assert(activeGame.profile.inventory.remove==1)
+clickAd();Stop();sdkCallback({success=true});assert(activeGame.profile.inventory.remove==0)
 print('PASS: main.lua click -> SDK -> reward; focus loss, Escape, tool hotkeys locked during ad; Stop ignores late callback')
 local M=require('UiMotion');local changes=0;M.sync(nil)
 M.sync('tool.remove');assert(M.busy());M.update(.3);assert(not M.busy())

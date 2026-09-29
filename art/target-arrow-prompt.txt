@@ -1,0 +1,8 @@
+Use case: stylized-concept
+Asset type: one small upward guidance arrow sprite for a pastel cozy toy-room mobile game.
+Input image: reference for material, rounded silhouette, outline softness and palette ONLY; do not reproduce the button shape.
+Primary request: create a single upward-pointing arrowhead, broad and compact, softly rounded triangular tip and two rounded lower wings with a shallow central notch. No long shaft. A clear simple silhouette readable at 56 pixels.
+Style: polished hand-painted casual game UI, soft puffy candy enamel, subtle dimensional bevel, creamy pale yellow face, peach-pink bevel, thick muted mauve-purple outer contour, a small creamy white upper-left highlight. Match the cute pastel reference, not saturated orange or neon yellow.
+Composition: front view, straight up, perfectly centered, one isolated icon occupying about 70 percent of the square. No surrounding button or circular disk.
+Backdrop: flat pure white outside the icon for clean cutout. No cast shadow on the backdrop.
+Constraints: no text, stars, sparkles, ribbons, faces, extra ornaments, duplicate icons, UI screenshot, checkered background, or watermark. Preserve a clean closed contour.
