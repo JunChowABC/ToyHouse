@@ -23,6 +23,7 @@ try {
       const fixture = structuredClone(CONFIG), last = fixture.levels.at(-1);
       last.toy_list = [{ toy_id: 'finale-ui-rabbit', archetype_id: 'ORDINARY', skin_id: 'rabbit', footprint: [2, 1], grid_position: [0, 5], direction: 'L' }];
       last.board_entities = [];
+      last.solution = ['finale-ui-rabbit'];
       return route.fulfill({ contentType: 'text/javascript', body: `export default ${JSON.stringify(fixture)};` });
     });
     await page.route('**/tall-home-v1.webp', async route => {

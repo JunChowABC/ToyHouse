@@ -5,6 +5,7 @@ import { chromium } from '../scripts/playwright_system_chrome.mjs';
 const browser = await chromium.launch({ headless: true }), errors = [];
 const out = 'test-output/mechanics-v14'; await mkdir(out, { recursive: true });
 const legacyExtra = JSON.parse(await readFile(new URL('../config/extra-mechanic-levels-v1.5.json', import.meta.url), 'utf8'));
+const legacyLevels = JSON.parse(await readFile(new URL('../config/mechanic-levels-v1.4.json', import.meta.url), 'utf8'));
 try {
   for (const entry of ['/editor/', '/docs/editor/']) {
     const page = await browser.newPage({ viewport: { width: 1340, height: 1080 } });
@@ -44,7 +45,9 @@ try {
     await page.click('#next'); assert((await page.locator('#events').textContent()).includes('DAMAGE'));
     await page.click('#undo'); await page.click('#reset');
     const downloadPromise = page.waitForEvent('download'); await page.click('#export'); const download = await downloadPromise; assert.equal(download.suggestedFilename(), 'L021-v1.4.json');
-    await page.selectOption('#level', '21'); await page.click('details summary'); await page.fill('#limit', '500');
+    await page.locator('#import').setInputFiles({ name: 'generation-fixture.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(legacyLevels.levels.find(l => l.level_no === 21))) });
+    await page.waitForFunction(() => document.querySelector('#status').textContent.includes('导入成功'));
+    await page.click('details summary'); await page.fill('#limit', '500');
     await page.click('#generate');
     await page.waitForFunction(() => !document.querySelector('#status').textContent.includes('正在计算'), { timeout: 90000 });
     assert((await page.locator('#status').textContent()).includes('无道具解法'));

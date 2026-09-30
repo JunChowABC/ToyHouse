@@ -60,6 +60,7 @@ try {
         state=await read();assert.equal(state.toolMode,null);
       }
       await page.screenshot({path:`${out}/${width}-${id}-reward.png`});
+      await page.evaluate(() => window.advanceTime(600));
       await open(id);
       await ad();
       await page.evaluate(receiptId => window.__finishAd({status:'completed',receiptId}), `test-${id}`);
