@@ -9,6 +9,7 @@ const out = new URL("../test-output/levels-v13/", import.meta.url);
 await mkdir(out, { recursive: true });
 const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage({ viewport: { width: 540, height: 960 } });
+await page.addInitScript(() => localStorage.clear());
 const errors = [];
 page.on("pageerror", (error) => errors.push(String(error)));
 page.on("console", (msg) => { if (msg.type() === "error") errors.push(msg.text()); });
@@ -17,8 +18,11 @@ const reports = [];
 try {
   for (const entry of ["/", "/docs/"]) {
     await page.goto(`http://127.0.0.1:4173${entry}`, { waitUntil: "networkidle" });
+    await page.evaluate(() => window.__toyhouse_art_ready);
+    await page.waitForFunction(() => Boolean(window.__toyhouse_background_ready));
+    await page.evaluate(() => window.__toyhouse_background_ready);
     const analyses = await page.evaluate(() => window.__toyhouse_debug.levels);
-    assert.equal(analyses.length, 20);
+    assert(analyses.length >= 100);
     await page.keyboard.press("Enter");
     for (let index = 0; index < 20; index += 1) {
       const expected = config.levels[index];
@@ -87,12 +91,13 @@ try {
       assert.equal(cleared.bestCombo, 72, "automatic ducks count as individual valid exits");
       reports.push({ entry, level: expected.level_id, toys: 72, manualMoves: cleared.moves,
         initialExits: metrics.initial_manual_exit, releaseCurve: analyses[index].analysis.layers.map((layer) => layer.length), status: "PASS" });
+      await page.evaluate(() => window.advanceTime(350));
       await page.keyboard.press("Enter");
       // Completion navigation deliberately ignores rapid repeat input so a
       // double tap cannot hit the newly opened board. Wait before its first tap.
-      await page.waitForTimeout(360);
+      await page.evaluate(() => window.advanceTime(1400));
     }
-    assert.equal((await read()).completedLevels, 20);
+    assert.equal((await read()).levelNo, 21, 'original twenty levels continue into the new mechanics');
   }
   assert.deepEqual(errors, []);
   await writeFile(new URL("report.json", out), JSON.stringify({ errors, reports }, null, 2));

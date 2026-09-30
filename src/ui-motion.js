@@ -1,3 +1,4 @@
+import { fillViewport } from "./viewport.js";
 // Presentation time is independent of the paused gameplay clock.
 export const dialogMotion = { key: null, elapsed: 0, closing: false, done: null };
 export function syncDialogMotion(key) {
@@ -26,7 +27,7 @@ export function paintDialogBackdrop(ctx, color) {
   const opacity = dialogMotion.closing ? 1 - t * t : 1 - (1 - t) ** 3;
   ctx.globalAlpha *= opacity;
   ctx.fillStyle = color;
-  ctx.fillRect(0, 0, 540, 960);
+  fillViewport(ctx);
   // Gentle overshoot on arrival, ease-in shrink on dismissal.
   const overshoot = 1 + 2.2 * (t - 1) ** 3 + 1.2 * (t - 1) ** 2;
   const scale = reduced ? 1 : dialogMotion.closing ? 1 - .16 * t * t : .78 + .22 * overshoot;

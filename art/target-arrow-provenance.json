@@ -1,0 +1,12 @@
+{
+  "generator": "official imagegen CLI edit; reference for style only",
+  "model": "gpt-image-2",
+  "quality": "high",
+  "reference": "assets/tool-dialog-v1/ui_tool_buy_yellow_v3.png",
+  "prompt": "art/target-arrow-prompt.txt",
+  "source": "output\\imagegen\\target-arrow-v1.png",
+  "source_sha256": "1cc34553e76706bff5242ba03623df7cffcc6a4856fc6e030e789b5ae1189daa",
+  "asset": "assets\\tool-dialog-v1\\ui_target_arrow_v1.png",
+  "asset_sha256": "43801c3c9ade2a0e2da6354744239e128a19c67e987eab35147d736055da4482",
+  "processing": "Preserved generated alpha; cropped transparent margins and proportionally resized into 256x256 canvas."
+}

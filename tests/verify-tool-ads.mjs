@@ -34,18 +34,33 @@ try {
     for (const id of ['remove','shuffle','flip']) {
       await open(id);
       await page.evaluate(() => { window.__adCalls=0; window.toyhouseAds={showRewarded: () => { window.__adCalls++; return new Promise(resolve => { window.__finishAd=resolve; }); }}; });
-      const before = (await read()).economy;
+      const beforeState = await read();
+      const before = beforeState.economy;
       await ad(); await ad(); await close(); await page.keyboard.press('Escape'); await page.keyboard.press('Enter');
       assert.equal((await read()).toolDialog.adPending, true);
       assert.equal(await page.evaluate(() => window.__adCalls), 1);
       assert.deepEqual((await read()).economy, before);
+      await page.evaluate(() => Object.defineProperty(document,'hidden',{configurable:true,get:()=>true}));
       await page.evaluate(receiptId => window.__finishAd({status:'completed',receiptId}), `test-${id}`);
+      await page.evaluate(() => window.advanceTime(300));
+      assert.equal((await read()).toolUses[id],0);
+      assert.equal((await read()).toolDialog.adPending,true);
+      await page.evaluate(() => { delete document.hidden; });
+      await page.waitForFunction(() => !JSON.parse(window.render_game_to_text()).toolDialog);
       let state=await read();
-      assert.equal(state.economy.inventory[id], before.inventory[id]+1);
+      assert.equal(state.economy.inventory[id], before.inventory[id]+(id==='shuffle'?0:1));
       assert.equal(state.economy.coins, before.coins);
-      assert.equal(state.toolUses[id], 0);
-      assert.equal(state.toolDialog.action,'use');
+      assert.equal(state.toolUses[id], id==='shuffle'?1:0);
+      if(id==='shuffle') assert.equal(state.toys.filter(t=>beforeState.toys.find(b=>b.id===t.id)?.direction!==t.direction).length,5);
+      else {
+        assert.equal(state.toolMode,id); await page.keyboard.press('Escape');
+        assert.equal((await read()).toolMode,id);
+        const targets=state.toys.filter(t=>id==='remove'||t.archetype!=='AUTO_EXIT').slice(0,id==='remove'?2:1);
+        for(const toy of targets) { const c=toy.cells[0],b=state.board;await click({x:b.x+c.x*b.cell,y:b.y+c.y*b.cell,w:b.cell,h:b.cell}); }
+        state=await read();assert.equal(state.toolMode,null);
+      }
       await page.screenshot({path:`${out}/${width}-${id}-reward.png`});
+      await open(id);
       await ad();
       await page.evaluate(receiptId => window.__finishAd({status:'completed',receiptId}), `test-${id}`);
       assert.deepEqual((await read()).economy,state.economy,'duplicate receipt must not reward twice');
@@ -79,7 +94,7 @@ try {
     await page.reload({waitUntil:'networkidle'});
     await page.waitForFunction(() => Boolean(window.__toyhouse_background_ready));
     await page.evaluate(() => window.__toyhouse_background_ready);
-    assert.deepEqual((await read()).economy.inventory,{remove:1,shuffle:1,flip:1});
+    assert.deepEqual((await read()).economy.inventory,{remove:0,shuffle:0,flip:0});
     await page.keyboard.press('Enter'); await page.evaluate(() => window.advanceTime(1500));
     await open('remove');
     await page.waitForFunction(()=>!JSON.parse(window.render_game_to_text()).uiMotion.busy);
@@ -90,3 +105,4 @@ try {
   await writeFile(`${out}/report.json`,JSON.stringify({checks,errors},null,2));
   console.log('Ad flow: 9 tool/viewport combinations, success, duplicate, cancel, failure, missing receipt, input lock, persistence PASS');
 } finally { await browser.close(); }
+

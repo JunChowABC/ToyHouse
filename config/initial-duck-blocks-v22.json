@@ -1,0 +1,1520 @@
+{
+  "rule": "NO_INITIAL_DUCK_PATH_INCLUDING_PORTALS",
+  "fixes": [
+    {
+      "level_no": 121,
+      "changes": [
+        {
+          "toy_id": "L121_D003",
+          "from": [
+            5,
+            11
+          ],
+          "to": [
+            2,
+            14
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L121_D005",
+          "from": [
+            8,
+            9
+          ],
+          "to": [
+            9,
+            7
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L121_D006",
+          "from": [
+            6,
+            13
+          ],
+          "to": [
+            1,
+            14
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L121_D007",
+          "from": [
+            7,
+            12
+          ],
+          "to": [
+            7,
+            4
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        }
+      ]
+    },
+    {
+      "level_no": 123,
+      "changes": [
+        {
+          "toy_id": "L123_D002",
+          "from": [
+            8,
+            3
+          ],
+          "to": [
+            8,
+            6
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L123_D005",
+          "from": [
+            2,
+            5
+          ],
+          "to": [
+            4,
+            5
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L123_D008",
+          "from": [
+            3,
+            8
+          ],
+          "to": [
+            5,
+            6
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        }
+      ]
+    },
+    {
+      "level_no": 124,
+      "changes": [
+        {
+          "toy_id": "L124_D004",
+          "from": [
+            6,
+            14
+          ],
+          "to": [
+            8,
+            15
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L124_D005",
+          "from": [
+            9,
+            7
+          ],
+          "to": [
+            9,
+            3
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L124_D006",
+          "from": [
+            9,
+            8
+          ],
+          "to": [
+            2,
+            9
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L124_D008",
+          "from": [
+            6,
+            15
+          ],
+          "to": [
+            3,
+            15
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        }
+      ]
+    },
+    {
+      "level_no": 126,
+      "changes": [
+        {
+          "toy_id": "L126_R005",
+          "from": [
+            0,
+            7
+          ],
+          "to": [
+            0,
+            8
+          ],
+          "reason": "SEAL_DUCK_ESCAPE_PATH"
+        },
+        {
+          "toy_id": "L126_D001",
+          "from": [
+            9,
+            7
+          ],
+          "to": [
+            2,
+            6
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L126_D004",
+          "from": [
+            6,
+            10
+          ],
+          "to": [
+            3,
+            9
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L126_D005",
+          "from": [
+            7,
+            2
+          ],
+          "to": [
+            2,
+            9
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L126_D006",
+          "from": [
+            7,
+            7
+          ],
+          "to": [
+            1,
+            9
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L126_D007",
+          "from": [
+            7,
+            3
+          ],
+          "to": [
+            2,
+            10
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L126_D008",
+          "from": [
+            8,
+            6
+          ],
+          "to": [
+            8,
+            16
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        }
+      ]
+    },
+    {
+      "level_no": 127,
+      "changes": [
+        {
+          "toy_id": "L127_D007",
+          "from": [
+            3,
+            9
+          ],
+          "to": [
+            3,
+            6
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        }
+      ]
+    },
+    {
+      "level_no": 128,
+      "changes": [
+        {
+          "toy_id": "L128_D002",
+          "from": [
+            5,
+            11
+          ],
+          "to": [
+            9,
+            11
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L128_D003",
+          "from": [
+            2,
+            5
+          ],
+          "to": [
+            2,
+            3
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L128_D004",
+          "from": [
+            6,
+            6
+          ],
+          "to": [
+            8,
+            5
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L128_D005",
+          "from": [
+            5,
+            12
+          ],
+          "to": [
+            8,
+            13
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L128_D007",
+          "from": [
+            6,
+            9
+          ],
+          "to": [
+            2,
+            8
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L128_D008",
+          "from": [
+            5,
+            9
+          ],
+          "to": [
+            1,
+            6
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        }
+      ]
+    },
+    {
+      "level_no": 129,
+      "changes": [
+        {
+          "toy_id": "L129_D001",
+          "from": [
+            2,
+            5
+          ],
+          "to": [
+            1,
+            7
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L129_D002",
+          "from": [
+            9,
+            10
+          ],
+          "to": [
+            8,
+            13
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L129_D003",
+          "from": [
+            5,
+            13
+          ],
+          "to": [
+            6,
+            14
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L129_D006",
+          "from": [
+            6,
+            10
+          ],
+          "to": [
+            3,
+            12
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L129_D007",
+          "from": [
+            8,
+            3
+          ],
+          "to": [
+            10,
+            2
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        }
+      ]
+    },
+    {
+      "level_no": 130,
+      "changes": [
+        {
+          "toy_id": "L130_D001",
+          "from": [
+            9,
+            6
+          ],
+          "to": [
+            10,
+            4
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L130_D003",
+          "from": [
+            7,
+            10
+          ],
+          "to": [
+            10,
+            12
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L130_D006",
+          "from": [
+            7,
+            9
+          ],
+          "to": [
+            7,
+            2
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        }
+      ]
+    },
+    {
+      "level_no": 131,
+      "changes": [
+        {
+          "toy_id": "L131_D001",
+          "from": [
+            4,
+            3
+          ],
+          "to": [
+            7,
+            3
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        }
+      ]
+    },
+    {
+      "level_no": 132,
+      "changes": [
+        {
+          "toy_id": "L132_D001",
+          "from": [
+            7,
+            12
+          ],
+          "to": [
+            5,
+            9
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L132_D002",
+          "from": [
+            5,
+            6
+          ],
+          "to": [
+            5,
+            3
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L132_D004",
+          "from": [
+            6,
+            7
+          ],
+          "to": [
+            7,
+            4
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L132_D008",
+          "from": [
+            6,
+            14
+          ],
+          "to": [
+            2,
+            14
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        }
+      ]
+    },
+    {
+      "level_no": 133,
+      "changes": [
+        {
+          "toy_id": "L133_D001",
+          "from": [
+            8,
+            15
+          ],
+          "to": [
+            4,
+            15
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L133_D003",
+          "from": [
+            9,
+            9
+          ],
+          "to": [
+            9,
+            6
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L133_D004",
+          "from": [
+            8,
+            9
+          ],
+          "to": [
+            6,
+            12
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L133_D008",
+          "from": [
+            9,
+            14
+          ],
+          "to": [
+            9,
+            2
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L133_D009",
+          "from": [
+            5,
+            6
+          ],
+          "to": [
+            2,
+            6
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        }
+      ]
+    },
+    {
+      "level_no": 134,
+      "changes": [
+        {
+          "toy_id": "L134_D001",
+          "from": [
+            7,
+            3
+          ],
+          "to": [
+            1,
+            2
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L134_D002",
+          "from": [
+            7,
+            2
+          ],
+          "to": [
+            2,
+            5
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L134_D008",
+          "from": [
+            6,
+            12
+          ],
+          "to": [
+            6,
+            15
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L134_D009",
+          "from": [
+            7,
+            12
+          ],
+          "to": [
+            10,
+            11
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        }
+      ]
+    },
+    {
+      "level_no": 135,
+      "changes": [
+        {
+          "toy_id": "L135_D001",
+          "from": [
+            9,
+            9
+          ],
+          "to": [
+            2,
+            10
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L135_D005",
+          "from": [
+            6,
+            6
+          ],
+          "to": [
+            3,
+            13
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L135_D006",
+          "from": [
+            3,
+            9
+          ],
+          "to": [
+            1,
+            13
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L135_D007",
+          "from": [
+            4,
+            11
+          ],
+          "to": [
+            4,
+            16
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        }
+      ]
+    },
+    {
+      "level_no": 137,
+      "changes": [
+        {
+          "toy_id": "L137_R017",
+          "from": [
+            6,
+            3
+          ],
+          "to": [
+            6,
+            4
+          ],
+          "reason": "SEAL_DUCK_ESCAPE_PATH"
+        },
+        {
+          "toy_id": "L137_D002",
+          "from": [
+            7,
+            6
+          ],
+          "to": [
+            7,
+            3
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L137_D003",
+          "from": [
+            3,
+            13
+          ],
+          "to": [
+            4,
+            15
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L137_D004",
+          "from": [
+            6,
+            4
+          ],
+          "to": [
+            6,
+            3
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L137_D005",
+          "from": [
+            7,
+            4
+          ],
+          "to": [
+            8,
+            4
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L137_D007",
+          "from": [
+            6,
+            6
+          ],
+          "to": [
+            10,
+            6
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L137_D008",
+          "from": [
+            2,
+            5
+          ],
+          "to": [
+            8,
+            3
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        }
+      ]
+    },
+    {
+      "level_no": 138,
+      "changes": [
+        {
+          "toy_id": "L138_D001",
+          "from": [
+            3,
+            5
+          ],
+          "to": [
+            1,
+            4
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L138_D002",
+          "from": [
+            3,
+            9
+          ],
+          "to": [
+            3,
+            11
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L138_D006",
+          "from": [
+            6,
+            7
+          ],
+          "to": [
+            7,
+            9
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L138_D007",
+          "from": [
+            6,
+            4
+          ],
+          "to": [
+            9,
+            3
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L138_D008",
+          "from": [
+            2,
+            5
+          ],
+          "to": [
+            8,
+            10
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L138_D009",
+          "from": [
+            5,
+            12
+          ],
+          "to": [
+            7,
+            12
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        }
+      ]
+    },
+    {
+      "level_no": 139,
+      "changes": [
+        {
+          "toy_id": "L139_R012",
+          "from": [
+            9,
+            5
+          ],
+          "to": [
+            8,
+            5
+          ],
+          "reason": "SEAL_DUCK_ESCAPE_PATH"
+        },
+        {
+          "toy_id": "L139_D002",
+          "from": [
+            5,
+            10
+          ],
+          "to": [
+            8,
+            7
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L139_D005",
+          "from": [
+            5,
+            6
+          ],
+          "to": [
+            10,
+            5
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L139_D006",
+          "from": [
+            8,
+            5
+          ],
+          "to": [
+            2,
+            2
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L139_D008",
+          "from": [
+            8,
+            10
+          ],
+          "to": [
+            2,
+            13
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L139_D009",
+          "from": [
+            4,
+            6
+          ],
+          "to": [
+            2,
+            15
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        }
+      ]
+    },
+    {
+      "level_no": 171,
+      "changes": [
+        {
+          "toy_id": "L171_D001",
+          "from": [
+            7,
+            8
+          ],
+          "to": [
+            10,
+            7
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        }
+      ]
+    },
+    {
+      "level_no": 172,
+      "changes": [
+        {
+          "toy_id": "L172_D001",
+          "from": [
+            6,
+            6
+          ],
+          "to": [
+            7,
+            3
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L172_D005",
+          "from": [
+            6,
+            5
+          ],
+          "to": [
+            8,
+            4
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L172_D006",
+          "from": [
+            7,
+            14
+          ],
+          "to": [
+            5,
+            15
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L172_D007",
+          "from": [
+            9,
+            10
+          ],
+          "to": [
+            5,
+            10
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L172_D008",
+          "from": [
+            10,
+            10
+          ],
+          "to": [
+            9,
+            5
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        }
+      ]
+    },
+    {
+      "level_no": 175,
+      "changes": [
+        {
+          "toy_id": "L175_D001",
+          "from": [
+            8,
+            9
+          ],
+          "to": [
+            10,
+            9
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L175_D003",
+          "from": [
+            6,
+            9
+          ],
+          "to": [
+            4,
+            11
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L175_D004",
+          "from": [
+            7,
+            12
+          ],
+          "to": [
+            10,
+            12
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L175_D006",
+          "from": [
+            6,
+            12
+          ],
+          "to": [
+            3,
+            11
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        }
+      ]
+    },
+    {
+      "level_no": 177,
+      "changes": [
+        {
+          "toy_id": "L177_D002",
+          "from": [
+            6,
+            10
+          ],
+          "to": [
+            9,
+            10
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L177_D003",
+          "from": [
+            7,
+            14
+          ],
+          "to": [
+            8,
+            16
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L177_D005",
+          "from": [
+            7,
+            11
+          ],
+          "to": [
+            8,
+            8
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L177_D007",
+          "from": [
+            3,
+            12
+          ],
+          "to": [
+            2,
+            13
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        }
+      ]
+    },
+    {
+      "level_no": 178,
+      "changes": [
+        {
+          "toy_id": "L178_R008",
+          "from": [
+            11,
+            10
+          ],
+          "to": [
+            11,
+            9
+          ],
+          "reason": "SEAL_DUCK_ESCAPE_PATH"
+        },
+        {
+          "toy_id": "L178_D001",
+          "from": [
+            8,
+            5
+          ],
+          "to": [
+            9,
+            1
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L178_D003",
+          "from": [
+            1,
+            9
+          ],
+          "to": [
+            2,
+            11
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L178_D005",
+          "from": [
+            7,
+            11
+          ],
+          "to": [
+            10,
+            10
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L178_D006",
+          "from": [
+            6,
+            5
+          ],
+          "to": [
+            10,
+            1
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L178_D008",
+          "from": [
+            9,
+            4
+          ],
+          "to": [
+            10,
+            9
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L178_D009",
+          "from": [
+            9,
+            6
+          ],
+          "to": [
+            1,
+            12
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        }
+      ]
+    },
+    {
+      "level_no": 185,
+      "changes": [
+        {
+          "toy_id": "L185_D003",
+          "from": [
+            6,
+            12
+          ],
+          "to": [
+            5,
+            9
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L185_D004",
+          "from": [
+            4,
+            5
+          ],
+          "to": [
+            2,
+            4
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L185_D008",
+          "from": [
+            4,
+            8
+          ],
+          "to": [
+            2,
+            9
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        }
+      ]
+    },
+    {
+      "level_no": 192,
+      "changes": [
+        {
+          "toy_id": "L192_D003",
+          "from": [
+            9,
+            6
+          ],
+          "to": [
+            4,
+            7
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L192_D007",
+          "from": [
+            1,
+            13
+          ],
+          "to": [
+            4,
+            15
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        }
+      ]
+    },
+    {
+      "level_no": 193,
+      "changes": [
+        {
+          "toy_id": "L193_D002",
+          "from": [
+            3,
+            10
+          ],
+          "to": [
+            3,
+            7
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L193_D003",
+          "from": [
+            9,
+            4
+          ],
+          "to": [
+            6,
+            6
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L193_D004",
+          "from": [
+            7,
+            10
+          ],
+          "to": [
+            5,
+            6
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L193_D006",
+          "from": [
+            6,
+            10
+          ],
+          "to": [
+            4,
+            7
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L193_D007",
+          "from": [
+            2,
+            10
+          ],
+          "to": [
+            2,
+            14
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L193_D008",
+          "from": [
+            8,
+            5
+          ],
+          "to": [
+            3,
+            4
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        }
+      ]
+    },
+    {
+      "level_no": 194,
+      "changes": [
+        {
+          "toy_id": "L194_D003",
+          "from": [
+            10,
+            11
+          ],
+          "to": [
+            9,
+            16
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L194_D006",
+          "from": [
+            8,
+            9
+          ],
+          "to": [
+            3,
+            9
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L194_D007",
+          "from": [
+            5,
+            10
+          ],
+          "to": [
+            3,
+            10
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L194_D009",
+          "from": [
+            8,
+            8
+          ],
+          "to": [
+            3,
+            11
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        }
+      ]
+    },
+    {
+      "level_no": 198,
+      "changes": [
+        {
+          "toy_id": "L198_D001",
+          "from": [
+            4,
+            5
+          ],
+          "to": [
+            4,
+            1
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L198_D003",
+          "from": [
+            5,
+            3
+          ],
+          "to": [
+            2,
+            2
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L198_D008",
+          "from": [
+            9,
+            14
+          ],
+          "to": [
+            3,
+            10
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        }
+      ]
+    },
+    {
+      "level_no": 200,
+      "changes": [
+        {
+          "toy_id": "L200_R012",
+          "from": [
+            8,
+            11
+          ],
+          "to": [
+            7,
+            11
+          ],
+          "reason": "SEAL_DUCK_ESCAPE_PATH"
+        },
+        {
+          "toy_id": "L200_D001",
+          "from": [
+            2,
+            9
+          ],
+          "to": [
+            5,
+            5
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L200_D002",
+          "from": [
+            7,
+            11
+          ],
+          "to": [
+            9,
+            11
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L200_D005",
+          "from": [
+            7,
+            9
+          ],
+          "to": [
+            9,
+            9
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L200_D007",
+          "from": [
+            8,
+            15
+          ],
+          "to": [
+            9,
+            8
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        },
+        {
+          "toy_id": "L200_D008",
+          "from": [
+            6,
+            7
+          ],
+          "to": [
+            6,
+            2
+          ],
+          "reason": "INITIAL_DUCK_PATH_BLOCKED"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+Use case: stylized-concept
+Asset type: empty horizontal notification banner for a pastel toy-room mobile game.
+Input image: style reference only, match the existing candy UI rounded edges, pink outline and soft highlights.
+Primary request: ONE wide slim blank rounded capsule panel, front view. Creamy blush-white center, soft pale pink thick rounded border, subtle mauve-pink outer contour, delicate cream highlight along the upper rim, gentle puffy bevel. Quiet and readable center for separately rendered dark pink Chinese text.
+Composition: panel width to height approximately 8.5:1, centered in a landscape image with generous empty transparent space above and below. Straight horizontal, symmetrical semicircular ends, no perspective. Empty center completely free of marks.
+Background: genuinely transparent outside the panel if possible; otherwise flat pure white for extraction. No cast background shadow.
+Constraints: no text, letters, icons, hands, arrows, sparkles, stars, ribbons, hearts, ornaments, watermark or checkerboard. Not a screenshot or complete interface. Keep contrast soft, not hot pink, neon or orange. Match a cozy creamy pink toy room.

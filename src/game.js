@@ -1,5 +1,8 @@
+import { viewport, resizeViewport, controlOffset, atOffset, fillViewport, drawRoomBackground } from "./viewport.js";
 import { loadImage, imageLoadStatus } from "./image-loader.js";
 import LEVEL_CONFIG from "./level-config.js";
+import Mechanics from "./mechanics.js";
+import MECHANIC_ART from "./mechanic-art.js";
 import ART_MANIFEST from "./art-manifest.js";
 import { PAUSE_UI, TOOL_MODAL_UI, HOME_SETTINGS_UI, loadPauseArt, drawPauseDialog, drawToolDialog, drawHomeSettings, pauseArtStatus } from "./pause-dialog.js";
 import { COMPLETE_UI, loadCompleteArt, drawCompleteDialog, completeArtStatus, completionRewardLayout } from "./complete-dialog.js";
@@ -28,6 +31,8 @@ const TOOL_LIMIT = 3;
 const TOOL_PRICE = 100;
 const LEVEL_CLEAR_COINS = 30;
 const SAVE_KEY = "toyhouse-economy-v1";
+const previewNumber = typeof window !== 'undefined' && window.location ? Number(new URLSearchParams(window.location.search).get('previewLevel')) : 0;
+const previewIndex = previewNumber > 0 ? LEVEL_CONFIG.levels.findIndex(level => level.level_no === previewNumber) : -1;
 const TOOL_IDS = ["remove", "shuffle", "flip"];
 const EMPTY_TOOLS = () => ({ remove: 0, shuffle: 0, flip: 0 });
 const TOOL_DESCRIPTIONS = {
@@ -57,6 +62,7 @@ function loadProfile() {
 const profile = loadProfile();
 
 function persistProfile() {
+  if (previewIndex >= 0) return;
   try { localStorage.setItem(SAVE_KEY, JSON.stringify(profile)); } catch { /* In-memory play remains available when storage is blocked. */ }
 }
 
@@ -126,6 +132,12 @@ const state = {
   mode: "home",
   levelIndex: 0,
   toys: [],
+  entities: [],
+  mechanics: false,
+  mechanicEvents: [],
+  mechanicFlights: [],
+  mechanicBusyUntil: 0,
+  mechanicRngState: 0,
   initialToys: [],
   exiting: [],
   moving: [],
@@ -163,6 +175,7 @@ function toolUnavailable(id) {
 }
 
 function openToolModal(id) {
+  if (state.toolMode) return;
   if (!TOOL_IDS.includes(id) || state.mode !== "play" || state.pauseOpen || state.levelCompleteAt || state.moving.length || state.exiting.length) return;
   cancelToolMode();
   state.toolModal = id;
@@ -193,9 +206,25 @@ function confirmToolAction() {
 // No browser timer or ad-close event is treated as successful viewing.
 let toolAdPending = false;
 let toolAdMessage = "";
+let toolAdAutoUse = null;
+function resumeAdTool() {
+  if (!toolAdAutoUse || document.hidden) return;
+  const { id, levelIndex } = toolAdAutoUse;
+  toolAdAutoUse = null;
+  const canResume = () => state.mode === "play" && state.levelIndex === levelIndex && state.toolModal === id;
+  if (!canResume() || toolUnavailable(id)) { toolAdPending = false; return; }
+  closeDialogMotion(() => {
+    if (document.hidden) { toolAdAutoUse = { id, levelIndex }; return; }
+    toolAdPending = false;
+    if (canResume() && profile.inventory[id] > 0) confirmToolAction();
+  });
+}
 async function watchToolAd() {
   const id = state.toolModal;
   if (!id || toolAdPending) return;
+  const reason = toolUnavailable(id);
+  if (reason && reason !== "金币不足") return;
+  const levelIndex = state.levelIndex;
   const adapter = window.toyhouseAds;
   if (typeof adapter?.showRewarded !== "function") {
     toolAdMessage = "暂无可播放的广告，请稍后再试";
@@ -215,7 +244,8 @@ async function watchToolAd() {
     ]);
     if (result?.status === "completed" && typeof result.receiptId === "string" && result.receiptId.trim()) {
       const granted = grantReward({ id: result.receiptId, source: "rewarded_ad", tools: { [id]: 1 } });
-      toolAdMessage = granted ? "已获得 1 个道具，点击使用" : "这份广告奖励已领取";
+      toolAdMessage = granted ? "观看完成，正在使用…" : "这份广告奖励已领取";
+      if (granted) toolAdAutoUse = { id, levelIndex };
     } else {
       toolAdMessage = result?.status === "cancelled" ? "完整观看广告后才可获得道具" : "暂无可播放的广告，请稍后再试";
     }
@@ -224,7 +254,7 @@ async function watchToolAd() {
   } finally {
     clearTimeout(timeout);
     controller.abort();
-    toolAdPending = false;
+    toolAdPending = Boolean(toolAdAutoUse);
     render();
   }
 }
@@ -245,6 +275,7 @@ let artReady = false;
 let artError = "";
 const UI_FONT = 'SimHei, "Microsoft YaHei UI", "PingFang SC", sans-serif';
 const RABBIT_ANGLE = Object.freeze({ UP: 0, RIGHT: Math.PI / 2, DOWN: Math.PI, LEFT: -Math.PI / 2 });
+const DUCK_ANGLE = Object.freeze({ LEFT: 0, RIGHT: 0, UP: Math.PI / 2, DOWN: -Math.PI / 2 });
 const HUD_LAYERS = Object.keys(ART_MANIFEST.assets).filter(id => ART_MANIFEST.assets[id].group === "04_TITLE");
 const CURRENCY_LAYERS = Object.keys(ART_MANIFEST.assets).filter(id => ART_MANIFEST.assets[id].group === "06_RESOURCES");
 
@@ -290,7 +321,7 @@ function drawToyBlink(id, width, height, scale) {
 }
 
 function fitArt(id, rect, flip = false, angle = 0, pose = null) {
-  const image = artImages.get(id);
+  const image = (pose?.sleeping && sleepingArt.get(id)) || artImages.get(id);
   if (!image) return;
   ctx.save();
   ctx.translate(rect.x + rect.w / 2, rect.y + rect.h / 2 + (pose?.hop || 0));
@@ -300,7 +331,7 @@ function fitArt(id, rect, flip = false, angle = 0, pose = null) {
   const rotated = Math.abs(Math.sin(angle)) > 0.5;
   const scale = Math.min((rotated ? rect.h : rect.w) / image.width, (rotated ? rect.w : rect.h) / image.height);
   ctx.drawImage(image, -image.width * scale / 2, -image.height * scale / 2, image.width * scale, image.height * scale);
-  if (pose?.blink >= 0.5) drawToyBlink(id, image.width, image.height, scale);
+  if (!pose?.sleeping && pose?.blink >= 0.5) drawToyBlink(id, image.width, image.height, scale);
   ctx.restore();
 }
 
@@ -343,7 +374,7 @@ function drawCurrencyHud(showAcquisition = true) {
 function drawArtHud(spec) {
   HUD_LAYERS.forEach(id => drawArt(id));
   sourceText("txt_level", `第${String(spec.levelNo).padStart(2, "0")}关 / ${spec.title}`);
-  drawCurrencyHud();
+  drawCurrencyHud(false);
   drawPauseButton();
   if (state.combo <= 0) return;
   drawArt("combo_track");
@@ -395,6 +426,8 @@ const systemAssets = {
   settings: { ready: false, promise: null },
   complete: { ready: false, promise: null },
 };
+let mechanicAtlas = null;
+const sleepingArt = new Map();
 let pendingLoad = null;
 let bootAssetsReady = false;
 const LOAD_UI = { retry: { x: 170, y: 520, w: 200, h: 52 }, cancel: { x: 170, y: 900, w: 200, h: 40 } };
@@ -413,7 +446,7 @@ function loadingProgress() {
 async function loadCoreAssets(ids) {
   await Promise.all(ids.map(async id => {
     const asset = ART_MANIFEST.assets[id];
-    const image = await loadImage(`${asset.directory || ART_MANIFEST.directory}/${asset.file}`);
+    const image = await loadImage(id === "art_bedroom_bg_01" ? "assets/runtime-ui/tall-play-v1.webp" : `${asset.directory || ART_MANIFEST.directory}/${asset.file}`);
     artImages.set(id, image);
   }));
 }
@@ -421,8 +454,9 @@ function ensureSystem(key) {
   const group = systemAssets[key];
   if (group.ready) return Promise.resolve(true);
   if (group.promise) return group.promise;
-  const load = key === "play" ? () => loadCoreAssets(Object.keys(ART_MANIFEST.assets).filter(id => !CURRENCY_LAYERS.includes(id)))
-    : key === "settings" ? loadPauseArt : loadCompleteArt;
+  const load = key === "play" ? () => Promise.all([loadCoreAssets(Object.keys(ART_MANIFEST.assets).filter(id => !CURRENCY_LAYERS.includes(id))), loadImage('assets/mechanics-v1/mechanics.webp').then(image => { mechanicAtlas = image; }),
+    ...[['rabbit', 'toy_rabbit_white_a'], ['whale', 'toy_whale_blue_a']].map(([name, id]) => loadImage(`assets/mechanics-v1/${name}-sleep.webp`).then(image => sleepingArt.set(id, image)))])
+    : key === "settings" ? () => Promise.all([loadPauseArt(), loadImage('assets/runtime-ui/ui_target_arrow_v1.webp').then(image => { targetArrowImage = image; }), loadImage('assets/runtime-ui/ui_deadlock_hand_v1.webp').then(image => { deadlockHandImage = image; }), loadImage('assets/runtime-ui/ui_deadlock_banner_v4.webp').then(image => { deadlockBannerImage = image; })]) : loadCompleteArt;
   group.promise = load().then(() => { group.ready = true; return true; })
     .catch(() => false).finally(() => { group.promise = null; });
   return group.promise;
@@ -511,6 +545,18 @@ function buildLevel(index) {
   const config = LEVEL_CONFIG.levels[index];
   if (!config) throw new Error(`Unknown level index: ${index}`);
   const spec = LEVEL_SPECS[index];
+  if (config.schema_version === '1.4') {
+    const board = Mechanics.fromConfig(config);
+    if (board.cols !== BOARD.cols || board.rows !== BOARD.rows) throw new Error(`${spec.id}: unsupported board dimensions`);
+    const errors = Mechanics.validate(board);
+    if (errors.length) throw new Error(`${spec.id}: ${errors.join(', ')}`);
+    if (!config.imported_v22 && (!config.solution || Mechanics.replay(board, config.solution).board.toys.some(Mechanics.active))) throw new Error(`${spec.id}: invalid solution witness`);
+    const toys = board.toys.map((toy, i) => ({ ...toy, numericId: i + 1, skinId: config.toy_list[i].skin_id,
+      exitMode: TOY_ARCHETYPES[toy.archetypeId].exitMode, toyType: TOY_ARCHETYPES[toy.archetypeId].name,
+      typeIndex: TOY_ARCHETYPES[toy.archetypeId].paletteIndex, variant: i % 5, length: toy.cells.length,
+      sizeType: `1×${toy.cells.length}`, blockedAt: -9999, impactDx: 0, impactDy: 0, impactRole: null }));
+    return { spec, toys, entities: board.entities, mechanics: true, randomState: board.randomState, portalRandomization: board.portalRandomization, analysis: { ...config.validation, solvable: config.imported_v22 ? null : true } };
+  }
   if (config.board_width !== BOARD.cols || config.board_height !== BOARD.rows) {
     throw new Error(`${spec.id}: unsupported board dimensions`);
   }
@@ -590,6 +636,12 @@ function findDuckPath(toy, toys) {
   return null;
 }
 
+function duckTravelDirection(from, to) {
+  if (to.x > from.x) return "RIGHT";
+  if (to.x < from.x) return "LEFT";
+  return to.y > from.y ? "DOWN" : "UP";
+}
+
 function settleDuckWaves(toys, onExit = () => {}) {
   let round = 0;
   while (true) {
@@ -603,6 +655,11 @@ function settleDuckWaves(toys, onExit = () => {}) {
 }
 
 function settleAutoExits() {
+  if (state.mechanics) {
+    presentMechanicEvents(Mechanics.settle(mechanicBoard()));
+    checkLevelCleared();
+    return;
+  }
   // All logical waves finish synchronously within the current input event;
   // subsequent input is allowed while the already resolved animations run.
   settleDuckWaves(state.toys, (toy, path) => {
@@ -625,6 +682,7 @@ function headCell(toy) {
 }
 
 function scanForward(toy, toys = state.toys) {
+  if (state.mechanics && toys === state.toys) return Mechanics.scan(mechanicBoard(), toy);
   if (toy.state !== "IDLE") return { emptySteps: 0, exitsBoard: false, blockerId: null };
   if (toy.archetypeId === "AUTO_EXIT") return { emptySteps: 0, exitsBoard: !!findDuckPath(toy, toys), blockerId: null };
   const occupied = occupancyFor(toys.filter((item) => item.state === "IDLE"));
@@ -650,6 +708,7 @@ function canExit(toy, toys = state.toys) {
 
 function canMove(toy, toys = state.toys) {
   const scan = scanForward(toy, toys);
+  if (state.mechanics && toys === state.toys && Mechanics.manual(toy) && state.entities.some(e => e.id === scan.blockerId && ['BOX', 'SPRING'].includes(e.kind))) return true;
   return scan.exitsBoard || scan.emptySteps > 0;
 }
 
@@ -716,6 +775,92 @@ function settleCompletionReward() {
   return [{ type: "coins", amount: LEVEL_CLEAR_COINS }];
 }
 
+function mechanicBoard() { return { cols: BOARD.cols, rows: BOARD.rows, toys: state.toys, entities: state.entities, randomState: state.mechanicRngState, portalRandomization: state.portalRandomization }; }
+function resetMechanics(level) {
+  deadlockState = { signature: null, since: 0, blocked: false, nextCheck: 0 };
+  state.mechanics = !!level.mechanics;
+  state.entities = Mechanics.copy(level.entities || []);
+  state.mechanicEvents = [];
+  state.mechanicFlights = [];
+  state.mechanicBusyUntil = 0;
+  state.mechanicRngState = level.randomState ?? 0;
+  state.portalRandomization = level.portalRandomization;
+}
+function presentMechanicEvents(events, pushDelay = 0) {
+  state.mechanicEvents.push(...events.map(({ toy, ...event }) => event));
+  state.mechanicEvents = state.mechanicEvents.slice(-100);
+  for (const event of events) {
+    if (event.type === 'ON_PUSH') {
+      const spring = state.entities.find(e => e.id === event.target);
+      const steps = [{ cells: event.from, direction: event.fromDirection }, ...event.travel];
+      if (event.exitsBoard) {
+        const d = DIR[event.direction];
+        for (let i = 1; i <= 3; i++) steps.push({ cells: event.cells.map(c => ({ x: c.x + d.x * i, y: c.y + d.y * i })), direction: event.direction });
+      }
+      const start = state.time + pushDelay, until = start + Math.max(300, Math.min(1300, steps.length * 80));
+      state.mechanicFlights.push({ toy: { ...spring, cells: event.from }, steps, start, until, exits: event.exitsBoard });
+      state.mechanicBusyUntil = Math.max(state.mechanicBusyUntil, until);
+    }
+    if (event.type === 'ON_CONVEY') {
+      for (const move of event.moved) {
+        const toy = state.toys.find(t => t.id === move.id);
+        if (!toy || toy.state !== 'IDLE') continue;
+        state.moving.push({ id: toy.id, zone: true, elapsed: 0, duration: 360,
+          fromX: (Math.min(...move.from.map(c => c.x)) - toy.x) * BOARD.cell,
+          fromY: (Math.min(...move.from.map(c => c.y)) - toy.y) * BOARD.cell });
+      }
+      state.mechanicBusyUntil = Math.max(state.mechanicBusyUntil, state.time + 360);
+    }
+    if (['MANUAL_EXIT', 'ON_AUTO_EXIT', 'ON_SPRING_EXIT'].includes(event.type)) {
+      state.combo = state.combo > 0 && state.time < state.comboExpiresAt ? state.combo + 1 : 1;
+      state.comboExpiresAt = state.time + COMBO_WINDOW_MS;
+      state.bestCombo = Math.max(state.bestCombo, state.combo);
+    }
+    if (event.type === 'ON_AUTO_EXIT') {
+      const toy = state.toys.find(t => t.id === event.source);
+      const duration = Math.max(500, (event.path.length - 1) * 90);
+      state.exiting.push({ toy: cloneToy(toy), path: event.path, elapsed: 0, duration, kind: 'auto' });
+      state.mechanicBusyUntil = Math.max(state.mechanicBusyUntil, state.time + duration);
+    }
+    if (event.type === 'ON_DUCK_TRANSFER') {
+      const steps = event.path.map((c, i, path) => ({ cells: [{ x: c.x, y: c.y }], teleport: !!c.portal,
+        direction: i + 1 < path.length ? duckTravelDirection(c, path[i + 1]) : null }));
+      const until = state.time + Math.max(500, steps.length * 90);
+      state.mechanicFlights.push({ toy: event.toy, steps, start: state.time, until, exits: false });
+      state.mechanicBusyUntil = Math.max(state.mechanicBusyUntil, until);
+    }
+    if (['ON_SLEEP_COUNT', 'ON_BOX_COUNT', 'ON_WAKE', 'ON_UNLOCK', 'ON_PUSH', 'ON_DESTROY', 'DAMAGE', 'ON_ICE_DAMAGE', 'ON_THAW', 'ON_CONVEY', 'ON_ROTATE', 'ON_ZONE_BLOCKED', 'ON_GATE_PASS', 'ON_GATE_BLOCKED'].includes(event.type)) {
+      const target = [...state.toys, ...state.entities].find(t => t.id === event.target);
+      if (target) {
+        target.feedbackUntil = state.time + 650;
+        target.feedbackBlocked = ['ON_ZONE_BLOCKED', 'ON_GATE_BLOCKED'].includes(event.type);
+        burst(BOARD.x + (target.x + .5) * BOARD.cell, BOARD.y + (target.y + .5) * BOARD.cell, 9, event.type === 'ON_WAKE' ? '#e1ccff' : '#ffe39b');
+      }
+    }
+  }
+}
+function activateMechanicToy(toy) {
+  if (!Mechanics.manual(toy) || state.time < state.mechanicBusyUntil) return;
+  const initial = cloneToy(toy);
+  const board = mechanicBoard(), result = Mechanics.click(board, toy.id);
+  state.mechanicRngState = board.randomState;
+  state.moves++; state.hintedId = null; state.mechanicEvents = [];
+  const scan = result.scan;
+  if (scan?.blockerId) triggerImpact(toy, scan.blockerId, DIR[initial.direction]);
+  if (!result.changed) state.blockedCount++;
+  const steps = [{ cells: initial.cells, direction: initial.direction }, ...(scan?.travel || [])];
+  if (scan?.exitsBoard) {
+    const d = DIR[toy.direction];
+    for (let i = 1; i <= toy.length + 2; i++) steps.push({ cells: scan.cells.map(c => ({ x: c.x + d.x * i, y: c.y + d.y * i })), direction: toy.direction });
+  }
+  const duration = Math.max(260, Math.min(1300, steps.length * 65));
+  presentMechanicEvents(result.events, duration);
+  if (steps.length > 1) state.mechanicFlights.push({ toy: initial, steps, start: state.time, until: state.time + duration, exits: scan.exitsBoard });
+  state.mechanicBusyUntil = Math.max(state.mechanicBusyUntil, state.time + duration);
+  tone(result.changed ? 560 : 190, .08, .025);
+  checkLevelCleared();
+}
+
 function startLevel(index = state.levelIndex) {
   const level = buildLevel(index);
   beginLevelRun(index);
@@ -725,6 +870,7 @@ function startLevel(index = state.levelIndex) {
   state.levelIndex = index;
   state.initialToys = level.toys.map(cloneToy);
   state.toys = level.toys.map(cloneToy);
+  resetMechanics(level);
   state.exiting = [];
   state.moving = [];
   state.effects = [];
@@ -752,6 +898,7 @@ function restartLevel() {
   beginLevelRun(state.levelIndex);
   const level = buildLevel(state.levelIndex);
   state.toys = level.toys.map(cloneToy);
+  resetMechanics(level);
   state.initialToys = level.toys.map(cloneToy);
   state.exiting = [];
   state.moving = [];
@@ -796,6 +943,7 @@ function toyAtGrid(x, y) {
 function activateToy(toy) {
   if (state.toolModal) return;
   if (!toy || toy.archetypeId === "AUTO_EXIT" || state.pauseOpen || state.mode !== "play" || toy.state !== "IDLE" || state.levelCompleteAt || isToyMoving(toy.id)) return;
+  if (state.mechanics) { activateMechanicToy(toy); return; }
   state.moves += 1;
   const scan = scanForward(toy);
   if (!scan.exitsBoard && scan.emptySteps === 0) {
@@ -894,6 +1042,7 @@ function cancelToolMode() {
 }
 
 function handleToolTarget(toy) {
+  if (state.mechanics && state.time < state.mechanicBusyUntil) return;
   if (!toy || toy.state !== "IDLE" || isToyMoving(toy.id)) return;
   if (state.toolMode === "remove") selectToyForRemoval(toy);
   else if (state.toolMode === "flip") flipToy(toy);
@@ -914,6 +1063,7 @@ function selectToyForRemoval(toy) {
   const selectedToys = state.toys.filter((item) => selectedIds.includes(item.id) && item.state === "IDLE");
   if (!selectedToys.length || !consumeTool("remove")) return;
   selectedToys.forEach((item) => removeToyWithEffect(item));
+  if (state.mechanics) presentMechanicEvents(Mechanics.settle(mechanicBoard(), selectedToys.flatMap(toy => [{ type: 'ON_EXIT', source: toy.id, depth: 0 }, { type: 'ON_OCCUPANCY_CHANGE', source: toy.id, depth: 1 }])));
   state.lastToolAction = { type: "remove", toyIds: selectedIds };
   cancelToolMode();
   tone(740, 0.12, 0.03);
@@ -928,6 +1078,7 @@ function removeToyWithEffect(toy) {
 }
 
 function flipToy(toy) {
+  if (state.mechanics && (!toy || !Mechanics.enabled(toy) || state.time < state.mechanicBusyUntil)) return;
   if (!toy || toy.archetypeId === "AUTO_EXIT" || state.pauseOpen || state.levelCompleteAt) return;
   if (toy.state !== "IDLE" || isToyMoving(toy.id) || !consumeTool("flip")) return;
   const previousDirection = toy.direction;
@@ -942,8 +1093,9 @@ function flipToy(toy) {
 }
 
 function shuffleDirections() {
+  if (state.mechanics && state.time < state.mechanicBusyUntil) return;
   if (state.pauseOpen || state.toolModal || state.levelCompleteAt || state.toolUses.shuffle >= TOOL_LIMIT || profile.inventory.shuffle < 1) return;
-  const idle = state.toys.filter((toy) => toy.state === "IDLE" && toy.archetypeId !== "AUTO_EXIT" && !isToyMoving(toy.id));
+  const idle = state.toys.filter((toy) => Mechanics.manual(toy) && !isToyMoving(toy.id));
   if (!idle.length) return;
   if (!consumeTool("shuffle")) return;
   const random = seededRandom((state.levelIndex + 1) * 1009 + state.shuffleSerial * 9176 + state.moves * 37);
@@ -992,6 +1144,7 @@ function randomizeToyDirection(toy, random) {
   const originalCells = toy.cells.map((cell) => ({ ...cell }));
   const currentHead = headCell(toy);
   const occupied = occupancyFor(state.toys.filter((item) => item.state === "IDLE" && item.id !== toy.id));
+  if (state.mechanics) for (const [cell, id] of Mechanics.occupied(mechanicBoard(), toy.id)) occupied.set(cell, id);
   for (const direction of candidates) {
     let candidateCells;
     if (direction === OPPOSITE_DIRECTION[originalDirection]) {
@@ -1012,8 +1165,8 @@ function randomizeToyDirection(toy, random) {
 }
 
 function checkLevelCleared() {
-  if (!state.levelCompleteAt && state.toys.every((item) => item.state !== "IDLE")) {
-    const animationMs = Math.max(0, ...state.exiting.map((anim) => anim.duration - anim.elapsed));
+  if (!state.levelCompleteAt && state.toys.every((item) => item.state !== "IDLE") && !state.entities.some(e => e.countsTowardClear && Mechanics.active(e))) {
+    const animationMs = Math.max(0, state.mechanicBusyUntil - state.time, ...state.exiting.map((anim) => anim.duration - anim.elapsed));
     state.levelCompleteAt = state.time + Math.max(650, animationMs + 100);
   }
 }
@@ -1050,12 +1203,14 @@ function comboRemainingMs() {
 }
 
 function update(dt) {
+  resumeAdTool();
   const wasClosing = dialogMotion.closing;
   tickDialogMotion(dt * 1000);
   if (levelTransition) { updateLevelTransition(dt * 1000); return; }
   if (wasClosing) return;
   if (state.pauseOpen || state.toolModal) return;
   state.time += dt * 1000;
+  state.mechanicFlights = state.mechanicFlights.filter(flight => state.time < flight.until);
   for (let i = timers.length - 1; i >= 0; i -= 1) {
     if (state.time >= timers[i].at) {
       const { callback } = timers.splice(i, 1)[0];
@@ -1073,7 +1228,7 @@ function update(dt) {
     if (remaining <= 1) {
       motion.elapsed = motion.duration;
       const toy = state.toys.find(item => item.id === motion.id && item.state === "IDLE");
-      if (toy) triggerImpact(toy, motion.blockerId, DIR[toy.direction]);
+      if (toy && !motion.zone) triggerImpact(toy, motion.blockerId, DIR[toy.direction]);
     }
   });
   state.moving = state.moving.filter((motion) => motion.elapsed < motion.duration);
@@ -1084,6 +1239,7 @@ function update(dt) {
     effect.vy += 28 * dt;
   });
   state.effects = state.effects.filter((effect) => effect.life > 0);
+  updateDeadlock();
   if (state.combo > 0 && state.time >= state.comboExpiresAt) {
     state.combo = 0;
     state.comboExpiresAt = 0;
@@ -1142,9 +1298,7 @@ function fillRoundRect(x, y, w, h, r, fill, stroke = null, lineWidth = 1) {
 }
 
 function drawBackground() {
-  const [width, height] = ART_MANIFEST.assets.art_bedroom_bg_01.size;
-  const scale = Math.max(W / width, H / height);
-  drawArt("art_bedroom_bg_01", { x: (W - width * scale) / 2, y: (H - height * scale) / 2, w: width * scale, h: height * scale });
+  drawRoomBackground(ctx, artImages.get("art_bedroom_bg_01"));
 }
 
 function drawHeader(title, subtitle) {
@@ -1159,9 +1313,9 @@ function drawHeader(title, subtitle) {
 
 function drawHome() {
   ctx.fillStyle = "#fbe6e7";
-  ctx.fillRect(0, 0, W, H);
+  fillViewport(ctx);
   drawHomeScreen(ctx, homeProgress(), paintControl);
-  drawCurrencyHud(false);
+  atOffset(ctx, viewport.top, () => drawCurrencyHud(false));
   if (!homeAssetsComplete()) {
     fillRoundRect(140, 3, 260, 27, 12, "rgba(255,247,240,.92)");
     artText("少量图片正在补载…", 270, 17, 13);
@@ -1220,6 +1374,7 @@ function drawToolModal() {
 }
 
 function openPause() {
+  if (state.toolMode) return;
   if (state.toolModal) return;
   if (state.mode !== "play" || state.levelCompleteAt) return;
   cancelToolMode();
@@ -1283,29 +1438,52 @@ function toyArtLayout(toy) {
   const rabbit = toy.archetypeId === "ORDINARY", duck = toy.archetypeId === "AUTO_EXIT";
   // Keep the approved toy artwork size independent of layout spacing.
   const inset = TOY_VISUAL_GAP;
-  const scale = TOY_DISPLAY_SCALE * (rabbit ? 0.9 : 1);
+  const scale = TOY_DISPLAY_SCALE * (rabbit ? 0.9 : duck ? 0.9 : 0.76);
   const displayWidth = (width - inset) * scale;
   const displayHeight = (height - inset) * scale;
   const id = rabbit ? "toy_rabbit_white_a" : duck ? "toy_duck_yellow_a" : "toy_whale_blue_a";
-  const angle = rabbit ? RABBIT_ANGLE[toy.direction] : duck ? 0 : toy.direction === "UP" ? Math.PI / 2 : toy.direction === "DOWN" ? -Math.PI / 2 : 0;
-  return { id, angle, flip: !rabbit && !duck && toy.direction === "RIGHT",
+  const angle = rabbit ? RABBIT_ANGLE[toy.direction] : duck ? DUCK_ANGLE[toy.direction] || 0 : toy.direction === "UP" ? Math.PI / 2 : toy.direction === "DOWN" ? -Math.PI / 2 : 0;
+  return { id, angle, flip: !rabbit && toy.direction === "RIGHT",
     rect: { x: center.x - displayWidth / 2, y: center.y - displayHeight / 2, w: displayWidth, h: displayHeight } };
 }
 
 function drawGame() {
   drawBackground();
   const spec = LEVEL_SPECS[state.levelIndex];
+  if (state.mechanics) drawBoardEntities();
 
   const idleToys = state.toys.filter((toy) => toy.state === "IDLE");
   idleToys.forEach((toy) => {
+    if (state.mechanicFlights.some(flight => flight.toy.id === toy.id)) return;
     const offset = toyMotionOffset(toy);
     drawToy(toy, offset.x, offset.y, 1);
   });
+  for (const flight of state.mechanicFlights) {
+    const progress = Math.max(0, Math.min(1, (state.time - flight.start) / (flight.until - flight.start)));
+    const segment = progress * (flight.steps.length - 1);
+    const index = Math.min(flight.steps.length - 2, Math.floor(segment));
+    const a = flight.steps[index], b = flight.steps[index + 1];
+    const fraction = b.teleport ? 0 : segment - index;
+    const frame = b.teleport && segment - index >= .5 ? b : a;
+    const ax = Math.min(...frame.cells.map(c => c.x)), ay = Math.min(...frame.cells.map(c => c.y));
+    const bx = Math.min(...b.cells.map(c => c.x)), by = Math.min(...b.cells.map(c => c.y));
+    const sprite = { ...flight.toy, cells: frame.cells, x: ax, y: ay, direction: frame.direction };
+    if (sprite.kind === 'SPRING') {
+      drawSpringSprite(sprite, BOARD.x + (ax + (bx - ax) * fraction) * BOARD.cell + 3,
+        BOARD.y + (ay + (by - ay) * fraction) * BOARD.cell + 3, BOARD.cell - 6,
+        flight.exits ? 1 - Math.max(0, (progress - .8) * 5) : 1);
+      continue;
+    }
+    drawToy(sprite, (bx - ax) * fraction * BOARD.cell,
+      (by - ay) * fraction * BOARD.cell,
+      flight.exits ? 1 - Math.max(0, (progress - .8) * 5) : 1, flight.exits ? Math.max(0, (progress - .7) / .3) : null);
+  }
   state.exiting.forEach((anim) => {
     if (anim.path) {
       const progress = Math.min(1, anim.elapsed / anim.duration) * (anim.path.length - 1);
       const i = Math.min(Math.floor(progress), anim.path.length - 2);
-      const a = anim.path[i], b = anim.path[i + 1], fraction = progress - i;
+      const a = anim.path[i], b = anim.path[i + 1], fraction = b.portal ? (progress - i >= .5 ? 1 : 0) : progress - i;
+      anim.toy.direction = duckTravelDirection(a, b);
       drawToy(anim.toy, (a.x + (b.x - a.x) * fraction - anim.toy.x) * BOARD.cell,
         (a.y + (b.y - a.y) * fraction - anim.toy.y) * BOARD.cell,
         1 - Math.max(0, progress - (anim.path.length - 2)), anim.elapsed / anim.duration);
@@ -1319,8 +1497,66 @@ function drawGame() {
   });
   drawEffects();
 
-  drawArtHud(spec);
-  TOOL_BUTTONS.forEach(drawToolButton);
+  atOffset(ctx, viewport.top, () => drawArtHud(spec));
+  if (state.toolMode) drawTargetSelection();
+  else { atOffset(ctx, viewport.bottom, () => TOOL_BUTTONS.forEach(drawToolButton)); drawDeadlockHint(); }
+}
+
+let targetArrowImage = null;
+let deadlockHandImage = null;
+let deadlockBannerImage = null;
+let deadlockState = { signature: null, since: 0, blocked: false, nextCheck: 0 };
+function updateDeadlock() {
+  if (state.mode !== "play" || state.toolMode || state.moving.length || state.exiting.length || state.mechanicFlights.length || state.time < state.mechanicBusyUntil || state.levelCompleteAt) {
+    deadlockState = { signature: null, since: state.time, blocked: false, nextCheck: 0 }; return;
+  }
+  if (state.time < deadlockState.nextCheck) return;
+  deadlockState.nextCheck = state.time + 300;
+  const board = mechanicBoard(), signature = `${state.levelIndex}:${Mechanics.hash(board)}`;
+  if (signature === deadlockState.signature) return;
+  let blocked = state.toys.some(t => t.state === "IDLE");
+  if (blocked && state.mechanics) {
+    const settled = Mechanics.copy(board); Mechanics.settle(settled);
+    blocked = Mechanics.hash(settled) === Mechanics.hash(board)
+      && !board.toys.filter(Mechanics.manual).some(t => Mechanics.click(Mechanics.copy(board), t.id).changed);
+  } else if (blocked) {
+    blocked = !state.toys.some(t => t.state === "IDLE" && canMove(t));
+  }
+  deadlockState = { signature, blocked, since: state.time, nextCheck: state.time + 300 };
+}
+function deadlockHint() {
+  if (!deadlockState.blocked || state.time - deadlockState.since < 600 || state.mode !== "play" || state.pauseOpen || state.toolModal || state.toolMode || state.levelCompleteAt || pendingLoad || state.moving.length || state.exiting.length || state.mechanicFlights.length || state.time < state.mechanicBusyUntil) return null;
+  const tool = ["shuffle", "remove", "flip"].find(id => { const reason = toolUnavailable(id); return !reason || reason === "金币不足"; });
+  return { tool: tool || null, message: tool ? "玩具都被堵住啦，试试道具吧" : "道具次数已用完，试试重新开始吧" };
+}
+function drawDeadlockHint() {
+  const hint = deadlockHint(); if (!hint) return;
+  ctx.save();
+  if (deadlockBannerImage) ctx.drawImage(deadlockBannerImage, 49, 270, 442, 52);
+  artText(hint.message, 270, 303, 22, "#B46A91", 418, 700, "#FFF9F4");
+  if (hint.tool && deadlockHandImage) {
+    const button = TOOL_BUTTONS.find(b => b.id === hint.tool);
+    const y = button.y + viewport.bottom - 66 + Math.sin(state.time / 230) * 5;
+    ctx.drawImage(deadlockHandImage, button.x + button.w / 2 - 34, y, 68, 68);
+  }
+  ctx.restore();
+}
+function targetSelectionPrompt() {
+  return state.toolMode === "flip" ? "请选择1个玩具翻转朝向"
+    : `请选择第${state.toolSelection.length + 1}个玩具移除`;
+}
+function drawTargetSelection() {
+  ctx.save();
+  ctx.fillStyle = "rgba(43, 30, 65, .60)";
+  fillViewport(ctx);
+  state.toys.filter(toy => toy.state === "IDLE").forEach(toy => {
+    const offset = toyMotionOffset(toy);
+    drawToy(toy, offset.x, offset.y, toy.archetypeId === "AUTO_EXIT" && state.toolMode === "flip" ? .38 : 1);
+  });
+  const y = 855 + viewport.bottom + Math.sin(state.time / 280) * 4;
+  if (targetArrowImage) ctx.drawImage(targetArrowImage, 242, y - 28, 56, 56);
+  artText(targetSelectionPrompt(), 270, 916 + viewport.bottom, 25, "#FFF7EF", 480, 700, "#704F78");
+  ctx.restore();
 }
 
 function drawToolButton(button) {
@@ -1423,6 +1659,12 @@ function drawToy(toy, offsetX, offsetY, alpha, exitProgress = null) {
   const directionChanged = state.directionFxIds.includes(toy.id);
   const age = state.time - toy.blockedAt;
   const pose = toyAnimationPose(toy, state.time, exitProgress);
+  if (toy.sleeping) {
+    const breath = Math.sin(state.time / 650 + toy.numericId * .7);
+    pose.sleeping = true; pose.blink = 0;
+    pose.sx = 1 + .018 * breath; pose.sy = 1 - .028 * breath;
+    pose.hop = -.7 * breath;
+  }
   const impact = pose.mode === "impact";
   const shake = impact ? Math.sin(age / IMPACT_DURATION_MS * Math.PI * 4) * (1 - age / IMPACT_DURATION_MS) * 3 : 0;
   x += (toy.impactDx || 0) * shake;
@@ -1441,8 +1683,142 @@ function drawToy(toy, offsetX, offsetY, alpha, exitProgress = null) {
   art.rect.y += offsetY + (toy.impactDy || 0) * shake;
   fitArt(art.id, art.rect, art.flip, art.angle, pose);
   ctx.shadowBlur = 0;
+  if (state.mechanics) drawMechanicBadge(toy, x, y, w, h, pose);
   if (isSelected) artText("✓", x + w / 2, y + h / 2, 19, "#ba497c", undefined, 700);
   ctx.restore();
+}
+
+function drawMechanicBadge(toy, x, y, w, h, pose) {
+  if (toy.ice > 0) {
+    ctx.save(); ctx.globalAlpha *= toy.ice === 2 ? .62 : .43;
+    drawMechanicArt('ice', x - 3, y - 3, w + 6, h + 6, 0, true); ctx.restore();
+    if (toy.ice === 1) { ctx.strokeStyle = '#70afd2'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x + w * .65, y); ctx.lineTo(x + w * .4, y + h * .5); ctx.lineTo(x + w * .65, y + h); ctx.stroke(); }
+    artText(`❄${toy.ice}`, x + w / 2, y + h / 2 + 4, 12, '#4f92b7', 28, 700, '#fff');
+  }
+  if (toy.sleeping) {
+    for (let i = 0; i < 3; i++) {
+      const phase = ((state.time / 2300 + toy.numericId * .13 + i / 3) % 1 + 1) % 1;
+      ctx.save(); ctx.globalAlpha *= Math.sin(phase * Math.PI) * .85;
+      artText('z', x + w * .65 + phase * 10, y + 9 - phase * 17, 9 + phase * 5, '#8063ac', 20, 700, '#fff6ff');
+      ctx.restore();
+    }
+  }
+  if (toy.sleeping) {
+    const art = toyArtLayout(toy), image = sleepingArt.get(art.id) || artImages.get(art.id);
+    const rotated = Math.abs(Math.sin(art.angle)) > .5;
+    const fit = image ? Math.min((rotated ? art.rect.h : art.rect.w) / image.width, (rotated ? art.rect.w : art.rect.h) / image.height) : 1;
+    const span = image ? (toy.archetypeId === 'ORDINARY' ? image.height : image.width) * fit : Math.max(w, h);
+    ctx.save();
+    ctx.translate(x + w / 2, y + h / 2 + (pose?.hop || 0));
+    ctx.rotate((RABBIT_ANGLE[toy.direction] || 0) + (pose?.rotation || 0));
+    if (pose) ctx.scale(pose.sx, pose.sy);
+    ctx.translate(0, span * (toy.archetypeId === 'ORDINARY' ? .28 : .06));
+    drawMechanicArt('sleep-count', -12, -10, 24, 20);
+    artText(String(toy.sleepRemaining), 0, 1, 12, '#685185', 18, 800, '#fffafc');
+    ctx.restore();
+  }
+  if (toy.pairId || toy.keyId) {
+    // Anchor on the rendered torso, not the footprint center (the rabbit's face).
+    const art = toyArtLayout(toy), image = artImages.get(art.id);
+    const rotated = Math.abs(Math.sin(art.angle)) > .5;
+    const fit = image ? Math.min((rotated ? art.rect.h : art.rect.w) / image.width, (rotated ? art.rect.w : art.rect.h) / image.height) : 1;
+    const span = image ? (toy.archetypeId === 'ORDINARY' ? image.height : image.width) * fit : Math.max(w, h);
+    const bodyOffset = span * (toy.archetypeId === 'ORDINARY' ? .28 : .06);
+    ctx.save();
+    ctx.translate(x + w / 2, y + h / 2 + (pose?.hop || 0));
+    ctx.rotate((RABBIT_ANGLE[toy.direction] || 0) + (pose?.rotation || 0));
+    if (pose) ctx.scale(pose.sx, pose.sy);
+    ctx.translate(0, bodyOffset);
+    if (toy.pairId) drawMechanicArt('heart', -11, -12.5, 22, 25, mechanicHue('pairId', toy.pairId, 'hug'));
+    if (toy.keyId) drawMechanicArt('key', -11, -11, 22, 22, mechanicHue('keyId', toy.keyId));
+    ctx.restore();
+  }
+}
+function mechanicHue(field, id, group = '') {
+  const members = group === 'hug' ? state.toys : group === 'portal' ? state.entities.filter(e => e.kind === 'PORTAL') : [...state.toys, ...state.entities];
+  const ids = [...new Set(members.map(e => e[field]).filter(Boolean))].sort();
+  return Math.max(0, ids.indexOf(id)) * 137;
+}
+function drawMechanicArt(id, x, y, w, h, hue = 0, stretch = false) {
+  if (!mechanicAtlas) return false;
+  const [sx, sy, sw, sh] = MECHANIC_ART[id], scale = Math.min(w / sw, h / sh);
+  ctx.save(); if (hue) ctx.filter = `hue-rotate(${hue}deg)`;
+  if (stretch) ctx.drawImage(mechanicAtlas, sx, sy, sw, sh, x, y, w, h);
+  else ctx.drawImage(mechanicAtlas, sx, sy, sw, sh, x + (w - sw * scale) / 2, y + (h - sh * scale) / 2, sw * scale, sh * scale);
+  ctx.restore();
+  return true;
+}
+function drawSpringSprite(entity, x, y, size, alpha = 1) {
+  ctx.save(); ctx.globalAlpha *= alpha;
+  ctx.translate(x + size / 2, y + size / 2);
+  ctx.rotate({ RIGHT: 0, DOWN: Math.PI / 2, LEFT: Math.PI, UP: -Math.PI / 2 }[entity.direction] || 0);
+  ctx.scale(1.2, 1.2);
+  drawMechanicArt('spring', -size / 2 - 2, -size / 2 - 2, size + 4, size + 4);
+  ctx.restore();
+}
+function drawBoardEntities() {
+  for (const entity of state.entities.filter(Mechanics.active)) {
+    if (state.mechanicFlights.some(flight => flight.toy.id === entity.id)) continue;
+    const x = BOARD.x + entity.x * BOARD.cell + 3, y = BOARD.y + entity.y * BOARD.cell + 3, s = BOARD.cell - 6;
+    ctx.save();
+    if (['BOX', 'LOCK_BOX', 'PORTAL'].includes(entity.kind)) {
+      const cx = BOARD.x + (entity.x + (Math.max(...entity.cells.map(c => c.x)) - entity.x + 1) / 2) * BOARD.cell;
+      const cy = BOARD.y + (entity.y + (Math.max(...entity.cells.map(c => c.y)) - entity.y + 1) / 2) * BOARD.cell;
+      ctx.translate(cx, cy); ctx.scale(1.2, 1.2); ctx.translate(-cx, -cy);
+    }
+    if (entity.feedbackUntil > state.time) { ctx.shadowColor = '#fff4a1'; ctx.shadowBlur = 10; }
+    if (['CONVEYOR', 'ROTATOR'].includes(entity.kind)) {
+      const w = (Math.max(...entity.cells.map(c => c.x)) - entity.x + 1) * BOARD.cell - 2;
+      const h = (Math.max(...entity.cells.map(c => c.y)) - entity.y + 1) * BOARD.cell - 2;
+      const conveyor = entity.kind === 'CONVEYOR';
+      const blocked = entity.feedbackUntil > state.time && entity.feedbackBlocked;
+      fillRoundRect(x - 2, y - 2, w, h, 7, conveyor ? 'rgba(126,211,202,.20)' : 'rgba(189,152,229,.20)', blocked ? '#d88f62' : conveyor ? '#6bb9b0' : '#ab84c2', 2);
+      if (conveyor) for (const c of entity.cells) artText({ LEFT: '‹', RIGHT: '›', UP: '⌃', DOWN: '⌄' }[entity.direction], BOARD.x + (c.x + .5) * BOARD.cell, BOARD.y + (c.y + .62) * BOARD.cell, 19, '#7bb8b2', 25, 700);
+      else {
+        artText(entity.clockwise ? '↻' : '↺', x + w - 15, y + h - 6, 25, '#a884bc', 30, 700);
+      }
+      fillRoundRect(x, y - 5, 51, 13, 5, conveyor ? '#d9f0e8' : '#eadcf4');
+      artText(`${conveyor ? '传送' : '旋转'} ${entity.period - entity.phase}`, x + 25, y + 5, 9, '#786387', 48, 700);
+    } else if (entity.kind === 'ONE_WAY_EXIT') {
+      fillRoundRect(x - 2, y - 2, s + 4, s + 4, 8, entity.feedbackBlocked && entity.feedbackUntil > state.time ? '#ffe0ce' : '#e4f2df', '#82b28d', 2);
+      artText({ LEFT: '←', RIGHT: '→', UP: '↑', DOWN: '↓' }[entity.direction], x + s / 2, y + s / 2 + 6, 24, '#589771', 30, 700);
+    } else if (entity.kind === 'BOX') {
+      if (drawMechanicArt('box', x - 1, y - 1, s + 2, s + 2)) {
+        if (entity.hp === 1) { ctx.strokeStyle = '#8e5856'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x + 4, y + 3); ctx.lineTo(x + 15, y + 12); ctx.lineTo(x + 10, y + 20); ctx.lineTo(x + 24, y + 26); ctx.stroke(); }
+        ctx.restore(); continue;
+      }
+      fillRoundRect(x, y, s, s, 6, '#e3b982', '#9f724f', 2);
+      ctx.strokeStyle = '#b98959'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(x + s / 2, y + 2); ctx.lineTo(x + s / 2, y + s - 2); ctx.stroke();
+      if (entity.hp === 1) { ctx.strokeStyle = '#815b51'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x + 4, y + 3); ctx.lineTo(x + 14, y + 11); ctx.lineTo(x + 8, y + 19); ctx.lineTo(x + 23, y + 26); ctx.stroke(); }
+      else for (let i = 0; i < entity.hp; i++) { ctx.fillStyle = '#fff0c7'; ctx.beginPath(); ctx.arc(x + 10 + i * 8, y + 22, 2, 0, Math.PI * 2); ctx.fill(); }
+    } else if (entity.kind === 'SPRING') {
+      if (mechanicAtlas) { drawSpringSprite(entity, x, y, s); ctx.restore(); continue; }
+      fillRoundRect(x + 2, y, s - 4, 14, 7, '#f5c598', '#b77f73', 2);
+      ctx.strokeStyle = '#9874a7'; ctx.lineWidth = 2.6;
+      ctx.beginPath(); for (let i = 0; i < 5; i++) { const yy = y + 15 + i * 2.4; ctx.moveTo(x + 5, yy); ctx.lineTo(x + s - 5, yy + 2); } ctx.stroke();
+      ctx.fillStyle = '#79585d'; for (const xx of [x + 10, x + 19]) { ctx.beginPath(); ctx.arc(xx, y + 7, 1.5, 0, 7); ctx.fill(); }
+    } else if (entity.kind === 'LOCK_BOX') {
+      const maxX = Math.max(...entity.cells.map(c => c.x)), maxY = Math.max(...entity.cells.map(c => c.y));
+      if (drawMechanicArt('lock', x, y, (maxX - entity.x + 1) * BOARD.cell - 6, (maxY - entity.y + 1) * BOARD.cell - 6, mechanicHue('keyId', entity.keyId))) {
+        if (entity.cells.length > 1) { ctx.strokeStyle = '#c9a16c'; ctx.lineWidth = 1; ctx.strokeRect(x, y, (maxX - entity.x + 1) * BOARD.cell - 6, (maxY - entity.y + 1) * BOARD.cell - 6); }
+        ctx.restore(); continue;
+      }
+      fillRoundRect(x, y, (maxX - entity.x + 1) * BOARD.cell - 6, (maxY - entity.y + 1) * BOARD.cell - 6, 7, '#f4d78a', '#af8840', 2);
+      ctx.strokeStyle = '#ae8244'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(x + s / 2, y + 12, 6, Math.PI, 0); ctx.stroke();
+      fillRoundRect(x + 8, y + 12, 14, 12, 4, '#fff1be', '#ae8244', 1.5);
+      ctx.fillStyle = '#ae8244'; ctx.fillRect(x + 14, y + 16, 2, 5);
+    } else if (entity.kind === 'PORTAL') {
+      const width = (Math.max(...entity.cells.map(c => c.x)) - entity.x + 1) * BOARD.cell - 6;
+      const height = (Math.max(...entity.cells.map(c => c.y)) - entity.y + 1) * BOARD.cell - 6;
+      if (drawMechanicArt('portal', x - 2, y - 2, width + 4, height + 4, mechanicHue('pairId', entity.pairId, 'portal'))) { ctx.restore(); continue; }
+      const glow = ctx.createRadialGradient(x + width / 2, y + height / 2, 2, x + width / 2, y + height / 2, width / 2);
+      glow.addColorStop(0, '#8260ae'); glow.addColorStop(.6, '#b497dd'); glow.addColorStop(1, '#f6d2ff');
+      ctx.fillStyle = glow; ctx.strokeStyle = '#9c7bc5'; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.ellipse(x + width / 2, y + height / 2, width / 2, height / 2 - 2, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      artText('✦', x + width / 2, y + height / 2 + 5, 15, '#fff3fe', 23, 700);
+    }
+    ctx.restore();
+  }
 }
 
 function headPixel(toy, x, y, w, h) {
@@ -1552,7 +1928,7 @@ function drawFinale() {
   night.addColorStop(0, "rgba(92,91,144,.05)");
   night.addColorStop(1, "rgba(25,23,58,.72)");
   ctx.fillStyle = night;
-  ctx.fillRect(0, 0, W, H);
+  fillViewport(ctx);
   ctx.textAlign = "center";
   ctx.fillStyle = "#ffe9a9";
   ctx.beginPath(); ctx.arc(270, 190, 68, 0, Math.PI * 2); ctx.fill();
@@ -1560,7 +1936,7 @@ function drawFinale() {
   ctx.beginPath(); ctx.arc(296, 170, 65, 0, Math.PI * 2); ctx.fill();
   ctx.fillStyle = "#fff7ec";
   ctx.font = '700 20px "Microsoft YaHei UI", sans-serif';
-  ctx.fillText("20 关全部完成", W / 2, 342);
+  ctx.fillText(`${LEVEL_SPECS.length} 关全部完成`, W / 2, 342);
   ctx.font = '700 52px Georgia, "Microsoft YaHei UI", serif';
   ctx.fillText("晚安", W / 2, 414);
   ctx.fillStyle = "rgba(255,247,236,.7)";
@@ -1581,15 +1957,17 @@ function lighten(hex, amount) {
 function render() {
   syncDialogMotion(!artReady || pendingLoad || levelTransition ? null : state.toolModal ? `tool.${state.toolModal}` : state.pauseOpen ? `${state.mode}.settings` : state.mode === "level-complete" ? "complete" : null);
   // Keep source-resolution detail on high-DPI devices without changing input coordinates.
+  resizeViewport(canvas);
   const ratio = Math.min(2, window.devicePixelRatio || 1);
-  if (canvas.width !== W * ratio || canvas.height !== H * ratio) {
+  const pixelHeight = Math.round(viewport.height * ratio);
+  if (canvas.width !== W * ratio || canvas.height !== pixelHeight) {
     canvas.width = W * ratio;
-    canvas.height = H * ratio;
+    canvas.height = pixelHeight;
   }
-  ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+  ctx.setTransform(ratio, 0, 0, ratio, 0, viewport.y * ratio);
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = "high";
-  ctx.clearRect(0, 0, W, H);
+  ctx.clearRect(0, -viewport.y, W, viewport.height);
   if (!artReady) {
     drawLoadingScreen(ctx, { progress: loadingProgress(), error: Boolean(artError) });
     if (artError) {
@@ -1612,7 +1990,7 @@ function render() {
 
 function canvasPoint(event) {
   const rect = canvas.getBoundingClientRect();
-  return { x: ((event.clientX - rect.left) / rect.width) * W, y: ((event.clientY - rect.top) / rect.height) * H };
+  return { x: ((event.clientX - rect.left) / rect.width) * W, y: ((event.clientY - rect.top) / rect.height) * viewport.height - viewport.y };
 }
 
 function pointInRect(point, rect) {
@@ -1637,20 +2015,26 @@ function paintControl(id, rect, paint) {
   ctx.save();
   const matrix = ctx.getTransform();
   const ratio = canvas.width / W;
-  ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-  ctx.translate(rect.x + rect.w / 2, rect.y + rect.h / 2);
-  ctx.scale(scale, scale);
-  ctx.translate(-rect.x - rect.w / 2, -rect.y - rect.h / 2);
-  ctx.transform(matrix.a / ratio, matrix.b / ratio, matrix.c / ratio, matrix.d / ratio, matrix.e / ratio, matrix.f / ratio);
+  const cx = (rect.x + rect.w / 2) * ratio;
+  const cy = (rect.y + rect.h / 2 + controlOffset(id) + viewport.y) * ratio;
+  ctx.setTransform(matrix.a * scale, matrix.b * scale, matrix.c * scale, matrix.d * scale,
+    cx + (matrix.e - cx) * scale, cy + (matrix.f - cy) * scale);
   paint();
   ctx.restore();
 }
 function activeControls() {
+  return baseActiveControls().map(b => ({ ...b, y: b.y + controlOffset(b.id) }));
+}
+function baseActiveControls() {
+  if (state.toolMode) return [];
   if (dialogMotionBusy() || levelTransition) return [];
   if (!artReady || performance.now() < state.navigationUntil) return [];
   if (pendingLoad) return [{ id: "loading.cancel", ...LOAD_UI.cancel }, ...(pendingLoad.error ? [{ id: "loading.retry", ...LOAD_UI.retry }] : [])];
   const group = (prefix, rects) => Object.entries(rects).map(([key, rect]) => ({ id: `${prefix}.${key}`, ...rect }));
-  if (state.toolModal) return toolAdPending ? [] : group("tool", TOOL_MODAL_UI).filter(b => b.id !== "tool.action" || !toolUnavailable(state.toolModal));
+  if (state.toolModal) return toolAdPending ? [] : group("tool", TOOL_MODAL_UI).filter(b => {
+    const reason = toolUnavailable(state.toolModal);
+    return b.id === "tool.action" ? !reason : b.id === "tool.ad" ? !reason || reason === "金币不足" : true;
+  });
   if (state.mode === "home") return state.pauseOpen ? group("settings", HOME_SETTINGS_UI)
     : group("home", HOME_UI).filter(b => b.id !== "home.start" || !homeProgress().complete);
   if (state.mode === "level-complete") return group("complete", COMPLETE_UI);
@@ -1701,6 +2085,7 @@ canvas.addEventListener("pointerup", (event) => {
   }
   if (performance.now() < state.navigationUntil) return;
   const point = canvasPoint(event);
+  if (released) point.y -= controlOffset(released.id);
   if (pendingLoad) {
     if (pendingLoad.error && pointInRect(point, LOAD_UI.retry)) requestSystems(pendingLoad.keys, pendingLoad.action);
     else if (pointInRect(point, LOAD_UI.cancel)) {
@@ -1720,8 +2105,8 @@ canvas.addEventListener("pointerup", (event) => {
   }
   if (state.mode === "home") {
     if (state.pauseOpen) handleHomeSettings(point);
-    else if (pointInRect(point, HOME_UI.settings)) { requestSystems(["settings"], () => { state.pauseOpen = true; render(); }); }
-    else if (pointInRect(point, HOME_UI.start)) startFromHome();
+    else if (released?.id === "home.settings") { requestSystems(["settings"], () => { state.pauseOpen = true; render(); }); }
+    else if (released?.id === "home.start") startFromHome();
     return;
   }
   if (state.mode === "level-complete") {
@@ -1741,12 +2126,12 @@ canvas.addEventListener("pointerup", (event) => {
     handlePausePointer(point);
     return;
   }
-  if (pointInRect(point, PAUSE_BUTTON)) {
+  if (!state.toolMode && released?.id === "play.pause") {
     openPause();
     return;
   }
-  const toolButton = TOOL_BUTTONS.find((button) => pointInRect(point, button));
-  if (toolButton) {
+  const toolButton = TOOL_BUTTONS.find((button) => released?.id === `play.${button.id}`);
+  if (toolButton && !state.toolMode) {
     openToolModal(toolButton.id);
     return;
   }
@@ -1788,13 +2173,13 @@ function drawLevelTransition() {
   ctx.fillStyle = '#f8e9ef';
   if (reduced) {
     ctx.globalAlpha = cover * (1 - reveal);
-    ctx.fillRect(0, 0, W, H);
+    fillViewport(ctx);
   } else {
     ctx.beginPath();
-    if (elapsed < 400) ctx.arc(W / 2, H / 2, 560 * smooth(cover), 0, Math.PI * 2);
+    if (elapsed < 400) ctx.arc(W / 2, H / 2, Math.hypot(W / 2, Math.max(480 + viewport.y, viewport.height - viewport.y - 480)) * smooth(cover), 0, Math.PI * 2);
     else {
-      ctx.rect(0, 0, W, H);
-      ctx.arc(W / 2, H / 2, 560 * smooth(reveal), 0, Math.PI * 2);
+      ctx.rect(0, -viewport.y, W, viewport.height);
+      ctx.arc(W / 2, H / 2, Math.hypot(W / 2, Math.max(480 + viewport.y, viewport.height - viewport.y - 480)) * smooth(reveal), 0, Math.PI * 2);
     }
     ctx.fill('evenodd');
   }
@@ -1826,6 +2211,7 @@ document.addEventListener("keydown", (event) => {
     render();
     return;
   }
+  if (state.toolMode && key !== "f") { event.preventDefault(); return; }
   if (key === "f") {
     if (document.fullscreenElement) document.exitFullscreen();
     else canvas.requestFullscreen?.();
@@ -1843,7 +2229,7 @@ document.addEventListener("keydown", (event) => {
 
 function renderGameToText() {
   const economy = { coins: profile.coins, inventory: { ...profile.inventory }, price: TOOL_PRICE, perLevelLimit: TOOL_LIMIT };
-  const art = { loading: imageLoadStatus(), loadingScreen: { ...loadingArtStatus(), visible: !artReady || Boolean(pendingLoad), progress: loadingProgress(), retry: LOAD_UI.retry, cancel: pendingLoad ? LOAD_UI.cancel : null }, systems: Object.fromEntries(Object.entries(systemAssets).map(([key, value]) => [key, value.ready])), waiting: pendingLoad ? { systems: pendingLoad.keys, error: pendingLoad.error } : null, version: ART_MANIFEST.version, ready: artReady, loaded: artImages.size, expected: Object.keys(ART_MANIFEST.assets).length, error: artError || null, rabbitPose: "head-follows-direction", rug: { visible: false }, currencies: "coins", toolStock: "persistent-inventory" };
+  const art = { viewport: { ...viewport, controls: activeControls() }, loading: imageLoadStatus(), loadingScreen: { ...loadingArtStatus(), visible: !artReady || Boolean(pendingLoad), progress: loadingProgress(), retry: LOAD_UI.retry, cancel: pendingLoad ? LOAD_UI.cancel : null }, systems: Object.fromEntries(Object.entries(systemAssets).map(([key, value]) => [key, value.ready])), waiting: pendingLoad ? { systems: pendingLoad.keys, error: pendingLoad.error } : null, version: ART_MANIFEST.version, ready: artReady, loaded: artImages.size, expected: Object.keys(ART_MANIFEST.assets).length, error: artError || null, rabbitPose: "head-follows-direction", rug: { visible: false }, currencies: "coins", toolStock: "persistent-inventory" };
   if (state.mode === "home") {
     const progress = homeProgress();
     return JSON.stringify({ mode: "home", art, homeArt: homeArtStatus(), economy, title: "晚安，玩具屋",
@@ -1852,13 +2238,13 @@ function renderGameToText() {
       ...progress, settingsOpen: state.pauseOpen,
       settings: { musicEnabled: state.musicEnabled, audioEnabled: state.audioEnabled, vibrationEnabled: state.vibrationEnabled },
       uiHitAreas: { home: HOME_UI, settings: HOME_SETTINGS_UI },
-      currencyAssets: CURRENCY_LAYERS, coordinateSystem: "540x960 canvas; origin top-left; x right, y down" });
+      currencyAssets: CURRENCY_LAYERS, coordinateSystem: "540-wide design coordinates; screen y = design y + art.viewport.y; x right, y down" });
   }
   if (state.mode === "finale") {
     return JSON.stringify({ mode: "night-complete", chapter: LEVEL_SPECS[state.levelIndex].chapterId, completedLevels: LEVEL_SPECS.length, action: "click 回到玩具屋" });
   }
   const remaining = state.toys.filter((toy) => toy.state === "IDLE");
-  const scans = new Map(remaining.map((toy) => [toy.id, scanForward(toy, remaining)]));
+  const scans = new Map(remaining.map((toy) => [toy.id, state.mechanics ? Mechanics.scan(mechanicBoard(), toy) : scanForward(toy, remaining)]));
   const exits = remaining.filter((toy) => toy.archetypeId !== "AUTO_EXIT" && scans.get(toy.id).exitsBoard);
   const movable = remaining.filter((toy) => {
     const scan = scans.get(toy.id);
@@ -1866,6 +2252,7 @@ function renderGameToText() {
   });
   return JSON.stringify({
     mode: state.mode,
+    preview: previewIndex >= 0,
     art,
     economy,
     completion: state.mode === "level-complete" ? {
@@ -1876,6 +2263,7 @@ function renderGameToText() {
     uiHitAreas: { pause: PAUSE_BUTTON, tools: TOOL_BUTTONS, pauseMenu: PAUSE_UI, toolModal: TOOL_MODAL_UI, completion: COMPLETE_UI },
     coordinateSystem: "12x18 grid; origin top-left; x right; y down; each toy x/y is top-left occupied cell",
     board: { ...BOARD },
+    mechanics: state.mechanics ? { entities: state.entities.filter(Mechanics.active), events: state.mechanicEvents, busy: state.time < state.mechanicBusyUntil, graph: Mechanics.graph(mechanicBoard()) } : null,
     levelNo: LEVEL_SPECS[state.levelIndex].levelNo,
     chapterId: LEVEL_SPECS[state.levelIndex].chapterId,
     level: LEVEL_SPECS[state.levelIndex].id,
@@ -1897,6 +2285,8 @@ function renderGameToText() {
     movableToyIds: movable.map((toy) => toy.id),
     hintedToyId: state.hintedId,
     toolMode: state.toolMode,
+    deadlockHint: deadlockHint(),
+    targetSelection: state.toolMode ? { prompt: targetSelectionPrompt(), locked: true, toolsVisible: false } : null,
     toolSelection: [...state.toolSelection],
     toolUses: { ...state.toolUses },
     lastToolAction: state.lastToolAction,
@@ -1909,12 +2299,18 @@ function renderGameToText() {
     controls: { removeTwo: "button 1", shuffleFive: "button 2", flipOne: "button 3", pause: "top-left navigation tab or P", resume: "pause modal or Esc", restart: "pause modal", fullscreen: "F" },
     toys: remaining.map((toy) => {
       const scan = scans.get(toy.id);
-      return { id: toy.id, archetype: toy.archetypeId, skin: toy.skinId, type: toy.toyType, size: toy.sizeType, length: toy.length, x: toy.x, y: toy.y, direction: toy.direction, cells: toy.cells.map((cell) => ({ ...cell })), forwardSpaces: scan.emptySteps, blockerId: scan.blockerId, outcome: toy.archetypeId === "AUTO_EXIT" ? "AUTO_WAIT" : scan.exitsBoard ? "EXIT" : scan.emptySteps > 0 ? "STOP_AT_BLOCKER" : "BLOCKED", canMove: toy.archetypeId !== "AUTO_EXIT" && (scan.exitsBoard || scan.emptySteps > 0) };
+      return { iceLayers: toy.ice || 0, sleeping: !!toy.sleeping, sleepRemaining: toy.sleepRemaining || 0, hugLocked: !!toy.hugLocked, id: toy.id, archetype: toy.archetypeId, skin: toy.skinId, type: toy.toyType, size: toy.sizeType, length: toy.length, x: toy.x, y: toy.y, direction: toy.direction, cells: toy.cells.map((cell) => ({ ...cell })), forwardSpaces: scan.emptySteps, blockerId: scan.blockerId, outcome: toy.archetypeId === "AUTO_EXIT" ? "AUTO_WAIT" : scan.exitsBoard ? "EXIT" : scan.emptySteps > 0 ? "STOP_AT_BLOCKER" : "BLOCKED", canMove: toy.archetypeId !== "AUTO_EXIT" && (scan.exitsBoard || scan.emptySteps > 0) };
     }),
   });
 }
 
 function autoClearForQa() {
+  if (state.mechanics) {
+    const initial = Mechanics.fromConfig(LEVEL_CONFIG.levels[state.levelIndex]); Mechanics.settle(initial);
+    const actions = Mechanics.hash(initial) === Mechanics.hash(mechanicBoard()) ? LEVEL_CONFIG.levels[state.levelIndex].solution : Mechanics.solve(mechanicBoard()).actions;
+    for (const id of actions || []) { activateToy(state.toys.find(t => t.id === id)); window.advanceTime(3000); }
+    return;
+  }
   let guard = 0;
   while (state.mode === "play" && state.toys.some((toy) => toy.state === "IDLE") && guard < 100) {
     settleAutoExits();
@@ -1938,11 +2334,26 @@ window.advanceTime = (ms) => {
 };
 window.__toyhouse_debug = {
   uiMotion: uiMotionStatus,
+  mechanicSnapshot: () => Mechanics.copy(mechanicBoard()),
+  mechanicSolution: () => LEVEL_CONFIG.levels[state.levelIndex].solution,
   toyAnimationPose,
   grantReward,
   openToolModal,
   confirmTool,
   levels: LEVEL_SPECS.map((_, index) => ({ ...LEVEL_SPECS[index], analysis: buildLevel(index).analysis })),
+  loadMechanicConfig: (config) => {
+    const board = Mechanics.fromConfig(config), errors = Mechanics.validate(board);
+    if (errors.length) throw new Error(errors.join(', '));
+    startLevel(Math.min(20, LEVEL_SPECS.length - 1));
+    state.toys = board.toys.map((toy, i) => ({ ...toy, numericId: i + 1, skinId: TOY_ARCHETYPES[toy.archetypeId].skinId,
+      exitMode: TOY_ARCHETYPES[toy.archetypeId].exitMode, toyType: TOY_ARCHETYPES[toy.archetypeId].name,
+      typeIndex: TOY_ARCHETYPES[toy.archetypeId].paletteIndex, variant: i % 5, length: toy.cells.length,
+      sizeType: `1×${toy.cells.length}`, blockedAt: -9999 }));
+    state.initialToys = state.toys.map(cloneToy);
+    state.entities = board.entities; state.mechanics = true; state.mechanicRngState = board.randomState; state.portalRandomization = board.portalRandomization;
+    state.exiting = []; state.mechanicFlights = []; state.mechanicEvents = []; state.mechanicBusyUntil = 0;
+    state.levelCompleteAt = 0; settleAutoExits(); render();
+  },
   startLevel,
   availableIds: () => availableToys().map((toy) => toy.id),
   movableIds: () => movableToys().map((toy) => toy.id),
@@ -1967,3 +2378,4 @@ function frame(now) {
 
 render();
 requestAnimationFrame(frame);
+if (previewIndex >= 0) window.__toyhouse_art_ready.then(() => requestSystems(['play', 'settings'], () => startLevel(previewIndex)));

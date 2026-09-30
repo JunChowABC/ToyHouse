@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>玩具屋 · 机制工作台 v1.5</title><link rel="icon" href="data:,"><link rel="stylesheet" href="editor.css">
+<header><strong>晚安，玩具屋</strong><span>机制工作台 · v1.5</span><a href="../">进入游戏 ↗</a></header>
+<main><aside>
+<h2>关卡</h2><select id="level" aria-label="选择关卡"></select>
+<p id="summary"></p><button id="reset">恢复关卡</button>
+<h2>生成与优化</h2><label>难度目标<select id="difficulty"><option value="EASY">简单</option><option value="NORMAL" selected>普通</option><option value="HARD">困难</option></select></label>
+<label>连锁目标<select id="cascade"><option value="LOW">低</option><option value="MEDIUM" selected>中</option><option value="HIGH">高</option></select></label>
+<div id="pool"></div><details><summary>高级参数</summary><label>随机种子<input id="seed" type="number" value="6581"></label><label>搜索节点上限<input id="limit" type="number" min="100" max="100000" value="12000"></label><p>数量、原型与皮肤沿用所选关卡。方向空间分布沿用已验证的基础布局。</p></details>
+<button id="generate">生成候选关卡</button><button id="optimize">自动优化关卡</button>
+<h2>文件</h2><label class="file">导入 JSON<input id="import" type="file" accept=".json"></label><button id="export">导出当前关卡 JSON</button><p>候选不会自动替换正式关卡。导出前检查实测报告。</p>
+</aside><section>
+<nav><button id="boardTab" class="active">盘面</button><button id="graphTab">依赖图</button><button id="play">试玩：关闭</button><button id="undo">撤销操作</button></nav>
+<canvas id="board" width="504" height="756" aria-label="关卡盘面"></canvas><div id="graph" hidden></div>
+<div class="legend">兔 → 固定方向　鸭 ◇ 自动寻路　鲸 ⇒ 三格<br>箱 ▣ 耐久　眠 Zz 同号唤醒　弹 ≋ 推动　抱 ♥ 同组解锁　钥 ⚿ / 锁 ▤　门 ◎<br>冰 ❄ 碰撞解冻　单向出口 →　传送带 ⇢　旋转区 ↻（按有效点击计数）</div>
+</section><aside class="inspector">
+<h2 id="selected">选择一个对象</h2><form id="properties">
+<label>位置 X / Y<div class="row"><input id="x" type="number" min="0" max="11"><input id="y" type="number" min="0" max="17"></div></label>
+<label>方向<select id="direction"><option value="R">右</option><option value="L">左</option><option value="U">上</option><option value="D">下</option><option value="">无</option></select></label>
+<label>玩具状态<select id="modifier"><option value="">普通</option><option value="SLEEPING">睡眠</option><option value="HUG_LOCKED">抱抱锁定</option><option value="FROZEN">冰冻</option></select></label>
+<label>睡眠唤醒所需离场数<input id="wakeAfterExits" type="number" min="1" max="71" value="3"></label>
+<label>冰层<input id="ice" type="number" min="1" max="2" value="1"></label>
+<label>区域宽 / 高<div class="row"><input id="regionWidth" type="number" min="1" max="12"><input id="regionHeight" type="number" min="1" max="18"></div></label>
+<label>触发周期（有效点击数）<input id="period" type="number" min="1" max="8" value="1"></label><label>旋转方向<select id="clockwise"><option value="true">顺时针90°</option><option value="false">逆时针90°</option></select></label>
+<label>抱抱来源<input id="source"></label><label>配对 ID<input id="pair"></label><label>钥匙 ID<input id="key"></label><label>纸箱耐久<input id="hp" type="number" min="1" max="3"></label>
+<button>应用修改并校验</button></form>
+<label>选择盘面物件<select id="entityList"><option value="">选择物件（可选中玩具下方区域）</option></select></label>
+<label>新增物件<select id="newKind"><option value="CONVEYOR">传送带</option><option value="ROTATOR">旋转区域</option><option value="ONE_WAY_EXIT">单向出口</option></select></label><button id="addEntity">添加物件并编辑</button>
+<h2>解法与质量</h2><button id="analyze">分析（含 SHIFT 安全率）</button><button id="next">播放下一步解法</button><pre id="report">选择关卡后开始分析。</pre>
+<h2>触发链 / 连锁预览</h2><button id="preview">模拟选中玩具</button><pre id="events">点击盘面选择对象；试玩模式下点击即执行。</pre><p id="status" role="status"></p>
+</aside></main><script type="module" src="editor.js"></script></html>

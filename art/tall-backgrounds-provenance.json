@@ -1,0 +1,77 @@
+[
+  {
+    "name": "home",
+    "source": "assets/runtime-ui/home-static_0-1919c6712faa.webp",
+    "generated": "output\\imagegen\\tall-home-v1.png",
+    "output": "assets\\runtime-ui\\tall-home-v1.webp",
+    "size": [
+      1024,
+      2816
+    ],
+    "generated_size": [
+      756,
+      2079
+    ],
+    "original_box": [
+      0,
+      498,
+      1024,
+      2317
+    ],
+    "tool": "official imagegen CLI",
+    "model": "gpt-image-2",
+    "quality": "high",
+    "prompt": "Use case: precise-object-edit\nAsset type: tall mobile game home room background, 1024x2816.\nInput image: edit target, original room centered on a taller transparent canvas.\nPrimary request: OUTPAINT ONLY the transparent top and bottom bands, naturally continuing this exact pastel bedtime toy room. Top: continue the existing curtains, window/wall or ceiling. Bottom: continue the existing floor and foreground perspective. Match the existing soft warm lighting, pink cream lavender colors, hand-painted detail and perspective seamlessly.\nConstraints: Keep the central original image in exactly the same position, size, composition and colors. Do not zoom, stretch, move, redesign, duplicate or replace any original objects. Do not add toys, characters, logos, UI controls, text, borders, frames, plain bars or blurred bands. The entire output must be an opaque continuous illustration. No transparency remains. Preserve the central play mat exactly if present. Only extend the room beyond the top and bottom edges.",
+    "sha256": "604de3aa4076dd1b9c3166fa578c8142bbbfc4597d349d228b11dea2da680081"
+  },
+  {
+    "name": "play",
+    "source": "assets/toyhouse-ui-v3/art_bedroom_bg_01.png",
+    "generated": "output\\imagegen\\tall-play-v1.png",
+    "output": "assets\\runtime-ui\\tall-play-v1.webp",
+    "size": [
+      1024,
+      2816
+    ],
+    "generated_size": [
+      756,
+      2079
+    ],
+    "original_box": [
+      0,
+      498,
+      1024,
+      2317
+    ],
+    "tool": "official imagegen CLI",
+    "model": "gpt-image-2",
+    "quality": "high",
+    "prompt": "Use case: precise-object-edit\nAsset type: tall mobile game play room background, 1024x2816.\nInput image: edit target, original room centered on a taller transparent canvas.\nPrimary request: OUTPAINT ONLY the transparent top and bottom bands, naturally continuing this exact pastel bedtime toy room. Top: continue the existing curtains, window/wall or ceiling. Bottom: continue the existing floor and foreground perspective. Match the existing soft warm lighting, pink cream lavender colors, hand-painted detail and perspective seamlessly.\nConstraints: Keep the central original image in exactly the same position, size, composition and colors. Do not zoom, stretch, move, redesign, duplicate or replace any original objects. Do not add toys, characters, logos, UI controls, text, borders, frames, plain bars or blurred bands. The entire output must be an opaque continuous illustration. No transparency remains. Preserve the central play mat exactly if present. Only extend the room beyond the top and bottom edges.",
+    "sha256": "61b369a2b483a370d2792a072d73c8adc924947b92aeeb284da5419343085e31"
+  },
+  {
+    "name": "loading",
+    "source": "assets/loading-v1/background-f2df99b41453.webp",
+    "generated": "output\\imagegen\\tall-loading-v1.png",
+    "output": "assets\\runtime-ui\\tall-loading-v1.webp",
+    "size": [
+      1024,
+      2816
+    ],
+    "generated_size": [
+      756,
+      2079
+    ],
+    "original_box": [
+      0,
+      498,
+      1024,
+      2317
+    ],
+    "tool": "official imagegen CLI",
+    "model": "gpt-image-2",
+    "quality": "high",
+    "prompt": "Use case: precise-object-edit\nAsset type: tall mobile game loading room background, 1024x2816.\nInput image: edit target, original room centered on a taller transparent canvas.\nPrimary request: OUTPAINT ONLY the transparent top and bottom bands, naturally continuing this exact pastel bedtime toy room. Top: continue the existing curtains, window/wall or ceiling. Bottom: continue the existing floor and foreground perspective. Match the existing soft warm lighting, pink cream lavender colors, hand-painted detail and perspective seamlessly.\nConstraints: Keep the central original image in exactly the same position, size, composition and colors. Do not zoom, stretch, move, redesign, duplicate or replace any original objects. Do not add toys, characters, logos, UI controls, text, borders, frames, plain bars or blurred bands. The entire output must be an opaque continuous illustration. No transparency remains. Preserve the central play mat exactly if present. Only extend the room beyond the top and bottom edges.",
+    "sha256": "2377052382ff670ee52cb8cc8bba6c7dd944beb290998c3815f0496f0e234f0e"
+  }
+]

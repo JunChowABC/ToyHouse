@@ -198,14 +198,15 @@ export function drawToolDialog(ctx, { toolId, lines, buying, price, reason, adPe
   });
   feedback("tool.ad", TOOL_MODAL_UI.ad, () => {
     ctx.save();
-    ctx.filter = adPending ? "grayscale(1)" : "none";
-    ctx.globalAlpha *= adPending ? .75 : 1;
+    const adDisabled = adPending || (reason && reason !== "金币不足");
+    ctx.filter = adDisabled ? "grayscale(1)" : "none";
+    ctx.globalAlpha *= adDisabled ? .75 : 1;
     ctx.drawImage(toolButtonImages.get("ui_tool_ad_pink_v3"), 479, 1122, 254, 143);
     ctx.filter = "none";
     ctx.drawImage(toolButtonImages.get("ui_rewarded_ad_v3"), 498, 1152, 72, 72);
     const label = { ...bodySpec, color: "#B575A1", font_size: 32, stroke: { color: "#FFF8FC", width: 1.5 } };
     paintPauseText(ctx, label, adPending ? "观看中" : "看广告", [571, 1147, 138, 45]);
-    paintPauseText(ctx, { ...label, font_size: 24 }, "获得 1 个", [565, 1195, 150, 35]);
+    paintPauseText(ctx, { ...label, font_size: 24 }, "观看后使用", [565, 1195, 150, 35]);
     ctx.restore();
   });
   if (adMessage) paintPauseText(ctx, { ...bodySpec, font_size: 21, color: "#98669F" }, adMessage, [205, 1274, 531, 30]);

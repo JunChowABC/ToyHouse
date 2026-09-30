@@ -1,0 +1,10 @@
+{
+  "method": "official Imagegen CLI generate",
+  "model": "gpt-image-2",
+  "quality": "high",
+  "prompt": "art/deadlock-banner-flat-prompt.txt",
+  "source": "output\\imagegen\\deadlock-banner-flat-v2.png",
+  "source_sha256": "d1e87438f75fa41f4cf7cd5cd6cfcdb655a746e586f2ec198ce55a04e63bd6ce",
+  "asset": "assets\\tool-dialog-v1\\ui_deadlock_banner_v2.png",
+  "processing": "Preserved generated silhouette; cropped margins; scaled end geometry uniformly and resized center; normalized maximum alpha to 115/255 for a translucent overlay."
+}

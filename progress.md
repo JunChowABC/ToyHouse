@@ -1,5 +1,46 @@
 Original prompt: 根据《《晚安，玩具屋》游戏设计文档 GDD.md》帮我实现核心玩法
 
+## 2026-09-30 · 弹簧连续滑行修正
+
+- 用户撤销“推一格后缩回底座”：只能受撞击移动，沿撞击方向滑行至障碍前，前方直到边缘无障碍则离场。停下仍阻挡，可再次被撞动，支持2×2传送门。
+- 共用scan处理弹簧路径；ON_PUSH携带完整运动路径，Canvas先播放推动者接触动画，再播放弹簧滑行，不再显示紫色底座。弹簧实际离场计入睡眠唤醒和Combo；完成条件沿用原实体分类。
+- 第41～100关重新求解，第80、98关弹簧各平移一格，未删改其他对象。规则单测、80关解法、9关额外机制、源码定向浏览器场景、标准客户端画面、109关浏览器完整回放、源码/构建版编辑器及构建版传送门真实点击测试均通过。截图在 test-output/spring-slide/，无待处理失败。
+- 构建与GM隔离检查通过；未发布、未同步Maker。
+
+## 2026-09-30 · 睡眠离场计数机制
+
+- 用户将睡眠机制改为按任意玩具离场数量唤醒，特别确认自动离场鸭子也计数。每次真实离场逐只递减，归零时苏醒并隐藏身体上的数字与底板。
+- 120只既有睡眠玩具已依据原解法的离场顺序迁移为1～5的 `wake_after_exits`；移除原唤醒源绑定，更新引擎、生成器、编辑器与Canvas显示。底板使用之前授权的imagegen CLI生成并打入图集。
+- 原80关及9个新增关卡解法、109关源码浏览器完整回放、双鸭同波计数、重复事件保护、移除道具计数、三视口2→1→0画面、编辑器工作流通过。正式构建GM排除通过。本地服务4186，未发布/未同步Maker。当前规则见 docs/design/睡眠离场计数机制-v1.6.md。
+
+## 2026-09-29 · 挂牌与钥匙避开脸部
+
+- 用户要求钥匙、心形挂牌放在身体上。标识锚点从占格中心改为基于实际原画缩放计算的身体位置，沿玩具朝向向身体侧偏移；保留四方向与运动姿态跟随。
+- 本地源码/docs已更新；三视口机制美术回归通过，标准客户端两轮通过并查看截图确认脸部无遮挡。未发布或同步Maker。
+
+## 2026-09-29 · 机制标识朝向与尺寸
+
+- 向用户说明紫色数字为睡眠/唤醒源配对编号；用户未要求删除，保留显示。
+- 心形挂牌和钥匙随玩具四方向旋转并跟随运动姿态；弹簧、传送门、锁盒、纸箱以占格中心放大20%，不改逻辑占格。
+- 已更新本地Web/docs构建；机制美术三视口回归通过、页面错误0，标准客户端两轮通过且已查看截图，发布构建GM排除通过。未发布或同步Maker。
+
+## 2026-09-29 · 机制美术与睡眠动画
+
+- 按用户指定资源接入纸箱、冰块、弹簧、锁盒、钥匙、传送门；抱抱丝带替换为imagegen生成心形挂牌。
+- 内置image_gen不可用，经用户明确同意使用技能CLI及现有密钥，成功生成挂牌、兔子3-短版闭眼图、鲸鱼4闭眼图；提示词、源文件、原画哈希及导出见 art/mechanics-art-v2.md。原始图片未覆盖。
+- 睡眠闭眼图与游戏时间驱动的呼吸缩放、三个z浮动淡入淡出已接入；暂停冻结，唤醒恢复睁眼图。
+- 三视口来源/构建一致、图像加载、睡眠/暂停/唤醒、冰层碰撞解冻、抱抱解锁专项通过，页面错误0。标准Web游戏客户端两轮已运行并查看截图；构建的GM排除检查通过。
+- 本地docs构建已更新，预览 /docs/?previewLevel=76。未发布，未同步独立Maker。
+
+## 2026-09-29 · 补齐十种机制（本地交付）
+
+- 用户要求将余下冰冻、单向出口、传送带、旋转区域全部实现。已接入共享结算/求解/生成/运行时与编辑器；1～100关保持，追加101～109关。
+- 区域按有效点击周期触发，整组原子移动/旋转，受阻整组取消。详细规则与实现边界见 docs/design/十种关卡机制实现与验收-v1.5.md。
+- 四机制规则、9关无道具解法、原六机制与80关规则回放通过。源码/构建、桌面/手机尺寸实际点击专项通过，页面错误0；标准客户端两轮截图已查看。
+- 全部109关源码/构建合计218次完整通关通过，逐步规则状态一致、通关奖励和重开恢复通过，错误0。编辑器十机制池、区域修改/导出回读/解法失效及原图视图/分析/生成通过；原20关精确配置与鸭子规则回归通过。
+- 补测冻结状态不能消耗翻转库存、洗牌排除冻结玩具，源码/构建与两种尺寸均通过。测试脚本禁用RAF时改为定时轮询资源就绪，避免等待停住。
+- 本地预览 http://127.0.0.1:4186/docs/?previewLevel=109 已验证HTTP 200，编辑器 /docs/editor/。未发布、未同步独立Maker；后续仍可继续难度校准与专用机制美术。
+
 ## 2026-09-28 · Maker 激励广告接入完成（本地）
 
 - 用户确认广告已开通，并明确允许将已审阅广告配置同步至独立 Maker。项目941354、status=1，配置写入后回读一致。
@@ -606,3 +647,181 @@ Original prompt: 根据《《晚安，玩具屋》游戏设计文档 GDD.md》�
 - 修订旧测试：等待实际弹窗开合时长，网络清单包含3张广告PNG；保留其余正确性断言。
 - 详见art/publish-20260928-latest.md。制造绘制回放不代表手机实机或真实广告验收。
 - Maker已提交并推送166dd51，远程构建41秒成功、preview-refresh HTTP 200；本轮成功构建覆盖此前超时版本的所有更新。
+
+## 2026-09-28 · 六种关卡机制（开发中）
+
+- 本次用户确认依据新增机制 V1.0、底层结构与生成器升级 V1.0 两份设计，一次实现六种，不使用21～200关配方。
+- 用户确认弹簧规则修正：成功沿碰撞方向移动1格后缩回底座，不再阻挡；失败推移保持实体。解决原规则最后推动者永久被挡的无道具死锁。
+- 新增共享 Mechanics、状态搜索与生成模块、机制工作台；运行时接入六机制及连锁事件。前20关配置保留，新增21～100关正在生成与验证。
+
+## 2026-09-28 广告后立即使用
+
+- 完成并关闭广告、回到游戏前台后沿用弹窗收起动画自动执行：洗牌最多5个玩具转向，消除/翻转进入目标选择。失败、早退、重复回调不会自动使用；广告入口受本关次数/目标可用性限制，金币不足仍允许广告。
+- Web/docs与独立Maker均已更新。9组浏览器广告流程、实际Maker回调/主入口/前后台/存档、26个UI场景及4500动作样本通过。未远程构建或真机验收；本次后台配置复查超时，未改已有配置。
+
+## 2026-09-28 · 六种关卡机制本地交付
+
+- 完成纸箱、睡眠、弹簧、抱抱、钥匙/锁盒、传送门，共用事件队列与状态搜索；弹簧采用用户确认的成功推移后缩回并不再阻挡规则，设计文档已补充。
+- 新增21～100关，每关72只兔/鸭/鲸；80份无道具解法及全机制触发覆盖验证通过。前20关精确配置与释放曲线保留。
+- 源码/构建各100关合计200次完整通关回放，逐步规则状态一致、错误0；三视口道具/解锁/洗牌占格/重开通过，原道具经济与UI动效通过。
+- 机制工作台支持图视图、触发预览、对象编辑、Worker Solver/SHIFT分析、候选生成优化、JSON导入导出；源码和构建工作台回归通过。新增源图集沿用原画资源并保留来源哈希，标准客户端与手机截图已查看。
+- 本地服务4186；预览 /docs/?previewLevel=76 不写持久存档，已验证；工作台 /docs/editor/。docs构建已更新。未发布、未由本任务同步独立Maker。
+- 实现边界见 docs/design/六种关卡机制实现与验收-v1.4.md：当前复用现有释放布局并嵌入机制，难度/Cascade是候选评分，不宣称已完成任意图反向布局或严格难度档位批量校准。
+
+## 2026-09-28 广告自动使用双端发布
+
+- GitHub main：6283047fd03b69301c65b23d34c53bbd1270a7ab；Pages 36412713974 success，线上 game.js 与隔离发布包 SHA256 一致。发布隔离目录 C:/Users/Administrator/.codex/worktrees/ad-autouse-release/晚安，玩具屋，只包含广告流程变更；原工作区其他机制/编辑器工作保留。
+- Maker：1f13d32，已推送并远程构建成功，preview_refresh HTTP 200；日志 watcher 无轮询失败。真机广告流程仍待验收。
+
+
+## 2026-09-29 目标选择界面
+
+- 按两张参考图调整翻转/消除：紫灰遮罩压暗场景与顶部，玩具保持明亮；隐藏三个底部道具按钮，显示奶油黄箭头及选择提示。消除第1/2个提示随选择变化，完成前不允许空白点击、返回、暂停或快捷键退出；Maker失焦保留选择。
+- 本地Web/docs和独立Maker已同步，未推送或远程构建。tests/verify-target-selection.mjs的3视口/两工具/锁定/消耗通过；verify-tool-ads的9组广告流程通过；Maker真实main输入/前后台/分步选择通过，29个UI场景通过，Lua诊断0错误。
+- 截图 test-output/target-selection/540-flip.png；Maker指令Canvas回放 output/playwright/target-selection/select-remove-second.png（非真机验收）。
+
+
+## 2026-09-29 Imagegen目标选择箭头
+
+- 沿用用户CLI/API授权，使用技能官方image_gen.py、gpt-image-2/high，以现有浅黄按钮为风格参考生成圆润向上箭头；奶油黄主体、樱花粉厚边与奶白高光。原图自带alpha，保留透明度并等比缩放，未手工重画。
+- 源图 output/imagegen/target-arrow-v1.png；运行PNG assets/tool-dialog-v1/ui_target_arrow_v1.png；Web使用assets/runtime-ui/ui_target_arrow_v1.webp，Maker使用assets/toyhouse-ui-v2/ads/ui_target_arrow_v1.png。提示词art/target-arrow-prompt.txt，溯源art/target-arrow-provenance.json。
+- 本地Web/docs与Maker已替换；三视口选择流程、29个Maker UI场景通过并检查截图；未推送或构建远端。
+
+
+## 2026-09-29 鲸鱼与鸭子显示尺寸
+
+- 按当前宽高等比缩小：鲸鱼乘0.8、鸭子乘0.9；修改src/game.js的toyArtLayout，兔子与逻辑占格保持原值。
+- npm run build通过；标准Web游戏客户端用项目Chrome适配器运行，第109关两轮截图已检查，最终无页面错误。截图test-output/toy-size-adjustment-verified/shot-1.png。
+- 本地源码与docs已更新；未发布远端或同步独立Maker。
+
+
+- 追加调整：鲸鱼在0.8基础上再缩小5%，最终显示倍率0.76；本地docs重新构建通过，第109关截图test-output/whale-size-076/shot-0.png已检查，客户端无错误。
+
+
+## 2026-09-29 死局道具引导
+
+- 仅在场上还有玩具、动作结束并稳定600ms且所有有效操作均不可行时提示：玩具都被堵住啦，试试道具吧。优先引导洗牌，上限后选其他可用道具，全部用尽提示重新开始。弹窗、暂停、目标选择及通关期间隐藏，脱困后自动消失。Web新机制通过副本模拟有效点击避免破冰/推箱等误报；不修改真实棋盘。
+- 手指由官方Imagegen CLI/API（gpt-image-2/high）生成，原生透明度保留；奶白手套、粉色袖口及描边。源图output/imagegen/deadlock-hand-v1.png；PNG assets/tool-dialog-v1/ui_deadlock_hand_v1.png；提示词art/deadlock-hand-prompt.txt，溯源art/deadlock-hand-provenance.json。
+- 本地Web/docs及Maker同步；tests/verify-deadlock.mjs通过死局/可移动一步/障碍可破坏/弹窗选择隐藏/翻转脱困；Maker30场景及上限转移/全部用尽/脱困通过；LSP0错误。截图test-output/deadlock/540-blocked.png。未发布，未真机验收。
+
+
+## 2026-09-29 Imagegen提示底框
+
+- 用户要求提示底框使用Imagegen生成，沿用已授权官方CLI/API，gpt-image-2/high，以粉色按钮为风格参考。保留生成透明度，圆角端点等比缩放，仅中部延展为884x104；界面显示442x52。独立文字仍由程序绘制。
+- PNG assets/tool-dialog-v1/ui_deadlock_banner_v1.png；提示词art/deadlock-banner-prompt.txt；溯源art/deadlock-banner-provenance.json；原图output/imagegen/deadlock-banner-v1.png。Web/docs及本地Maker均已接入，死局回归及30个Maker UI场景通过。未发布。
+
+
+## 2026-09-29 玩具尺寸双端发布
+
+- 仅发布鲸鱼76%、鸭子90%尺寸改动；其他未发布工作保留。GitHub隔离发布提交7e7459a，Pages 36454959347 success，线上bundle与发布包SHA256一致。
+- Maker本地View.lua已同步；隔离绑定发布副本tmp/maker-toy-size-release，经26场景Lua UI验证和LSP 0错误后，通过Maker工具提交068ea41，远程构建成功，preview_refresh HTTP 200。真机验收未执行。
+
+
+## 2026-09-29 提示底框减重
+
+- 按用户要求通过Imagegen官方CLI/API重新生成扁平浅粉底，去掉厚边、高光、立体感；处理生成边缘杂点后将最大alpha设为115/255（45%不透明）。文字保持独立不透明。
+- 资源assets/tool-dialog-v1/ui_deadlock_banner_v2.png；源图output/imagegen/deadlock-banner-flat-v2.png；提示词art/deadlock-banner-flat-prompt.txt；处理脚本scripts/export-deadlock-banner-flat.py。本地Web/docs及Maker已替换，死局回归和30个Maker UI场景通过，未发布。
+
+
+## 2026-09-29 提示底框两端透明渐变
+
+- 在Imagegen v2底框上仅修改alpha：左右各24%宽度平滑淡出至完全透明，上下边缘轻羽化；保留中间45%不透明度及独立文字。资源ui_deadlock_banner_v3，处理脚本scripts/feather-deadlock-banner.py。Web/docs及Maker已同步。死局回归和30个Maker UI场景通过，未发布。
+
+
+## 2026-09-29 GitHub加载失败修复
+
+- 实际线上复现5张图片404：加载页2张、道具弹窗3张。根因Pages工作流仅复制runtime-ui，遗漏loading-v1和tool-dialog-v1，非尺寸倍率问题。
+- 隔离发布与主工作区pages.yml已补齐两目录；提交bc79523，Pages运行36508466823成功。
+- 按实际工作流组装_site后，本地及线上390/540宽度均真实点击进入关卡、打开道具弹窗；图片pending为空，高清加载图2/2，页面/资源错误0，线上截图test-output/pages-load-fixed/online-390.png已检查。
+
+
+## 2026-09-29 提示底框增强可见度
+
+- 用户反馈过透：v4中部不透明度提升至82%，左右淡出各缩短至16%宽度，保留8px上下羽化，并轻度浅粉调色增加与奶油背景的对比。Web/docs和Maker已同步，死局及30个UI场景验证通过，未发布。
+
+
+## 2026-09-29 关卡货币加号隐藏
+
+- Web drawArtHud调用drawCurrencyHud(false)，隐藏钻石/金币加号底图与文字；既有交互中无货币加号点击入口。Maker对应currency(g,false)已同步。
+- 本地docs构建通过，第16关标准客户端截图test-output/currency-plus-hidden/shot-0.png已检查，无页面错误。未发布本次更改。
+
+
+## 2026-09-29 货币栏加号双端发布
+
+- GitHub fb6094f，Pages 36509228505成功；线上正常进关，bundle与隔离发布包一致，资源/页面错误0，已检查online.png两个加号隐藏。
+- Maker 660b376，仅View.lua隐藏关卡加号；26个UI场景通过、Lua LSP 0错误，远程构建成功，preview_refresh HTTP 200，日志watcher连续失败0。真机视觉未验收。
+
+
+## 2026-09-29 guidance publication
+- Published target-selection lock/dimming, generated arrow, deadlock guidance hand, and flat faded banner v4 from isolated 20-level release checkout; unrelated 109-level mechanics/editor work remains local.
+- GitHub main: 8be7b7f09ea910d63089e9b4e25f470c799d65ab. Pages run 36510615204 succeeded. Online game.js and all three new runtime WebP assets returned HTTP 200 with SHA256 matching release docs.
+- Web target-selection, deadlock fixtures, and 9 ad/tool/viewport regression combinations passed. Maker UI (30 scenes/524 images) and installed ad/input flow checks passed after merging remote UI fixes.
+- Maker main: 7d2b88340a5d7c2ecf779fe9b15d1ea4daccb50d. Status detail confirms local/remote up_to_date, ahead=0, behind=0, clean.
+- Maker build call timed out at the client after 300s. Remote build/preview-refresh outcome is UNKNOWN; not retried blindly. Doctor found usable Git/Python/LSP/auth/project. Runtime watcher files remain from 2026-09-28 and are not evidence for this release. Browser fallback unavailable (Codex auth token unavailable). Physical device/online ad playback not verified.
+
+## 2026-09-29 · 本地 GM 与发布隔离
+
+- 用户要求：本地跳指定关卡、加金币、玩法机制生成、生成死局；今后所有线上更新/推送绝不能包含 GM。
+- 实现保存在 Git 忽略的 .local-gm/，scripts/serve.mjs 仅向 /src/game.js 注入；绑定 127.0.0.1。打开根页面右上角 GM；/docs/ 始终是正式构建预览。
+- 独立钱包 toyhouse-local-gm-v1。十种机制可组合，基础布局/种子可选；本地 Worker 生成，求解回放通过才加载，自定义盘面支持原暂停菜单重开。死局为两只相向兔子，无可移动操作，走原死局检测和道具解局流程。
+- .gitignore + AGENTS.md + 用户授权的跨会话记忆约定已保存。正式构建删除 __toyhouse_debug；scripts/verify-release-no-gm.mjs 检查 docs 和 Pages 实际上传目录，检出 GM 就失败。未提交、未推送、未同步 Maker。
+- 注意：旧浏览器回归部分直接调用 /docs/ 的 __toyhouse_debug，现在正式产物有意不再暴露它，verify-levels-v13.mjs 因此无法沿用原测试路径。需要后续将这类 QA 放在源码本地入口，正式版用真实交互验证；不得为了旧测试重新放开线上接口。
+- 验收完成：桌面 1280×1000、手机尺寸 390×844 的十机制逐项生成/重开，跳关与非法输入、金币刷新持久化/正常钱包隔离、真实死局及购买翻转解局、正式构建无 GM 面板/接口并正常进入游戏全部通过，页面异常 0。结果 test-output/local-gm/results.json；面板/死局/正式版截图已查看；技能标准客户端已运行并查看截图。
+- 构建排除扫描通过，故意混入开发接口的负向测试被成功拒绝；新增四机制规则、求解及 9 个生成关卡回放、鸭子规则专项通过。既有未改动文件的 diff 空行问题未擅自清理。
+- 当前可用本地 GM 预览：http://127.0.0.1:4190/。此 URL 依赖本轮服务器进程；以后请重新验证或运行 npm start。
+
+
+## 2026-09-29 · 所有界面长屏适配
+
+- 用户要求所有界面适配长屏，背景不足用 ImageGen；已明确授权官方 CLI/API。三张原房间背景上下扩图，保留原中央构图并接入 Web/Maker，提示词与溯源见 art/tall-backgrounds-provenance.json。
+- Web 全高度画布、safe-area、顶/底控件锚定、棋盘/弹窗等比居中、全屏遮罩和转场；点击坐标同步。加载内嵌背景也同步长屏。
+- 本地 Maker main.lua/View.lua/ScreenLayout.lua + 三张 PNG 已同步，原文件备份与哈希校验保存在 output/tall-screen-maker。首次直接复制被自动审核拒绝；核实 Maker clean、审阅差异、备份并哈希保护后同步获准。
+- Web 8 组长屏/标准/横屏/安全区/源码/正式版交互通过；Maker 30 UI 场景、6 组实际 Main 布局/DPR/胶囊及点击逆映射、55 UI 回放通过。已检查截图，正式 docs 构建和无 GM 检查通过，标准客户端首页/玩法通过。
+- Maker LSP wrapper 缺少 emmylua_check，未完成静态检查；没有提交、推送、远程构建或真机验收。详细记录 art/tall-screen-adaptation.md。
+
+
+## 2026-09-29 · 长屏适配双端发布
+
+- 用户明确要求推送 GitHub 与 TapTap Maker。GitHub 从 origin/main 的线上 20 关版本创建托管隔离工作树 C:/Users/Administrator/.codex/worktrees/tall-screen-release/晚安，玩具屋，移植本次长屏代码与三张背景，未带入本地 109 关机制、编辑器或 GM。主工作区未重置。
+- GitHub main 提交 c2dc75aa298d881d5399508cdc07027cce6ea998；Pages 36532200592 success；地址 https://junchowabc.github.io/ToyHouse/。发布基线的 8 组长屏/安全区/横屏/源码/正式版测试通过；实际 Pages 目录组装后真实按钮流程及脚本/背景 SHA256 通过。docs 与实际发布目录均通过 verify-release-no-gm。
+- Maker 使用 maker_build_current_directory 提交 acaa5e305be57cd244729eeaaa5997e8823a41d2，远程构建44秒成功，preview_refresh HTTP200。自动元数据提交 f888371 已按状态工具指示快进同步，本地 clean、ahead/behind=0/0。Maker scripts/assets 无 GM 检查通过，30 UI 场景/6 布局输入场景通过。
+- Maker watcher 连续失败0；runtime.log 中仍有本次构建前的历史记录，不作为真机验收证据。未进行物理设备验收。线上 Web 核验结果见 test-output/tall-publish/online/report.json（以文件实际存在与结果为准）。
+## 2026-09-30 · 睡眠计数底板扁平化
+
+- 按反馈用已获授权的 imagegen CLI 生成 `output/imagegen/mechanics-v2/sleep-count-plate-flat.png`：粉紫留白、奶油色内圈、深棕粗描边；旧布纹图保留作历史资源。
+- `scripts/export-mechanic-art.py` 已改用新版底板并重新导出图集；`npm run build`、`node tests/verify-mechanic-art-v2.mjs`、`node scripts/verify-release-no-gm.mjs docs` 通过。三视口截图已检查，睡眠数字与底板在唤醒后按既有逻辑消失。
+- 本次仅更新本地 Web 与 docs 预览，未同步 Maker、未提交或发布。
+## 2026-09-30 · 鸭子离场朝向与 1×1 弹簧
+
+- 鸭子离场动画按当前路径段调整贴图朝向；向右水平翻面，向上/下旋转，拐弯时随下一段更新。仅修改动画副本，鸭子的逻辑 `direction: null`、寻路和占格保持原样。
+- 已用此前授权的 imagegen CLI 生成紧凑版 `output/imagegen/mechanics-v2/spring-toy-1x1-compact.png`，替换旧横向弹簧图集来源；原画和第一版生成图均保留。1×1 格截图中脸、宽线圈、底座均可辨。
+- `verify-duck-rules`、`verify-duck-facing-browser`、`verify-extra-mechanics`、`verify-mechanic-art-v2`、正式构建及 GM 排除检查通过；标准网页游戏客户端第76关截图和状态、控制台已检查。未同步 Maker、未发布。
+## 2026-09-30 · 弹簧风格再修订
+
+- 用户指出紧凑版弹簧过于高饱和、图标化。改用低饱和奶油白/浅粉/淡蓝紫的 `spring-toy-1x1-style-v2-remaster.png`，与兔子和纸箱的柔和色调协调；本地重排缩小头部、放大线圈，棋盘第76关截图已检查。
+- 原画上传外部图像服务被自动审批拒绝，未执行；最终图片仅由文字提示词生成，再在本地用 `scripts/refine-spring-art.py` 处理。额外图像服务调用遇 502，未影响最终候选。来源及提示词见 `art/mechanics-art-v2.md`。
+- 已重导图集并构建 docs；三视口 `verify-mechanic-art-v2` 与 `verify-release-no-gm` 通过，标准网页游戏客户端无控制台错误。未同步 Maker、未发布。
+## 2026-09-30 · 弹簧俯视角修订
+
+- 用户指出前版是正面站立角度，不符合棋盘以俯视为主的资源视角。已用此前授权的 imagegen CLI 纯文字生成 `spring-toy-1x1-overhead-v1.png`，改为斜向平放的高俯视弹簧，保留奶油白、浅粉、淡蓝紫和棕色描边；源原画未上传。
+- 图集及 docs 已更新，第76关标准客户端截图 `test-output/spring-overhead-client/shot-0.png` 已检查，单格内线圈可辨。`verify-mechanic-art-v2` 三视口通过，正式构建 GM 排除通过。未同步 Maker、未发布。
+## 2026-09-30 · 弹簧横向对齐
+
+- 按用户要求把俯视弹簧逆时针旋转 45°，使头左尾右、线圈与棋盘行平行；当前图集来源 `spring-toy-1x1-overhead-horizontal.png`。原斜向图片保留。
+- 第76关标准客户端截图 `test-output/spring-horizontal-client/shot-0.png` 已检查；占格和机制规则未改。未同步 Maker、未发布。
+
+## 2026-09-30 · 第4–200关 V2.2 配置导入
+
+- 用户提供根目录 V2.2 弹簧滑行 JSON；原文件未修改。新导入器按尾格+方向逐占格转换，构建保留第1–3关，正式配置共200关。来源哈希与规则覆盖写入 import_provenance。
+- 新关卡弹簧沿自身方向、传送门先随机方向后轨道、鸭子传送重寻路、弹簧计入过关条件。既有关卡/测试默认运动规则保留。
+- 用户明确选择纸箱继续靠撞击销毁；2–4次原阈值转换为撞击耐久，取消周围玩具离场计数解释。
+- 197关坐标/引用/机制与抽样移动校验、全部200关浏览器加载、抽样游戏操作、3个手机版正式构建预览通过；既有鸭子/机制/新增机制回归、语法、构建与无GM排除通过。截图已查看，标准网页游戏客户端第139关已执行并查看。
+- 证据 test-output/levels-v22；导入说明 art/levels-v22-import.md。求解状态 NOT_CHECKED；全关无道具可解、全关人工试玩和真机不作为本轮已验收项。未同步Maker、提交、推送或发布。
+
+## 2026-09-30 · 开局鸭子道路实际堵死
+
+- 用户指出无操作就有鸭子离场；真实寻路查出27个传送门关共91只初始可离场鸭子，原配置 initial_auto_duck_ready=0 未涵盖真实Portal路径，前次验收漏检此条件。
+- 新 scripts/block-initial-ducks-v22.mjs 计算包含所有Portal出口的反向可达性，在移除全部鸭子后查找真正封闭空格。27关共移动110只鸭子；其中5关各移动1只无机制普通兔子封路，保持数量、ID、方向和机制实体位置/关系。
+- 坐标覆盖独立保存 config/initial-duck-blocks-v22.json（from/to/reason），原JSON未改。导入构建加入每只鸭子真实初始无路校验，失败即停止。没有禁用开局自动结算，操作后通路打开仍自动离场。
+- 单元验证全197关初始寻路、空结算不变、抽样移动后仍有鸭子离场。浏览器增加全200关完整数量/Combo0/无离场动画，以及139/192/198/200等待与重开。docs已重新构建，无GM检查通过。
+- 测试证据 test-output/levels-v22，说明 art/levels-v22-import.md。仅本地修正，未同步Maker、提交、推送或发布。

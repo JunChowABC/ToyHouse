@@ -23,7 +23,14 @@ createServer(async (request, response) => {
     let target = resolve(root, relativePath);
     if (target !== root && !target.startsWith(`${root}${sep}`)) throw new Error("Path outside project");
     if ((await stat(target)).isDirectory()) target = resolve(target, "index.html");
-    const body = await readFile(target);
+    let body = await readFile(target);
+    // Optional workstation extension. Never copied into the release entry point.
+    if (target === resolve(root, 'src/game.js')) {
+      try {
+        const extension = await readFile(resolve(root, '.local-gm/bootstrap.js'), 'utf8');
+        body = Buffer.from(body.toString('utf8').replace('"toyhouse-economy-v1"', '"toyhouse-local-gm-v1"') + '\n' + extension);
+      } catch (error) { if (error.code !== 'ENOENT') throw error; }
+    }
     response.writeHead(200, { "Content-Type": mimeTypes[extname(target)] || "application/octet-stream", "Cache-Control": "no-store" });
     response.end(body);
   } catch {

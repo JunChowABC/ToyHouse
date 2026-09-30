@@ -33,6 +33,10 @@ jobs:
           cp docs/index.html docs/game.js docs/styles.css _site/
           mkdir -p _site/assets/runtime-ui
           cp docs/assets/runtime-ui/*.webp _site/assets/runtime-ui/
+          cp -R docs/assets/loading-v1 docs/assets/tool-dialog-v1 _site/assets/
+          cp -R docs/assets/mechanics-v1 _site/assets/
+      - name: Reject local development controls
+        run: node scripts/verify-release-no-gm.mjs _site
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

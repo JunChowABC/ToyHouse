@@ -1,3 +1,4 @@
+import { viewport, controlOffset, atOffset, drawRoomBackground } from "./viewport.js";
 import { loadImage } from "./image-loader.js";
 import HOME_ART from "./home-runtime-manifest.js";
 
@@ -30,7 +31,7 @@ export const HOME_UI = Object.freeze(Object.fromEntries(Object.entries(HOME_ART.
 
 export async function loadHomeArt() {
   await Promise.all(Object.entries(HOME_ART.assets).map(async ([id, spec]) => {
-    const image = await loadImage(`${HOME_ART.directory}/${spec.file}`);
+    const image = await loadImage(id === "static_0" ? "assets/runtime-ui/tall-home-v1.webp" : `${HOME_ART.directory}/${spec.file}`);
     homeImages.set(id, image);
   }));
 }
@@ -65,17 +66,18 @@ function paintHomeText(ctx, spec, text) {
 }
 
 export function drawHomeScreen(ctx, { progressLabel, complete }, feedback = (id, rect, paint) => paint()) {
+  drawRoomBackground(ctx, homeImages.get("static_0"));
   ctx.save();
   ctx.translate(0, HOME_OFFSET_Y);
   ctx.scale(HOME_SCALE, HOME_SCALE);
   for (const id of HOME_ART.layers) {
-    if (!homeImages.has(id)) continue;
+    if (id === "static_0" || !homeImages.has(id)) continue;
     const spec = HOME_ART.assets[id];
     if (spec.control && !ENABLED_HOME_CONTROLS.has(spec.control)) continue;
     if (complete && id === 'art_start_title') continue;
     ctx.globalAlpha = spec.opacity * (complete && spec.control === 'start' ? .68 : 1);
     const control = spec.control;
-    const paint = () => ctx.drawImage(homeImages.get(id), ...placedHomeBounds(spec.bounds, control));
+    const paint = () => atOffset(ctx, (control ? controlOffset(`home.${control}`) : spec.bounds[1] > 1100 ? viewport.bottom : 0) / HOME_SCALE, () => ctx.drawImage(homeImages.get(id), ...placedHomeBounds(spec.bounds, control)));
     if (control) feedback(`home.${control}`, HOME_UI[control], paint);
     else paint();
   }
@@ -84,13 +86,15 @@ export function drawHomeScreen(ctx, { progressLabel, complete }, feedback = (id,
     if (spec.control && !ENABLED_HOME_CONTROLS.has(spec.control)) continue;
     const text = spec.name === "txt_date" ? progressLabel
       : spec.name === "txt_sleep" && complete ? "今晚好梦" : spec.text;
-    const paint = () => paintHomeText(ctx, { ...spec, delivery_bounds: placedHomeBounds(spec.delivery_bounds, spec.control) }, text);
+    const paint = () => atOffset(ctx, (spec.control ? controlOffset(`home.${spec.control}`) : spec.delivery_bounds[1] > 1100 ? viewport.bottom : 0) / HOME_SCALE, () => paintHomeText(ctx, { ...spec, delivery_bounds: placedHomeBounds(spec.delivery_bounds, spec.control) }, text));
     if (spec.control) feedback(`home.${spec.control}`, HOME_UI[spec.control], paint);
     else paint();
   }
   if (complete) {
+    ctx.save(); ctx.translate(0, viewport.bottom / HOME_SCALE);
     paintHomeText(ctx, { delivery_bounds: [307, 1280, 313, 70], font_size: 55, font_weight: 700, color: '#FFF5BC', stroke: {color:'#EE70A5',width:3} }, '今晚好梦');
     paintHomeText(ctx, { delivery_bounds: [300, 1445, 350, 42], font_size: 25, font_weight: 700, color: '#914963' }, progressLabel);
+    ctx.restore();
   }
   ctx.restore();
 }

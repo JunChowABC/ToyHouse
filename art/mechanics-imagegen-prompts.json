@@ -1,0 +1,24 @@
+{
+  "mode": "User-authorized imagegen CLI fallback",
+  "model": "gpt-image-1.5",
+  "jobs": [
+    {
+      "name": "rabbit-sleep",
+      "input": "原画资源/兔子3-短版.png",
+      "prompt": "precise-object-edit. Edit only the rabbit's two open brown eyes into gently curved closed sleeping eyelids. Preserve the exact rabbit identity, silhouette, upright pose, pink nightcap with yellow stars, star plush, bow, colors, shading and brown outline. No additional objects, no letters or Zzz. Transparent background, full body uncropped. Match source proportions exactly.",
+      "size": "1024x1536"
+    },
+    {
+      "name": "whale-sleep",
+      "input": "原画资源/鲸鱼4.png",
+      "prompt": "precise-object-edit. Edit only the whale's visible brown open eye into a gentle curved closed sleeping eyelid. Preserve the exact long slender whale silhouette and left-facing horizontal pose, blue nightcap, yellow stars, flippers, tail, colors, gradients and brown outline. Do not shorten or thicken its body. No additional objects, no letters or Zzz. Transparent background, full whale uncropped. Match source proportions exactly.",
+      "size": "1536x1024"
+    },
+    {
+      "name": "hug-heart-tag",
+      "input": null,
+      "prompt": "A single small heart-shaped hanging tag for a cozy pastel toy puzzle game. Blush pink heart pendant with cream inset edge and warm soft brown outline, a tiny hole at its top with a short cream string loop visibly attached. Soft clean 2D storybook toy illustration, gentle gradients, readable simple silhouette at 24 pixels. Front view, centered complete isolated item on transparent background. No letters, no symbols inside the heart, no bow, no extra objects, no shadow on background.",
+      "size": "1024x1024"
+    }
+  ]
+}

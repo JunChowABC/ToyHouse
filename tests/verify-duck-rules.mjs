@@ -2,20 +2,34 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import vm from "node:vm";
 import ART_MANIFEST from "../src/art-manifest.js";
+import Mechanics from '../src/mechanics.js';
 
 const config = JSON.parse(await readFile(new URL("../docs/design/核心玩法系统/晚安玩具屋_关卡配置_1-20_v1.3.json", import.meta.url), "utf8"));
 let source = await readFile(new URL("../src/game.js", import.meta.url), "utf8");
 source = source.replace('import LEVEL_CONFIG from "./level-config.js";', "const LEVEL_CONFIG = config;");
 source = source.replace('import ART_MANIFEST from "./art-manifest.js";', 'const ART_MANIFEST = artManifest;');
+source = source.replace(/^import .*;\r?$/gm, '');
 source = source.slice(0, source.indexOf('canvas.addEventListener("pointerup"'));
-const sandbox = { config, artManifest: ART_MANIFEST, document: { querySelector: () => ({ getContext: () => ({}) }) } };
+const sandbox = { config, artManifest: ART_MANIFEST, Mechanics, structuredClone,
+  localStorage: { getItem: () => null, setItem: () => {} }, performance: { now: () => 0 },
+  window: { addEventListener: () => {}, matchMedia: () => ({ matches: false }) },
+  document: { querySelector: () => ({ getContext: () => ({}), addEventListener: () => {} }) } };
 vm.createContext(sandbox);
-vm.runInContext(source + "\nglobalThis.qa = { findDuckPath, settleDuckWaves, settleAutoExits, buildLevel, state, activateToy, restartLevel, selectToyForRemoval, shuffleDirections, grantReward };", sandbox);
+vm.runInContext(source + "\nglobalThis.qa = { findDuckPath, duckTravelDirection, toyArtLayout, settleDuckWaves, settleAutoExits, buildLevel, state, activateToy, restartLevel, selectToyForRemoval, shuffleDirections, grantReward };", sandbox);
 const q = sandbox.qa;
 const duck = (id, x, y) => ({ id, x, y, cells: [{ x, y }], state: "IDLE", archetypeId: "AUTO_EXIT" });
 const obstacle = (id, cells) => ({ id, cells, state: "IDLE", archetypeId: "ORDINARY" });
 const d1 = duck("edge", 0, 4);
 assert.equal(q.findDuckPath(d1, [d1]).length, 2, "a duck already on an edge needs only the outward step");
+for (const [step, direction, angle, flip] of [
+  [{ x: -1, y: 0 }, 'LEFT', 0, false], [{ x: 1, y: 0 }, 'RIGHT', 0, true],
+  [{ x: 0, y: -1 }, 'UP', Math.PI / 2, false], [{ x: 0, y: 1 }, 'DOWN', -Math.PI / 2, false],
+]) {
+  assert.equal(q.duckTravelDirection({ x: 0, y: 0 }, step), direction);
+  const layout = q.toyArtLayout({ ...d1, direction });
+  assert.equal(layout.angle, angle);
+  assert.equal(layout.flip, flip);
+}
 const d2 = duck("corner", 2, 2);
 const enclosure = obstacle("walls", [{ x: 1, y: 2 }, { x: 3, y: 2 }, { x: 2, y: 1 }, { x: 2, y: 3 }]);
 assert.equal(q.findDuckPath(d2, [d2, enclosure]), null, "diagonal openings do not count");

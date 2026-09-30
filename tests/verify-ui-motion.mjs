@@ -81,7 +81,7 @@ try {
     assert.equal((await motion()).busy,false);
     assert.equal((await state()).levelNo,2);
     assert.equal((await state()).economy.coins,coins);
-    await page.evaluate(() => window.__toyhouse_debug.startLevel(19));
+    await page.evaluate(() => window.__toyhouse_debug.startLevel(window.__toyhouse_debug.levels.length - 1));
     await page.evaluate(() => window.__toyhouse_debug.clearCurrentLevel());
     await step(4000); await step(350);
     await page.keyboard.press('Enter'); await step(1100);

@@ -19,9 +19,9 @@ try {
       await page.mouse.click(b.x + x / 540 * b.width, b.y + y / 960 * b.height);
     };
     const rect = r => click(r.x + r.w / 2, r.y + r.h / 2);
-    const open = async id => { await advance(); const s = await read(); await rect(s.uiHitAreas.tools.find(t => t.id === id)); };
-    const confirm = async () => rect((await read()).uiHitAreas.toolModal.action);
-    const close = async () => rect((await read()).uiHitAreas.toolModal.close);
+    const open = async id => { await advance(); const s = await read(); await rect(s.uiHitAreas.tools.find(t => t.id === id)); await advance(350); };
+    const confirm = async () => { await rect((await read()).uiHitAreas.toolModal.action); await advance(350); };
+    const close = async () => { await rect((await read()).uiHitAreas.toolModal.close); await advance(250); };
     const target = async t => { const s = await read(); await click(s.board.x + (t.x + .5) * s.board.cell, s.board.y + (t.y + .5) * s.board.cell); };
     const reward = r => page.evaluate(r => window.__toyhouse_debug.grantReward(r), r);
     const shot = name => page.screenshot({ path: fileURLToPath(new URL(`${width}-${name}.png`, out)) });

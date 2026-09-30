@@ -1,0 +1,160 @@
+{
+  "box": {
+    "rect": [
+      4,
+      8,
+      120,
+      111
+    ],
+    "source": "原画资源/箱子.png",
+    "sourceBounds": [
+      145,
+      183,
+      1110,
+      1073
+    ],
+    "sha256": "7e7ef39c750a5b22a358eb0a42b247c4b56d121288a3bbe43725e2449d7de74f"
+  },
+  "spring": {
+    "rect": [
+      132,
+      32,
+      120,
+      64
+    ],
+    "source": "output/imagegen/mechanics-v2/spring-toy-1x1-overhead-horizontal.png",
+    "sourceBounds": [
+      0,
+      240,
+      1024,
+      783
+    ],
+    "sha256": "33db4de922ee782484deff23ecf9c6eabe3dfb5964dd88684e88598217b8b654"
+  },
+  "portal": {
+    "rect": [
+      260,
+      16,
+      120,
+      95
+    ],
+    "source": "原画资源/传送门2.png",
+    "sourceBounds": [
+      38,
+      164,
+      1235,
+      1112
+    ],
+    "sha256": "47152466f5cc59ab5140cdaf887df45b4db8297e8d6c56264bdc5565212d35d2"
+  },
+  "key": {
+    "rect": [
+      398,
+      4,
+      100,
+      120
+    ],
+    "source": "原画资源/钥匙.png",
+    "sourceBounds": [
+      229,
+      73,
+      1178,
+      1207
+    ],
+    "sha256": "5d6bbac083abda9c726fcab8d2006a6e760d54011c7638e397b7d737343b1774"
+  },
+  "lock": {
+    "rect": [
+      516,
+      8,
+      120,
+      112
+    ],
+    "source": "原画资源/锁盒.png",
+    "sourceBounds": [
+      98,
+      102,
+      1156,
+      1089
+    ],
+    "sha256": "1897d5c05cd140d05c4d5a5055d1feccca61843b226617fe6f2a43b459973e99"
+  },
+  "ice": {
+    "rect": [
+      644,
+      11,
+      120,
+      105
+    ],
+    "source": "原画资源/冰块.png",
+    "sourceBounds": [
+      50,
+      145,
+      1205,
+      1158
+    ],
+    "sha256": "8b451dc3141d76b2ffdca1e984e908ad802540b38794c993acdf6e6c586fb815"
+  },
+  "heart": {
+    "rect": [
+      784,
+      4,
+      95,
+      120
+    ],
+    "source": "output/imagegen/mechanics-v2/hug-heart-tag.png",
+    "sourceBounds": [
+      203,
+      35,
+      1049,
+      1109
+    ],
+    "sha256": "53f0144ec1716d045ac37e9cbd66cc96d75c63b6f2b139d362293d57c941c137"
+  },
+  "sleep-count": {
+    "rect": [
+      900,
+      25,
+      120,
+      77
+    ],
+    "source": "output/imagegen/mechanics-v2/sleep-count-plate-flat.png",
+    "sourceBounds": [
+      125,
+      133,
+      1357,
+      924
+    ],
+    "sha256": "ee3f96d10847116b48b782a238759265bbaf33c4bc51781fb1d15b30725a6161"
+  },
+  "rabbit-sleep": {
+    "source": "output/imagegen/mechanics-v2/rabbit-sleep.png",
+    "sourceBounds": [
+      10,
+      11,
+      928,
+      1629
+    ],
+    "sha256": "b0365dbe5388e3cada5fc2876fd62dbf5066851c23f18407355ec2553d85bf68",
+    "runtimeSize": [
+      437,
+      768
+    ],
+    "reference": "assets/toyhouse-ui-v3/toy_rabbit_white_a.png"
+  },
+  "whale-sleep": {
+    "source": "output/imagegen/mechanics-v2/whale-sleep.png",
+    "sourceBounds": [
+      103,
+      46,
+      2115,
+      675
+    ],
+    "sha256": "6f4b1bc77bc8751261ac4be66683b7480e5e99da17585b36b4fb5212783c102f",
+    "runtimeSize": [
+      768,
+      241
+    ],
+    "reference": "assets/toyhouse-ui-v3/toy_whale_blue_a.png"
+  }
+}
