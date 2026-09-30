@@ -16,7 +16,7 @@ def lua(v):
     return '{'+','.join('['+lua(k)+']='+lua(x) for k,x in v.items())+'}'
 levels=json.loads((ROOT/'src/level-config.js').read_text('utf-8').split('export default ',1)[1].rstrip().removesuffix(';'))
 (OUT/'scripts/Levels.lua').write_text('return '+lua(levels)+'\n',encoding='utf-8')
-for name in ['Mechanics','MechanicGame','MechanicView']:
+for name in ['Mechanics','MechanicGame','MechanicView','Save','SaveCodec']:
     shutil.copy2(ROOT/f'scripts/maker/{name}.lua',OUT/f'scripts/{name}.lua')
 data=(MAKER/'scripts/Data.lua').read_text('utf-8-sig')
 data=data.replace('return {','local data={',1)+'\ndata.levels=require("Levels")\nreturn data\n'

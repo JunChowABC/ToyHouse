@@ -7,7 +7,7 @@ STAGE=MAKER if '--installed' in sys.argv else OUT
 sys.path.insert(0,str(ROOT/'output/maker-port/test-deps'))
 from lupa.lua54 import LuaRuntime
 lua=LuaRuntime(unpack_returned_tuples=True)
-for name in ('Data','UiData','UiMotion','Save','Game','View','RewardedAds','AdPreview'):
+for name in ('ScreenLayout','Levels','Mechanics','MechanicGame','MechanicView','MechanicAssets','Data','UiData','UiMotion','SaveCodec','Save','Game','View','RewardedAds','AdPreview'):
     file=(STAGE if name in ('View','RewardedAds') else MAKER)/'scripts'/f'{name}.lua'
     lua.globals().package.preload[name]=lua.eval('function(s,n) return assert(load(s,n)) end')(file.read_text('utf-8-sig'),name)
 lua.execute('''
@@ -70,7 +70,7 @@ function clientCloud:BatchSet()
     local pending={}
     return {SetInt=function(_,key,value) pending[key]=value end,Save=function(_,_,events)
         writeCount=writeCount+1
-        if fail then events.error('test','unavailable') else disk=pending;events.ok() end
+        if fail then events.error('test','unavailable') else for k,v in pairs(pending) do disk[k]=v end;events.ok() end
     end}
 end
 local G=require('Game');local A=require('RewardedAds');local S=require('Save');local g
@@ -80,13 +80,14 @@ local callback;local a=A.new(g,function(done) callback=done;return true end)
 a:watch();callback({success=true});assert(S.dirty and S.blocked())
 fail=true;S.flush();assert(S.error and S.dirty and g.profile.inventory.remove==1)
 callback({success=true});assert(g.profile.inventory.remove==1)
-fail=false;S.flush();assert(not S.blocked() and disk.ir==1 and disk.sc==100 and writeCount==before+2)
+fail=false;S.flush();local C=require('SaveCodec');local snapshot=C.decode(disk,'th2'..disk.th2h..'_')
+assert(not S.blocked() and snapshot.inventory.remove==1 and snapshot.coins==100 and writeCount==before+5)
 package.loaded.Save=nil;local restored=require('Save');local loaded
 restored.load(function(profile) loaded=profile end)
 assert(loaded.inventory.remove==1 and loaded.coins==100)
 a:update(.1);g:cancelTool();g.modal='shuffle';local shuffle=A.new(g,function(done) done({success=true});return true end)
 shuffle:watch();shuffle:update(.1);S.flush()
-assert(g.uses.shuffle==1 and disk['is']==0)
+assert(g.uses.shuffle==1 and C.decode(disk,'th2'..disk.th2h..'_').inventory.shuffle==0)
 package.loaded.Save=nil;require('Save').load(function(profile) loaded=profile end)
 assert(loaded.inventory.shuffle==0 and loaded.levelUses.L001.shuffle==1 and loaded.coins==100)
 print('PASS: real Save.lua reward serialization, failed-save retry, duplicate callback, auto-use and usage-count load round-trip')
@@ -167,7 +168,7 @@ local coins=g.profile.coins
 M.nextLevel(g);assert(M.busy());M.update(.29);assert(g.levelIndex==1)
 M.update(.02);assert(g.levelIndex==2 and g.profile.coins==coins)
 M.update(.46);assert(not M.busy() and g.levelIndex==2)
-g.levelIndex=20;g.mode='level-complete';M.nextLevel(g);M.update(.31)
+g.levelIndex=#require('Data').levels.levels;g.mode='level-complete';M.nextLevel(g);M.update(.31)
 assert(g.mode=='finale');M.update(.46);assert(not M.busy())
 print('PASS: Maker modal input lock, one-shot delayed close, next-level cover timing, no duplicate rewards and final level')
 ''')
